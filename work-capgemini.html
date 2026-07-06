@@ -1,0 +1,2352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1440">
+  <title>Capgemini × UTS CC — Veralyn Chong</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { min-height: 100%; background: #F4F1EA; scroll-behavior: smooth; }
+    body { min-height: 100%; font-family: 'Source Sans 3', sans-serif; color: #000; }
+
+    /* ── Layout ─────────────────────────────────────────── */
+    .page { position: relative; width: 1440px; min-height: 100vh; overflow-x: clip; display: flex; align-items: flex-start; gap: 44px; }
+
+    /* ── Sidebar ───────────────────────────────────────── */
+    .sidebar { position: sticky; top: 0; flex-shrink: 0; width: 305px; height: 100vh; background: #ffffff; border-radius: 5px; padding: 58px 26px; display: flex; flex-direction: column; gap: 40px; overflow-y: auto; }
+    .sidebar-name { font-size: 16px; color: #6b6b6b; text-decoration: none; }
+    .sidebar-name:hover { color: #2a54c5; }
+    .toc { width: 242px; display: flex; flex-direction: column; gap: 20px; }
+    .toc-title { font-family: 'PT Serif', serif; font-size: 20px; letter-spacing: -0.6px; }
+    .toc-divider { border: none; border-top: 1.4px solid #000; }
+    .toc-items { display: flex; flex-direction: column; gap: 3px; }
+    .toc-items a { display: flex; align-items: center; height: 26px; font-size: 15px; white-space: nowrap; color: #000; text-decoration: none; }
+    .toc-items a:hover { color: #2a54c5; }
+
+    /* ── Main content ──────────────────────────────────── */
+    .main { width: 1058px; flex-shrink: 0; padding: 26px 0 66px; display: flex; flex-direction: column; gap: 75px; }
+
+    /* ── Hero ──────────────────────────────────────────── */
+    .hero { display: flex; flex-direction: column; gap: 20px; }
+
+    .hero-banner {
+      width: 1058px; height: 245px; border-radius: 15px;
+      overflow: hidden; position: relative; flex-shrink: 0;
+      display: flex; gap: 0;
+    }
+    .hero-banner img { flex: 1; min-width: 0; height: 100%; object-fit: cover; object-position: center; }
+
+    .hero-title { font-family: 'PT Serif', serif; font-size: 30px; font-weight: 400; line-height: 1.3; }
+
+    .hero-meta-card { background: #2a54c5; border-radius: 15px; padding: 30px 40px; color: #fff; }
+    .hero-meta { display: flex; gap: 40px; font-size: 15px; line-height: 1.5; }
+    .hero-meta > div { width: 519px; }
+    .hero-meta p { line-height: normal; }
+
+    /* ── Section primitives ────────────────────────────── */
+    .section { display: flex; flex-direction: column; gap: 20px; scroll-margin-top: 26px; }
+
+    .badge {
+      align-self: flex-start; background: #2a54c5; color: #fff;
+      border-radius: 999px; padding: 7px 18px;
+      font-size: 13px; font-weight: 600; letter-spacing: 0.07em; line-height: normal; white-space: nowrap;
+    }
+
+    .heading { font-family: 'PT Serif', serif; font-size: 30px; font-weight: 400; line-height: 1.3; max-width: 861px; }
+    .sub-heading { font-family: 'PT Serif', serif; font-size: 24px; line-height: 1.3; }
+    .lede { font-family: 'PT Serif', serif; font-size: 20px; letter-spacing: -0.6px; line-height: normal; }
+    .intro { font-size: 15px; line-height: 1.5; max-width: 920px; }
+    .body { font-size: 15px; line-height: 1.5; max-width: 920px; }
+    .body p + p { margin-top: 14px; }
+
+    /* ── Metric chips ──────────────────────────────────── */
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #fff; border: 1.5px solid #c5d4f5;
+      border-radius: 999px; padding: 7px 16px;
+      font-size: 14px; font-weight: 600; color: #1a3d8f; white-space: nowrap;
+    }
+
+    /* ── Transformation flow ───────────────────────────── */
+    .flow { display: flex; align-items: center; gap: 0; margin-top: 6px; }
+    .flow-col { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+    .flow-item {
+      border-radius: 10px; padding: 11px 16px;
+      font-size: 14px; line-height: 1.4; color: #1f1f1f;
+    }
+    .flow-item.before { background: #fff3f3; border-left: 3px solid #f87171; }
+    .flow-item.after  { background: #f0fdf4; border-left: 3px solid #4ade80; }
+    .flow-arrow { flex-shrink: 0; width: 52px; display: flex; align-items: center; justify-content: center; font-size: 22px; color: #9ca3af; }
+    .flow-center {
+      flex-shrink: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: #2a54c5; color: #fff;
+      border-radius: 14px; padding: 22px 28px; min-width: 140px; text-align: center;
+    }
+    .flow-center-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.7; margin-bottom: 6px; }
+    .flow-center-name { font-family: 'PT Serif', serif; font-size: 26px; }
+
+    /* ── Business context stats — editorial strip ────────── */
+    .biz-stats {
+      display: flex; gap: 0;
+      border-top: 1.5px solid #1a1a1a; border-bottom: 1.5px solid #e0d8cc;
+      padding: 24px 0;
+    }
+    .biz-stat { flex: 1; padding: 0 28px; border-right: 1px solid #d4c8b0; }
+    .biz-stat:first-child { padding-left: 0; }
+    .biz-stat:last-child  { border-right: none; }
+    .biz-stat-num { font-family: 'PT Serif', serif; font-size: 30px; color: #0e1f5e; line-height: 1.1; }
+    .biz-stat-desc { font-size: 13px; color: #888; line-height: 1.4; margin-top: 5px; }
+
+    .callout {
+      border-left: 3px solid #2a54c5; padding: 12px 22px;
+      font-size: 15px; line-height: 1.65; max-width: 820px; color: #333;
+      background: none; border-radius: 0;
+    }
+    .callout strong { font-weight: 600; color: #0e1f5e; }
+
+    /* ── Problem pillars — editorial numbered list ──────── */
+    .pillars { display: flex; flex-direction: column; gap: 0; max-width: 860px; }
+    .pillar {
+      display: grid; grid-template-columns: 72px 1fr;
+      gap: 24px; align-items: start;
+      padding: 24px 0; border-top: 1px solid #e4ddd0;
+      background: none; border-radius: 0; border-left: none;
+    }
+    .pillar:last-child { border-bottom: 1px solid #e4ddd0; }
+    .pillar-num {
+      font-family: 'PT Serif', serif; font-size: 44px; color: #e0d8cc;
+      line-height: 1; font-weight: 400; letter-spacing: 0; text-transform: none;
+    }
+    .pillar-content { display: flex; flex-direction: column; gap: 6px; padding-top: 8px; }
+    .pillar-title { font-family: 'PT Serif', serif; font-size: 22px; color: #0e1f5e; }
+    .pillar-desc { font-size: 15px; line-height: 1.55; color: #555; }
+
+    /* ── Benchmark chart ──────────────────────────────── */
+    .chart-wrap { display: flex; gap: 36px; align-items: flex-start; }
+    .chart-box { flex: 0 0 460px; display: flex; flex-direction: column; gap: 0; }
+    .chart-title { font-family: 'PT Serif', serif; font-size: 18px; color: #0e1f5e; margin-bottom: 20px; }
+    .chart-plot {
+      position: relative; height: 240px;
+      border-bottom: 1.5px solid #c5d4f5;
+      border-left: 1.5px solid #c5d4f5;
+      display: flex; align-items: flex-end;
+      gap: 40px; padding: 0 32px;
+      overflow: visible;
+    }
+    .gl {
+      position: absolute; left: 0; right: 0;
+      border-top: 1px dashed #e8effe; pointer-events: none;
+    }
+    .gl span {
+      position: absolute; left: -28px; top: -8px;
+      font-size: 11px; color: #aaa;
+    }
+    .chart-yunit {
+      position: absolute; left: -46px; top: 50%;
+      transform: translateY(-50%) rotate(-90deg);
+      font-size: 11px; color: #aaa; white-space: nowrap;
+    }
+    .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; }
+    .bar-body { width: 100%; border-radius: 6px 6px 0 0; position: relative; }
+    .bar-body.muted { background: #c5d4f5; }
+    .bar-body.accent { background: #2a54c5; }
+    .bar-val {
+      position: absolute; bottom: 100%; left: 50%;
+      transform: translateX(-50%); margin-bottom: 6px;
+      font-size: 13px; font-weight: 600; color: #0e1f5e; white-space: nowrap;
+    }
+    .bar-lbl { font-size: 13px; color: #555; margin-top: 8px; text-align: center; }
+    .chart-caption { font-size: 12px; color: #9ca3af; font-style: italic; margin-top: 14px; }
+
+    .chart-aside { flex: 1; padding-top: 44px; display: flex; flex-direction: column; gap: 0; }
+
+    /* ── Insight annotation — editorial strip ──────────── */
+    .so-what {
+      display: flex; gap: 20px; align-items: flex-start;
+      max-width: 860px; padding: 16px 0;
+      border-top: 1px solid #e4ddd0; border-bottom: 1px solid #e4ddd0;
+      background: none; border-radius: 0; border-left: none; box-shadow: none;
+    }
+    .so-what-label {
+      flex-shrink: 0; font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #c3ad79; padding-top: 3px; min-width: 120px;
+    }
+    .so-what-text { font-size: 15px; line-height: 1.6; color: #333; }
+
+    /* ── How Might We ─────────────────────────────────── */
+    .hmw-block { background: #0e1f5e; border-radius: 15px; padding: 30px 40px; max-width: 920px; }
+    .hmw-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #5b82e8; margin-bottom: 10px; }
+    .hmw-text { font-family: 'PT Serif', serif; font-size: 22px; line-height: 1.5; color: #fff; }
+
+    /* ── Problem → response mapping ───────────────────── */
+    .mapping { max-width: 920px; border-radius: 14px; overflow: hidden; border: 1.5px solid #c5d4f5; }
+    .mapping-head { display: grid; grid-template-columns: 1fr 44px 1fr; background: #2a54c5; }
+    .mapping-head-cell { padding: 12px 20px; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #dce8ff; }
+    .mapping-head-mid { display: flex; align-items: center; justify-content: center; }
+    .mapping-row { display: grid; grid-template-columns: 1fr 44px 1fr; border-top: 1px solid #e8effe; }
+    .mapping-problem { padding: 16px 20px; background: #fff; display: flex; align-items: center; gap: 12px; }
+    .mapping-num { font-size: 11px; font-weight: 700; color: #2a54c5; min-width: 18px; font-variant-numeric: tabular-nums; flex-shrink: 0; }
+    .mapping-text { font-size: 15px; color: #1f1f1f; line-height: 1.4; }
+    .mapping-mid { display: flex; align-items: center; justify-content: center; background: #eef2ff; color: #2a54c5; font-size: 16px; border-left: 1px solid #e8effe; border-right: 1px solid #e8effe; }
+    .mapping-response { padding: 16px 20px; background: #f0f4ff; font-size: 15px; color: #0e1f5e; line-height: 1.4; display: flex; align-items: center; }
+
+    /* ── OneFlow system diagram ────────────────────────── */
+    .sys-flow {
+      background: #0e1f5e; border-radius: 16px;
+      padding: 36px 28px; display: flex; align-items: stretch; gap: 0;
+    }
+    .sys-node {
+      flex: 1; min-width: 0;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.13);
+      border-radius: 12px; padding: 18px 14px;
+      display: flex; flex-direction: column; gap: 10px; text-align: center;
+    }
+    .sys-node-num {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.07em;
+      text-transform: uppercase; color: #5b82e8;
+    }
+    .sys-node-text { font-size: 13px; line-height: 1.45; color: #fff; }
+    .sys-arrow {
+      flex-shrink: 0; width: 28px; display: flex;
+      align-items: center; justify-content: center;
+      color: #3a62d4; font-size: 16px;
+    }
+
+    /* ── Layer cards ───────────────────────────────────── */
+    .layers { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .layer-card {
+      background: #fff; border-radius: 14px; padding: 26px 24px;
+      display: flex; flex-direction: column; gap: 16px;
+      border-top: 3px solid #2a54c5;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .layer-title { font-family: 'PT Serif', serif; font-size: 20px; color: #0e1f5e; }
+    .layer-items { display: flex; flex-direction: column; gap: 9px; }
+    .layer-item { display: flex; align-items: flex-start; gap: 10px; font-size: 15px; line-height: 1.4; color: #333; }
+    .layer-dot { width: 6px; height: 6px; border-radius: 50%; background: #2a54c5; flex-shrink: 0; margin-top: 7px; }
+
+    /* ── Prototype section ─────────────────────────────── */
+    .proto-split { display: grid; grid-template-columns: 1fr 1.25fr; gap: 32px; align-items: start; }
+    .proto-group { display: flex; flex-direction: column; gap: 14px; }
+    .proto-type { font-size: 12px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #2a54c5; }
+    .proto-group-title { font-family: 'PT Serif', serif; font-size: 22px; color: #0e1f5e; }
+    .proto-group-desc { font-size: 15px; color: #555; line-height: 1.5; }
+    .proto-tabs { display: flex; flex-wrap: wrap; gap: 7px; }
+    .proto-tab {
+      font-size: 12px; font-weight: 600; color: #2a54c5;
+      background: #eef2ff; border-radius: 999px; padding: 5px 14px;
+      border: 1px solid #c5d4f5; cursor: pointer;
+      font-family: 'Source Sans 3', sans-serif;
+      transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+    }
+    .proto-tab:hover { background: #dce8ff; }
+    .proto-tab.is-active { background: #2a54c5; color: #dce8ff; border-color: #2a54c5; }
+    .proto-panel { display: none; }
+    .proto-panel.is-active { display: block; animation: panel-in 0.22s ease; }
+    @keyframes panel-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+    /* ── Customer phone frame ─────────────────────────── */
+    .proto-mockup.customer {
+      background: #0a1222; border-radius: 26px; border: 2.5px solid #1a304f;
+      padding: 18px 16px; display: flex; flex-direction: column; gap: 10px;
+      max-width: 284px; margin: 0 auto;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+    .proto-mockup.staff-dash {
+      background: #070d1a; border-radius: 12px; border: 1.5px solid #1a304f;
+      overflow: hidden; display: flex; flex-direction: column;
+    }
+
+    /* Step progress */
+    .pm-steps { display: flex; gap: 5px; justify-content: center; }
+    .pm-step-d { height: 4px; width: 30px; border-radius: 2px; background: rgba(255,255,255,0.1); }
+    .pm-step-d.done   { background: #2a54c5; }
+    .pm-step-d.active { background: #00d4aa; }
+
+    /* Dark typography */
+    .pm-h1 { font-family: 'PT Serif', serif; font-size: 19px; color: #e8f4f8; line-height: 1.2; }
+    .pm-section-lbl { font-size: 9px; font-weight: 700; color: #2e5070; letter-spacing: 0.07em; text-transform: uppercase; margin-top: 4px; }
+    .pm-sub { font-size: 10px; color: #4a6a80; line-height: 1.4; }
+
+    /* Badges */
+    .pm-bdg { display: inline-flex; align-items: center; border-radius: 999px; padding: 3px 10px; font-size: 9px; font-weight: 700; }
+    .pm-bdg.teal  { background: rgba(0,212,170,0.13);  color: #00d4aa; border: 1px solid rgba(0,212,170,0.28); }
+    .pm-bdg.amber { background: rgba(245,158,11,0.13); color: #f59e0b; border: 1px solid rgba(245,158,11,0.28); }
+    .pm-bdg.green { background: rgba(74,222,128,0.12); color: #4ade80; border: 1px solid rgba(74,222,128,0.25); }
+    .pm-bdg.blue  { background: rgba(42,84,197,0.18);  color: #93c5fd; border: 1px solid rgba(42,84,197,0.32); }
+
+    /* AI banner */
+    .pm-ai-banner { background: rgba(0,212,170,0.07); border: 1px solid rgba(0,212,170,0.22); border-radius: 8px; padding: 8px 10px; display: flex; gap: 7px; align-items: flex-start; }
+    .pm-ai-icon { font-size: 10px; color: #00d4aa; font-weight: 700; flex-shrink: 0; }
+    .pm-ai-txt  { font-size: 9px; color: #00d4aa; line-height: 1.45; }
+
+    /* Form fields */
+    .pm-field { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 7px 10px; }
+    .pm-field-lbl { font-size: 8px; color: #2e5070; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 3px; }
+    .pm-field-val { font-size: 12px; color: #daeaf4; font-weight: 600; display: flex; align-items: center; gap: 5px; }
+    .pm-field-tag { font-size: 7px; background: rgba(0,212,170,0.12); color: #00d4aa; border-radius: 3px; padding: 1px 5px; font-weight: 700; }
+
+    /* Primary button */
+    .pm-btn-dk { background: #00d4aa; color: #050d18; border: none; border-radius: 10px; padding: 10px; font-size: 12px; font-weight: 700; width: 100%; text-align: center; cursor: pointer; }
+
+    /* Document rows */
+    .pm-doc-row { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; }
+    .pm-doc-ic   { width: 26px; height: 26px; border-radius: 6px; background: rgba(255,255,255,0.06); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+    .pm-doc-info { flex: 1; min-width: 0; }
+    .pm-doc-name { font-size: 10px; font-weight: 600; color: #b8d4e0; }
+    .pm-doc-sub  { font-size: 8px; color: #2e5070; margin-top: 1px; }
+    .pm-doc-bdg  { flex-shrink: 0; font-size: 8px; font-weight: 700; padding: 3px 7px; border-radius: 4px; }
+    .pm-doc-bdg.done     { background: rgba(74,222,128,0.15); color: #4ade80; }
+    .pm-doc-bdg.scanning { background: rgba(245,158,11,0.15); color: #f59e0b; }
+    .pm-doc-bdg.upload   { background: #00d4aa; color: #050d18; cursor: pointer; }
+
+    /* AI extraction panel */
+    .pm-extract { background: rgba(0,212,170,0.05); border: 1px solid rgba(0,212,170,0.18); border-radius: 8px; padding: 8px 10px; }
+    .pm-extract-hd  { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+    .pm-extract-ttl { font-size: 8px; font-weight: 700; color: #00d4aa; }
+    .pm-extract-live { font-size: 8px; color: #4ade80; }
+    .pm-extract-row { display: flex; justify-content: space-between; padding: 2px 0; }
+    .pm-extract-k   { font-size: 9px; color: #2e5070; }
+    .pm-extract-v   { font-size: 9px; color: #b8d4e0; font-weight: 600; }
+
+    /* Credit score */
+    .pm-score-wrap { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 6px 0; }
+    .pm-score-ring { width: 76px; height: 76px; border-radius: 50%; border: 3px solid #00d4aa; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .pm-score-num  { font-size: 22px; font-weight: 700; color: #e8f4f8; line-height: 1; }
+    .pm-score-lbl  { font-size: 7px; color: #2e5070; text-transform: uppercase; letter-spacing: 0.04em; }
+    .pm-score-pct  { font-size: 9px; color: #4a6a80; }
+    .pm-stats-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 5px; }
+    .pm-stat     { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; padding: 7px 6px; text-align: center; }
+    .pm-stat-val { font-size: 14px; font-weight: 700; color: #e8f4f8; }
+    .pm-stat-lbl { font-size: 7px; color: #2e5070; margin-top: 2px; }
+
+    /* AI risk box */
+    .pm-risk-box { background: rgba(0,212,170,0.05); border: 1px solid rgba(0,212,170,0.18); border-radius: 8px; padding: 8px 10px; }
+    .pm-risk-hd  { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    .pm-risk-lbl { font-size: 9px; color: #00d4aa; font-weight: 700; }
+    .pm-risk-conf { font-size: 9px; color: #4ade80; font-weight: 700; }
+    .pm-risk-txt { font-size: 9px; color: #6a8ea4; line-height: 1.5; }
+
+    /* Timeline */
+    .pm-tl     { display: flex; flex-direction: column; }
+    .pm-tl-ref { font-size: 8px; color: #2e5070; margin-bottom: 6px; }
+    .pm-tl-row { display: flex; gap: 8px; }
+    .pm-tl-spine { display: flex; flex-direction: column; align-items: center; width: 14px; flex-shrink: 0; }
+    .pm-tl-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 2px; }
+    .pm-tl-dot.done { background: #00d4aa; }
+    .pm-tl-dot.curr { background: #0a1222; border: 2px solid #f59e0b; box-shadow: 0 0 0 3px rgba(245,158,11,0.18); }
+    .pm-tl-dot.pend { background: rgba(255,255,255,0.07); border: 1.5px solid rgba(255,255,255,0.14); }
+    .pm-tl-ln  { width: 1.5px; flex: 1; min-height: 12px; }
+    .pm-tl-ln.done { background: rgba(0,212,170,0.35); }
+    .pm-tl-ln.pend { background: rgba(255,255,255,0.07); }
+    .pm-tl-body { flex: 1; padding-bottom: 9px; }
+    .pm-tl-name { font-size: 10px; font-weight: 600; color: #b8d4e0; }
+    .pm-tl-sub  { font-size: 8px; color: #2e5070; margin-top: 1px; }
+    .pm-tl-sub.curr { color: #f59e0b; }
+    .pm-tl-faster { font-size: 8px; color: #4ade80; background: rgba(74,222,128,0.07); border-radius: 4px; padding: 4px 7px; margin-top: 2px; }
+    .pm-decision     { background: rgba(42,84,197,0.09); border: 1px solid rgba(42,84,197,0.22); border-radius: 8px; padding: 9px 10px; }
+    .pm-decision-lbl { font-size: 7px; color: #2e5070; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px; }
+    .pm-decision-val { font-size: 13px; font-weight: 700; color: #93c5fd; }
+    .pm-decision-sub { font-size: 8px; color: #2e5070; margin-top: 2px; }
+
+    /* Chat interface */
+    .pm-chat-hd     { padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.07); margin-bottom: 6px; display: flex; align-items: flex-start; justify-content: space-between; }
+    .pm-chat-ttl    { font-size: 11px; font-weight: 700; color: #daeaf4; }
+    .pm-chat-online { display: flex; align-items: center; gap: 4px; font-size: 8px; color: #4ade80; margin-top: 2px; }
+    .pm-online-dot  { width: 5px; height: 5px; border-radius: 50%; background: #4ade80; flex-shrink: 0; }
+    .pm-chat-human  { font-size: 8px; color: #2e5070; }
+    .pm-powered { font-size: 8px; color: #1e3a50; margin-bottom: 4px; }
+    .pm-msgs    { display: flex; flex-direction: column; gap: 7px; }
+    .pm-msg     { display: flex; gap: 5px; align-items: flex-end; }
+    .pm-msg.user { flex-direction: row-reverse; }
+    .pm-msg-av  { width: 15px; height: 15px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 7px; font-weight: 700; background: rgba(0,212,170,0.18); color: #00d4aa; }
+    .pm-bubble  { max-width: 83%; border-radius: 10px; padding: 6px 8px; }
+    .pm-msg.ai   .pm-bubble { background: rgba(255,255,255,0.06); border-radius: 2px 9px 9px 9px; }
+    .pm-msg.user .pm-bubble { background: #2a54c5; border-radius: 9px 2px 9px 9px; }
+    .pm-bubble p { font-size: 9px; line-height: 1.45; }
+    .pm-msg.ai   .pm-bubble p { color: #b8d4e0; }
+    .pm-msg.user .pm-bubble p { color: #fff; }
+    .pm-chat-cta { background: rgba(0,212,170,0.09); border: 1px solid rgba(0,212,170,0.22); border-radius: 7px; padding: 7px 10px; display: flex; align-items: center; justify-content: space-between; margin-top: 3px; }
+    .pm-chat-cta span { font-size: 9px; color: #00d4aa; font-weight: 600; }
+
+    /* Loan approval details */
+    .pm-loan-amount  { font-family: 'PT Serif', serif; font-size: 28px; color: #e8f4f8; text-align: center; }
+    .pm-loan-type    { font-size: 9px; color: #4a6a80; text-align: center; margin-bottom: 5px; }
+    .pm-offer-hd     { display: flex; align-items: center; justify-content: space-between; margin-bottom: 3px; }
+    .pm-offer-lbl    { font-size: 8px; color: #2e5070; text-transform: uppercase; letter-spacing: 0.04em; }
+    .pm-offer-exp    { font-size: 8px; color: #f59e0b; }
+    .pm-loan-grid    { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+    .pm-loan-item    { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-radius: 6px; padding: 6px 8px; }
+    .pm-loan-item-lbl { font-size: 7px; color: #2e5070; margin-bottom: 2px; }
+    .pm-loan-item-val { font-size: 11px; font-weight: 700; color: #e8f4f8; }
+    .pm-why     { background: rgba(42,84,197,0.07); border: 1px solid rgba(42,84,197,0.18); border-radius: 8px; padding: 8px 10px; }
+    .pm-why-lbl { font-size: 9px; font-weight: 700; color: #93c5fd; margin-bottom: 4px; }
+    .pm-why-txt { font-size: 9px; color: #6a8ea4; line-height: 1.5; }
+
+    /* ── Staff dashboard ──────────────────────────────── */
+    .pm-dash-hd   { background: #0d1528; border-bottom: 1px solid #1a304f; padding: 9px 14px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+    .pm-dash-logo { font-size: 11px; font-weight: 700; color: #b8d4e0; }
+    .pm-dash-logo em { color: #00d4aa; font-style: normal; }
+    .pm-dash-live { display: flex; align-items: center; gap: 4px; font-size: 9px; color: #4ade80; font-weight: 700; }
+    .pm-live-dot  { width: 5px; height: 5px; border-radius: 50%; background: #4ade80; }
+    .pm-dash-bd   { display: flex; flex: 1; overflow: hidden; }
+    .pm-dash-nav  { background: #090e1e; border-right: 1px solid #1a304f; padding: 8px 6px; display: flex; flex-direction: column; gap: 2px; width: 100px; flex-shrink: 0; }
+    .pm-dash-usr  { display: flex; align-items: center; gap: 5px; padding: 5px 8px; margin-bottom: 4px; }
+    .pm-dash-usr-av   { width: 20px; height: 20px; border-radius: 50%; background: #2a54c5; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 8px; color: #fff; font-weight: 700; }
+    .pm-dash-usr-name { font-size: 9px; font-weight: 600; color: #b8d4e0; }
+    .pm-dash-usr-role { font-size: 7px; color: #2e5070; }
+    .pm-nav-item  { font-size: 9px; color: #2e5070; padding: 5px 8px; border-radius: 4px; display: flex; align-items: center; justify-content: space-between; }
+    .pm-nav-item.active { background: rgba(42,84,197,0.16); color: #93c5fd; font-weight: 700; }
+    .pm-nav-bdg   { font-size: 7px; font-weight: 700; padding: 1px 4px; border-radius: 3px; }
+    .pm-nav-bdg.red   { background: rgba(248,113,113,0.22); color: #fca5a5; }
+    .pm-nav-bdg.blue  { background: rgba(42,84,197,0.28);   color: #93c5fd; }
+    .pm-nav-bdg.amber { background: rgba(245,158,11,0.22);  color: #fcd34d; }
+    .pm-dash-main { flex: 1; padding: 10px; display: flex; flex-direction: column; gap: 8px; overflow: hidden; min-width: 0; }
+    .pm-dash-body { padding: 12px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+    .pm-dash-greeting { font-size: 8px; color: #2e5070; }
+    .pm-dash-title    { font-size: 12px; font-weight: 700; color: #b8d4e0; margin-bottom: 2px; }
+
+    /* KPI cards */
+    .pm-kpis    { display: grid; grid-template-columns: repeat(5,1fr); gap: 4px; }
+    .pm-kpi     { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 5px; padding: 7px 6px; }
+    .pm-kpi-lbl { font-size: 6px; color: #2e5070; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 3px; }
+    .pm-kpi-val { font-size: 13px; font-weight: 700; color: #e8f4f8; line-height: 1; }
+    .pm-kpi-val.green { color: #4ade80; }
+    .pm-kpi-val.teal  { color: #00d4aa; font-size: 10px; }
+    .pm-kpi-sub { font-size: 6px; color: #2e5070; margin-top: 3px; }
+
+    /* Live queue table */
+    .pm-queue-hd    { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+    .pm-queue-title { font-size: 10px; font-weight: 700; color: #b8d4e0; }
+    .pm-queue-tag   { background: rgba(42,84,197,0.18); color: #93c5fd; font-size: 7px; font-weight: 700; padding: 2px 5px; border-radius: 3px; }
+    .pm-queue-view  { font-size: 8px; color: #2e5070; margin-left: auto; }
+    .pm-q-table { display: flex; flex-direction: column; gap: 3px; }
+    .pm-q-head  { display: grid; grid-template-columns: 2fr 1fr 0.8fr 0.6fr; gap: 4px; padding: 3px 7px; background: rgba(255,255,255,0.05); border-radius: 4px; }
+    .pm-q-head span { font-size: 7px; color: #2e5070; font-weight: 700; text-transform: uppercase; }
+    .pm-q-row   { display: grid; grid-template-columns: 2fr 1fr 0.8fr 0.6fr; gap: 4px; align-items: center; padding: 5px 7px; border-radius: 4px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); }
+    .pm-q-row.urgent { border-color: rgba(248,113,113,0.22); background: rgba(248,113,113,0.04); }
+    .pm-q-name { font-size: 9px; font-weight: 600; color: #b8d4e0; }
+    .pm-q-id   { font-size: 7px; color: #2e5070; }
+    .pm-q-amt  { font-size: 9px; color: #daeaf4; font-weight: 600; }
+    .pm-q-type { font-size: 8px; color: #4a6a80; }
+    .pm-q-btn  { background: #2a54c5; color: #fff; font-size: 7px; font-weight: 700; padding: 3px 6px; border-radius: 3px; text-align: center; }
+    .pm-q-btn.urgent { background: transparent; color: #fca5a5; border: 1px solid rgba(248,113,113,0.3); }
+    .pm-sla-chip      { font-size: 7px; color: #4ade80; background: rgba(74,222,128,0.1); border-radius: 3px; padding: 1px 4px; white-space: nowrap; }
+    .pm-sla-chip.red  { color: #fca5a5; background: rgba(248,113,113,0.12); }
+    .pm-sla-chip.amber { color: #fcd34d; background: rgba(245,158,11,0.12); }
+
+    /* Risk prioritisation */
+    .pm-risk-table { display: flex; flex-direction: column; gap: 3px; }
+    .pm-risk-row  { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 5px; padding: 6px 8px; }
+    .pm-risk-name { flex: 1; font-size: 9px; color: #b8d4e0; font-weight: 600; }
+    .pm-risk-sub  { font-size: 8px; color: #2e5070; }
+    .pm-risk-bdg  { font-size: 7px; font-weight: 700; padding: 2px 6px; border-radius: 3px; flex-shrink: 0; }
+    .pm-risk-bdg.high { background: rgba(248,113,113,0.18); color: #fca5a5; }
+    .pm-risk-bdg.med  { background: rgba(245,158,11,0.16);  color: #fcd34d; }
+    .pm-risk-bdg.low  { background: rgba(74,222,128,0.14);  color: #86efac; }
+
+    /* SLA countdown */
+    .pm-sla-row  { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 5px; padding: 7px 9px; margin-bottom: 4px; }
+    .pm-sla-top  { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    .pm-sla-name { font-size: 9px; font-weight: 600; color: #b8d4e0; }
+    .pm-sla-time { font-size: 8px; font-weight: 700; }
+    .pm-sla-time.red   { color: #f87171; }
+    .pm-sla-time.amber { color: #f59e0b; }
+    .pm-sla-time.green { color: #4ade80; }
+    .pm-sla-bar  { height: 4px; border-radius: 2px; background: rgba(255,255,255,0.08); overflow: hidden; }
+    .pm-sla-fill { height: 100%; border-radius: 2px; }
+    .pm-sla-fill.red   { background: #f87171; }
+    .pm-sla-fill.amber { background: #f59e0b; }
+    .pm-sla-fill.green { background: #4ade80; }
+
+    /* Doc completeness */
+    .pm-docs-table { display: flex; flex-direction: column; gap: 3px; }
+    .pm-docs-head  { display: grid; grid-template-columns: 2fr repeat(4,1fr); gap: 4px; padding: 3px 7px; background: rgba(255,255,255,0.06); border-radius: 4px; }
+    .pm-docs-head span { font-size: 7px; color: #2e5070; font-weight: 700; text-transform: uppercase; text-align: center; }
+    .pm-docs-head span:first-child { text-align: left; }
+    .pm-docs-row  { display: grid; grid-template-columns: 2fr repeat(4,1fr); gap: 4px; align-items: center; padding: 5px 7px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 4px; }
+    .pm-docs-name { font-size: 9px; color: #b8d4e0; font-weight: 600; }
+    .pm-docs-cell { width: 12px; height: 12px; border-radius: 3px; margin: 0 auto; }
+    .pm-docs-cell.ok   { background: rgba(74,222,128,0.28); }
+    .pm-docs-cell.miss { background: rgba(248,113,113,0.28); }
+    .pm-docs-cell.pend { background: rgba(245,158,11,0.22); }
+
+    /* Exception review */
+    .pm-exc-row   { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 5px; padding: 6px 8px; margin-bottom: 4px; display: flex; align-items: flex-start; gap: 7px; }
+    .pm-exc-bdg   { font-size: 7px; font-weight: 700; padding: 2px 6px; border-radius: 3px; flex-shrink: 0; margin-top: 1px; }
+    .pm-exc-bdg.high { background: rgba(248,113,113,0.18); color: #fca5a5; }
+    .pm-exc-bdg.med  { background: rgba(245,158,11,0.16);  color: #fcd34d; }
+    .pm-exc-bdg.low  { background: rgba(74,222,128,0.14);  color: #86efac; }
+    .pm-exc-info   { flex: 1; }
+    .pm-exc-name   { font-size: 9px; font-weight: 600; color: #b8d4e0; }
+    .pm-exc-reason { font-size: 8px; color: #2e5070; margin-top: 1px; line-height: 1.4; }
+
+    /* ── Financial section — editorial stat row + hover tooltips ─ */
+    .fin-metrics { display: flex; gap: 0; border-top: 1.5px solid #1a1a1a; border-bottom: 1px solid #e4ddd0; padding: 24px 0; }
+    .fin-metric {
+      flex: 1; padding: 0 28px; border-right: 1px solid #d4c8b0;
+      background: none; border-radius: 0; border-top: none; box-shadow: none;
+      display: flex; flex-direction: column; gap: 4px;
+      position: relative; cursor: default;
+    }
+    .fin-metric:first-child { padding-left: 0; }
+    .fin-metric:last-child  { border-right: none; }
+    .fin-metric.positive { background: none; }
+    .fin-val { font-family: 'PT Serif', serif; font-size: 30px; color: #0e1f5e; line-height: 1.1; }
+    .fin-metric.positive .fin-val { color: #14532d; }
+    .fin-label { font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #8a7e6a; margin-top: 2px; }
+    /* Metric hint + hover tooltip */
+    .fin-metric-hint { font-size: 10px; color: #c3ad79; margin-top: 3px; }
+    .fin-metric-tooltip {
+      position: absolute; bottom: calc(100% + 14px); left: 0;
+      background: #0e1f5e; color: #dce8ff;
+      border-radius: 10px; padding: 14px 16px; width: 210px;
+      font-size: 13px; line-height: 1.55; z-index: 50;
+      opacity: 0; pointer-events: none;
+      transform: translateY(6px); transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .fin-metric-tooltip::after {
+      content: ''; position: absolute; top: 100%; left: 20px;
+      border: 7px solid transparent; border-top-color: #0e1f5e;
+    }
+    .fin-metric:hover .fin-metric-tooltip { opacity: 1; transform: translateY(0); }
+    .fin-metric:hover .fin-val { color: #2a54c5; }
+    .fin-metric.positive:hover .fin-val { color: #16a34a; }
+
+    .fin-split { display: grid; grid-template-columns: 1fr 0.72fr; gap: 24px; align-items: start; }
+
+    .fin-chart-box {
+      background: #fff; border-radius: 14px; padding: 24px 20px 16px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .fin-chart-title { font-size: 14px; font-weight: 600; color: #0e1f5e; margin-bottom: 14px; }
+
+    .cost-card {
+      background: #fff; border-radius: 14px; padding: 24px;
+      display: flex; flex-direction: column; gap: 18px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .cost-card-title { font-family: 'PT Serif', serif; font-size: 20px; color: #0e1f5e; }
+    .cost-items { display: flex; flex-direction: column; gap: 14px; }
+    .cost-item { display: flex; flex-direction: column; gap: 5px; }
+    .cost-row { display: flex; justify-content: space-between; align-items: baseline; }
+    .cost-item-label { font-size: 14px; color: #444; line-height: 1.3; }
+    .cost-item-val { font-size: 14px; font-weight: 600; color: #0e1f5e; white-space: nowrap; margin-left: 8px; }
+    .cost-track { height: 5px; background: #eef2ff; border-radius: 3px; }
+    .cost-fill { height: 100%; background: #2a54c5; border-radius: 3px; }
+
+    .fin-warning { font-size: 12px; color: #aaa; font-style: italic; max-width: 920px; }
+
+    /* ── Implementation roadmap ────────────────────────── */
+    .roadmap { display: grid; grid-template-columns: repeat(5, 1fr); border-radius: 14px; overflow: hidden; border: 1.5px solid #c5d4f5; }
+
+    .rm-year {
+      padding: 12px 16px; background: #2a54c5; color: #fff;
+      font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+      border-right: 1px solid rgba(255,255,255,0.18);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .rm-year:last-child { border-right: none; }
+    .rm-year-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.5); flex-shrink: 0; }
+    .rm-year:last-child .rm-year-dot { background: #fff; }
+
+    .rm-tech {
+      padding: 18px 16px; background: #0e1f5e; color: #fff;
+      border-right: 1px solid rgba(255,255,255,0.07);
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .rm-tech:last-child { border-right: none; }
+
+    .rm-people {
+      padding: 18px 16px; background: #f0f4ff; color: #0e1f5e;
+      border-right: 1px solid #e0e8ff;
+      border-top: 1.5px solid #c5d4f5;
+    }
+    .rm-people:last-child { border-right: none; }
+
+    .rm-stream-tag {
+      display: inline-block; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      border-radius: 4px; padding: 2px 7px; margin-bottom: 8px;
+    }
+    .rm-tech .rm-stream-tag { background: rgba(91,130,232,0.25); color: #7aa2f0; }
+    .rm-people .rm-stream-tag { background: #dce8ff; color: #2a54c5; }
+
+    .rm-text { font-size: 14px; line-height: 1.45; }
+    .rm-tech .rm-text { color: #e8effe; }
+    .rm-people .rm-text { color: #0e1f5e; }
+
+    /* ── Risk cards ────────────────────────────────────── */
+    .risk-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 920px; }
+    .risk-card {
+      background: #fff; border-radius: 14px; overflow: hidden;
+      border: 1.5px solid #e8effe; display: flex; flex-direction: column;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    }
+    .risk-card.adoption  { border-left: 3px solid #f59e0b; }
+    .risk-card.migration { border-left: 3px solid #ef4444; }
+    .risk-card.verify    { border-left: 3px solid #8b5cf6; }
+
+    .risk-top { padding: 22px 20px 18px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+    .risk-level {
+      align-self: flex-start; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      border-radius: 999px; padding: 3px 11px;
+    }
+    .risk-card.adoption  .risk-level { background: #fef3c7; color: #92400e; }
+    .risk-card.migration .risk-level { background: #fee2e2; color: #991b1b; }
+    .risk-card.verify    .risk-level { background: #ede9fe; color: #5b21b6; }
+    .risk-title { font-family: 'PT Serif', serif; font-size: 20px; line-height: 1.3; color: #0e1f5e; }
+    .risk-desc  { font-size: 14px; line-height: 1.55; color: #555; }
+
+    .risk-mit { padding: 14px 20px; background: #f8faff; border-top: 1.5px solid #e8effe; display: flex; flex-direction: column; gap: 5px; }
+    .risk-mit-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #2a54c5; }
+    .risk-mit-text  { font-size: 14px; line-height: 1.5; color: #333; }
+
+    /* ── Outcome section ───────────────────────────────── */
+    .outcome-cards {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 16px; max-width: 700px; margin-bottom: 36px;
+    }
+    .outcome-card {
+      background: #fff; border-radius: 12px; padding: 22px 22px 18px;
+      border: 1.5px solid #e8effe; display: flex; flex-direction: column; gap: 7px;
+      position: relative;
+    }
+    .outcome-card-num {
+      position: absolute; top: 18px; right: 18px;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.06em;
+      color: #c6d3f0; font-variant-numeric: tabular-nums;
+    }
+    .outcome-card-title { font-family: 'PT Serif', serif; font-size: 19px; color: #0e1f5e; line-height: 1.3; padding-right: 26px; }
+    .outcome-card-desc  { font-size: 14px; line-height: 1.55; color: #555; }
+
+    .metric-strip {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      background: #f0f4ff; border-radius: 14px;
+      border: 1.5px solid #d6e0ff; overflow: hidden; max-width: 920px;
+    }
+    .metric-item { padding: 24px 22px; display: flex; flex-direction: column; gap: 5px; border-right: 1px solid #d6e0ff; }
+    .metric-item:last-child { border-right: none; }
+    .metric-val   { font-family: 'PT Serif', serif; font-size: 33px; color: #0e1f5e; line-height: 1; }
+    .metric-label { font-size: 13px; color: #5a6580; line-height: 1.4; }
+    .outcome-disclaimer { font-size: 12px; font-style: italic; color: #aaa; max-width: 920px; margin-top: 14px; line-height: 1.5; }
+
+/* ── Benchmark tooltip ──────────────────────────────── */
+    .bar-bottom {
+      position: relative; display: flex; align-items: center;
+      gap: 5px; margin-top: 8px;
+    }
+    .bar-bottom .bar-lbl { margin-top: 0; }
+    .bar-info {
+      flex-shrink: 0; display: inline-flex; align-items: center;
+      justify-content: center; width: 15px; height: 15px;
+      border-radius: 50%; background: #2a54c5; color: #dce8ff;
+      font-size: 9px; font-weight: 700; cursor: default;
+      font-family: 'Source Sans 3', sans-serif;
+      transition: background 0.2s ease;
+    }
+    .bar-bottom:hover .bar-info { background: #0e1f5e; }
+    .bar-tooltip {
+      position: absolute; bottom: calc(100% + 10px); left: 50%;
+      transform: translateX(-50%);
+      background: #0e1f5e; color: #dce8ff;
+      border-radius: 11px; padding: 13px 16px;
+      font-size: 13px; line-height: 1.55; width: 240px;
+      pointer-events: none; z-index: 20; text-align: left;
+      opacity: 0; transition: opacity 0.2s ease;
+    }
+    .bar-tooltip::after {
+      content: ''; position: absolute; top: 100%; left: 50%;
+      transform: translateX(-50%);
+      border: 7px solid transparent; border-top-color: #0e1f5e;
+    }
+    .bar-bottom:hover .bar-tooltip { opacity: 1; }
+
+    /* ── Animations & interactions ─────────────────────── */
+
+    /* Scroll reveal */
+    .section {
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .section.is-visible { opacity: 1; transform: translateY(0); }
+    .hero { opacity: 1 !important; transform: none !important; }
+
+    /* Staggered child elements */
+    .biz-stat, .pillar, .fin-metric, .outcome-card, .chip, .layer-card {
+      opacity: 0; transform: translateY(14px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .biz-stat.is-visible, .pillar.is-visible, .fin-metric.is-visible,
+    .outcome-card.is-visible, .chip.is-visible, .layer-card.is-visible {
+      opacity: 1; transform: translateY(0);
+    }
+    .risk-card {
+      opacity: 0; transform: translateY(14px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .risk-card.is-visible { opacity: 1; transform: translateY(0); }
+
+    /* Card hover lifts — only for components that still use card style */
+    .outcome-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.5s ease; }
+    .layer-card:hover  { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(0,0,0,0.10); transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.5s ease; }
+    .risk-card:hover   { transform: translateY(-3px); transition: transform 0.2s ease, opacity 0.5s ease; }
+
+    /* Bar chart grow */
+    .bar-body { transition: height 0.75s cubic-bezier(0.22, 1, 0.36, 1); }
+
+    /* TOC active highlight */
+    .toc-items a.toc-active { color: #2a54c5; font-weight: 600; }
+
+    /* ── Live comment cursor ───────────────────────────── */
+    .cc-hint {
+      position: fixed; z-index: 10000; pointer-events: none;
+      background: #1a3d8f; color: #fff;
+      font-family: 'Source Sans 3', sans-serif; font-size: 11px; font-weight: 600;
+      padding: 8px 12px; border-radius: 14px;
+      white-space: normal; max-width: 220px; line-height: 1.35; text-align: left;
+      transform: translate(16px, 16px); opacity: 0; transition: opacity 0.15s ease;
+    }
+    .cc-hint.show { opacity: 0.3; }
+    .cc-popup {
+      position: absolute; z-index: 9999; width: 248px;
+      background: #fff; border: 1px solid #e4e0d6; border-radius: 12px;
+      box-shadow: 0 12px 34px rgba(0,0,0,0.2); padding: 12px;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .cc-popup .cc-name { border: 1px solid #e4e0d6; border-radius: 8px; padding: 7px 9px; font-family: 'Source Sans 3', sans-serif; font-size: 13px; }
+    .cc-popup textarea { border: 1px solid #e4e0d6; border-radius: 8px; padding: 8px 9px; font-family: 'Source Sans 3', sans-serif; font-size: 14px; line-height: 1.4; resize: none; min-height: 62px; width: 100%; }
+    .cc-popup .cc-row { display: flex; justify-content: flex-end; gap: 8px; }
+    .cc-popup button { border: none; border-radius: 8px; padding: 7px 15px; font-family: 'Source Sans 3', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .cc-popup .cc-send { background: #dce8ff; color: #1a3d8f; }
+    .cc-popup .cc-cancel { background: transparent; color: #999; }
+    .cc-toast {
+      position: fixed; left: 50%; bottom: 28px; transform: translate(-50%, 14px);
+      background: #1a3d8f; color: #fff;
+      font-family: 'Source Sans 3', sans-serif; font-size: 14px; font-weight: 600;
+      padding: 12px 18px; border-radius: 999px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.22);
+      z-index: 10001; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .cc-toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .cc-toast a { color: #93b4f8; text-decoration: none; margin-left: 8px; }
+
+    /* ── Footer ────────────────────────────────────────── */
+    .site-footer { background: #2a54c5; width: 100%; padding: 34px 0; color: #fff; }
+    .footer-inner { margin-left: 349px; width: 1058px; display: flex; flex-direction: column; gap: 20px; }
+    .footer-quote { font-family: 'PT Serif', serif; font-size: 28px; line-height: 1.4; max-width: 760px; }
+    .footer-links { display: flex; flex-direction: row; flex-wrap: wrap; gap: 24px; }
+    .footer-links a { color: #fff; font-family: 'PT Serif', serif; font-size: 16px; font-weight: 400; text-decoration: none; transition: opacity 0.2s ease; }
+    .footer-links a:hover { opacity: 0.65; }
+
+    /* ── Reflection section ───────────────────────────── */
+    .reflect-h { font-family: 'PT Serif', serif; font-size: 30px; font-weight: 400; line-height: 1.3; max-width: 861px; }
+    .cols-3 { display: flex; gap: 24px; align-items: stretch; }
+    .cols-3 > * { flex: 1; }
+    .refl-card {
+      background: #ffffff; border-left: 4px solid #2a54c5; border-radius: 14px;
+      padding: 22px; display: flex; flex-direction: column; gap: 12px;
+    }
+    .refl-card-h { font-size: 20px; font-weight: 600; line-height: 1.3; }
+    .refl-card-b { font-size: 17px; line-height: 1.45; color: #333; }
+
+    /* 2-photo grid for Cap 01 & Cap 02 */
+    .cap-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 920px; }
+    .cap-item {
+      position: relative; border-radius: 14px; overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .cap-item img { width: 100%; height: 340px; object-fit: cover; display: block; }
+    .cap-item figcaption {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      padding: 28px 16px 14px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.72));
+      color: #fff; font-size: 14px; font-weight: 600; line-height: 1.3;
+      opacity: 0; transform: translateY(8px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .cap-item:hover { transform: translateY(-3px); box-shadow: 0 10px 26px rgba(0,0,0,0.14); }
+    .cap-item:hover figcaption { opacity: 1; transform: translateY(0); }
+
+    /* ── Reading progress bar ─────────────────────────── */
+    #reading-progress {
+      position: fixed; top: 0; left: 0; height: 2px; width: 0%;
+      background: #2a54c5; z-index: 9999; transition: width 0.1s linear;
+      pointer-events: none;
+    }
+
+    /* ── Annotation block ─────────────────────────────── */
+    .anno {
+      display: flex; gap: 20px; align-items: flex-start;
+      max-width: 860px; padding: 16px 0; border-top: 1px solid #e4ddd0;
+    }
+    .anno-tag {
+      flex-shrink: 0; font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #c3ad79; padding-top: 2px; min-width: 130px;
+    }
+    .anno-text { font-size: 14px; line-height: 1.65; color: #555; }
+    .anno-text strong { color: #1f1f1f; font-weight: 600; }
+
+    /* ── Designer reflection block ────────────────────── */
+    .reflection {
+      border-left: 2px solid #d4c8b0; padding: 16px 0 16px 24px;
+      max-width: 640px; margin-top: 8px;
+    }
+    .reflection-tag {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #c3ad79; margin-bottom: 10px;
+    }
+    .reflection-text {
+      font-family: 'PT Serif', serif; font-size: 18px; line-height: 1.65;
+      color: #3a3226; font-style: italic;
+    }
+
+    /* ── Financial model toggle ───────────────────────── */
+    .fin-toggle {
+      display: flex; gap: 3px; background: #ede8df; border-radius: 8px;
+      padding: 3px; align-self: flex-start;
+    }
+    .fin-toggle-btn {
+      font-size: 12px; font-weight: 600; padding: 6px 18px;
+      border: none; border-radius: 6px; cursor: pointer;
+      background: transparent; color: #8a7e6a;
+      font-family: 'Source Sans 3', sans-serif;
+      transition: all 0.18s ease;
+    }
+    .fin-toggle-btn.active { background: #fff; color: #0e1f5e; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+
+    /* ── Financial assumptions (collapsible) ─────────── */
+    .fin-assumptions { max-width: 920px; }
+    .fin-assumptions-hd {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 13px; font-weight: 600; color: #8a7e6a;
+      cursor: pointer; padding: 12px 0; border-top: 1px solid #e4ddd0;
+      user-select: none;
+    }
+    .fin-assumptions-hd .toggle-arrow { font-size: 11px; transition: transform 0.2s ease; }
+    .fin-assumptions-hd.open .toggle-arrow { transform: rotate(180deg); }
+    .fin-assumptions-body {
+      display: none; padding: 4px 0 14px;
+      flex-direction: column; gap: 8px;
+    }
+    .fin-assumptions-body.open { display: flex; }
+    .fin-assumption-row { display: flex; gap: 0; font-size: 14px; }
+    .fin-assumption-key { color: #8a7e6a; min-width: 200px; font-size: 13px; }
+    .fin-assumption-val { color: #1f1f1f; font-weight: 600; }
+    .fin-assumption-note { color: #aaa; font-size: 12px; margin-left: 12px; }
+
+    /* ── Friction row expandable ──────────────────────── */
+    .mapping-row { cursor: pointer; transition: background 0.15s ease; }
+    .mapping-row:hover { background: #f8f9ff; }
+    .mapping-detail {
+      display: none; padding: 12px 20px;
+      border-top: 1px solid #e8effe;
+      font-size: 13px; line-height: 1.65; color: #444;
+      background: #f4f7ff;
+    }
+    .mapping-detail.open { display: grid; grid-template-columns: 1fr 44px 1fr; gap: 0; }
+    .mapping-detail-inner { padding: 4px 0; color: #555; font-size: 13px; }
+
+    /* ── Prototype disclaimer ─────────────────────────── */
+    .proto-disclaimer {
+      display: flex; gap: 10px; align-items: flex-start;
+      padding: 12px 16px; border: 1px solid #e4ddd0;
+      font-size: 13px; line-height: 1.55; color: #8a7e6a; max-width: 920px;
+    }
+    .proto-disclaimer-mark { flex-shrink: 0; font-size: 13px; color: #c3ad79; }
+  </style>
+</head>
+<body>
+<div id="reading-progress"></div>
+<div class="page">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <a class="sidebar-name" href="index.html">← Works</a>
+    <nav class="toc">
+      <p class="toc-title">Table of Contents</p>
+      <hr class="toc-divider">
+      <div class="toc-items">
+        <a href="#overview">Project Overview</a>
+        <a href="#context">Business Context</a>
+        <a href="#diagnosis">Problem Diagnosis</a>
+        <a href="#benchmarking">Competitor Benchmarking</a>
+        <a href="#opportunity">Strategic Opportunity</a>
+        <a href="#oneflow">OneFlow System</a>
+        <a href="#prototype">Workflow Prototypes</a>
+        <a href="#feasibility">Financial Feasibility</a>
+        <a href="#roadmap">Implementation Roadmap</a>
+        <a href="#risk">Risk Considerations</a>
+        <a href="#outcome">Outcome</a>
+        <a href="#reflections">Reflections</a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- ── Main ── -->
+  <main class="main">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-banner">
+        <img src="assets/Cap 01.jpeg" alt="12am late night in UTS" style="object-position: center 30%;">
+        <img src="assets/Cap 02.jpeg" alt="Claire, Magic and Veralyn after the pitch">
+      </div>
+      <h1 class="hero-title">Capgemini × UTS Consulting Club</h1>
+      <div class="hero-meta-card">
+        <div class="hero-meta">
+          <div>
+            <p>My Role : UX Strategist</p>
+            <p>My Team : UX Researcher, Strategy Analyst</p>
+          </div>
+          <div>
+            <p>Awards 🏅:</p>
+            <p>UTS x Capgemini 2026 - Semi Finalist</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 1: Project Overview -->
+    <section class="section" id="overview">
+      <span class="badge">PROJECT OVERVIEW</span>
+      <h2 class="heading">Interstellar Bank: Digital Transformation Strategy</h2>
+      <p class="lede">A five-year strategy to reduce loan processing friction and improve digital adoption.</p>
+      <div class="body">
+        <p>We developed a transformation roadmap for Interstellar Bank's loan processing division, using competitor benchmarking, operational diagnosis, cost modelling, ROI projection, and risk planning to propose a unified loan origination system: <strong>OneFlow</strong>.</p>
+      </div>
+
+      <div class="chips">
+        <span class="chip">15 days → target under 5 days</span>
+        <span class="chip">A$615K estimated investment</span>
+        <span class="chip">~2-year break-even</span>
+        <span class="chip">139% projected ROI</span>
+      </div>
+
+      <div class="flow">
+        <div class="flow-col">
+          <div class="flow-item before">Manual verification</div>
+          <div class="flow-item before">Fragmented workflow</div>
+          <div class="flow-item before">Outdated loan platform</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-center">
+          <p class="flow-center-label">Proposed system</p>
+          <p class="flow-center-name">OneFlow</p>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-col">
+          <div class="flow-item after">Faster approvals</div>
+          <div class="flow-item after">Operational visibility</div>
+          <div class="flow-item after">Staff adoption</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Business Context -->
+    <section class="section" id="context">
+      <span class="badge">BUSINESS CONTEXT</span>
+      <h2 class="heading">The bank had a growth problem hiding inside its operations</h2>
+      <p class="lede">Interstellar had lending potential, but slow internal processes limited its competitiveness.</p>
+      <div class="body">
+        <p>Interstellar Bank had a strong home lending base, but its loan processing division was slowed by manual verification, fragmented workflows, outdated systems, and post-acquisition misalignment. The business problem was not simply a lack of digital tools — it was an operating model that could not scale efficiently.</p>
+      </div>
+
+      <div class="biz-stats">
+        <div class="biz-stat">
+          <p class="biz-stat-num">3.5M</p>
+          <p class="biz-stat-desc">Existing customers across retail and business banking</p>
+        </div>
+        <div class="biz-stat">
+          <p class="biz-stat-num">A$80B+</p>
+          <p class="biz-stat-desc">Home loan portfolio — the bank's core revenue base</p>
+        </div>
+        <div class="biz-stat">
+          <p class="biz-stat-num">~15 days</p>
+          <p class="biz-stat-desc">Average loan processing time — 3× slower than competitors</p>
+        </div>
+        <div class="biz-stat">
+          <p class="biz-stat-num">1 acquisition</p>
+          <p class="biz-stat-desc">Lunar Savings, adding system and cultural complexity</p>
+        </div>
+      </div>
+
+      <div class="anno">
+        <span class="anno-tag">Why this mattered</span>
+        <p class="anno-text">The acquisition wasn't just a growth play — it created operational debt. Two different systems, two different cultures, and a management team still figuring out how to run one bank. That's where the real problem was hiding.</p>
+      </div>
+
+      <div class="callout">
+        <strong>Key insight:</strong> Interstellar did not just need a new digital interface. It needed a more connected operating model across process, technology, and people.
+      </div>
+    </section>
+
+    <!-- Section 3: Problem Diagnosis -->
+    <section class="section" id="diagnosis">
+      <span class="badge">PROBLEM DIAGNOSIS</span>
+      <h2 class="heading">Loan delays were a symptom — the operating model was the problem</h2>
+      <div class="body">
+        <p>Our diagnosis showed that loan delays were caused by more than manual admin. Interstellar's process was affected by fragmented workflows, system crashes, outdated platforms, data sync errors, unclear leadership, staff skill gaps, and inconsistent adoption across teams.</p>
+      </div>
+
+      <div class="pillars">
+        <div class="pillar">
+          <p class="pillar-num">01</p>
+          <div class="pillar-content">
+            <p class="pillar-title">Process</p>
+            <p class="pillar-desc">Manual verification, slow approvals, duplicated work, and unclear handoffs across the loan journey.</p>
+          </div>
+        </div>
+        <div class="pillar">
+          <p class="pillar-num">02</p>
+          <div class="pillar-content">
+            <p class="pillar-title">Technology</p>
+            <p class="pillar-desc">Outdated loan platforms, data sync errors, unreliable systems, and limited workflow visibility.</p>
+          </div>
+        </div>
+        <div class="pillar">
+          <p class="pillar-num">03</p>
+          <div class="pillar-content">
+            <p class="pillar-title">People</p>
+            <p class="pillar-desc">Post-acquisition misalignment, staff skill gaps, low morale, and resistance to new digital workflows.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>Key diagnosis:</strong> The problem was not "lack of an app". It was a disconnected operating model across process, technology, and people.
+      </div>
+    </section>
+
+    <!-- Section 4: Competitor Benchmarking -->
+    <section class="section" id="benchmarking">
+      <span class="badge">COMPETITOR BENCHMARKING</span>
+      <h2 class="heading">Benchmarking showed where Interstellar was falling behind</h2>
+      <p class="lede">Competitors were faster, and speed was tied to customer experience.</p>
+      <div class="body">
+        <p>We benchmarked Interstellar against major Australian banks and found a clear performance gap. Interstellar's estimated loan processing time was around 15 days, compared with approximately 5 days for leading competitors. This suggested that loan speed was not just an internal efficiency metric — it affected satisfaction, trust, and competitiveness.</p>
+      </div>
+
+      <div class="chart-wrap">
+        <div class="chart-box">
+          <p class="chart-title">Estimated loan processing time</p>
+          <div class="chart-plot">
+            <span class="chart-yunit">Days</span>
+            <!-- gridlines at 5, 10, 15 days (15px per day, bottom-anchored) -->
+            <div class="gl" style="bottom: 75px;"><span>5</span></div>
+            <div class="gl" style="bottom: 150px;"><span>10</span></div>
+            <div class="gl" style="bottom: 225px;"><span>15</span></div>
+            <!-- bars -->
+            <div class="bar-col">
+              <div class="bar-body muted" style="height: 83px;">
+                <span class="bar-val">5.5 days</span>
+              </div>
+              <p class="bar-lbl">CommBank</p>
+            </div>
+            <div class="bar-col">
+              <div class="bar-body muted" style="height: 75px;">
+                <span class="bar-val">5.0 days</span>
+              </div>
+              <p class="bar-lbl">Westpac</p>
+            </div>
+            <div class="bar-col">
+              <div class="bar-body accent" style="height: 225px;">
+                <span class="bar-val">15.0 days</span>
+              </div>
+              <div class="bar-bottom">
+                <p class="bar-lbl">Interstellar</p>
+                <span class="bar-info">i</span>
+                <div class="bar-tooltip">Manual document handling and fragmented legacy systems contributed to processing times estimated at 3× the industry average — the key driver behind the OneFlow proposal.</div>
+              </div>
+            </div>
+          </div>
+          <p class="chart-caption">Estimated figures based on benchmark analysis from the project deck.</p>
+        </div>
+
+        <div class="chart-aside">
+          <div class="callout">
+            Interstellar was approximately 3× slower than leading competitors, making loan processing speed a strategic priority rather than a back-office issue.
+          </div>
+        </div>
+      </div>
+
+      <div class="so-what">
+        <span class="so-what-label">So what</span>
+        <p class="so-what-text">If Interstellar wanted to compete in home lending, improving loan processing speed had to become a business priority — not just an operational clean-up task.</p>
+      </div>
+    </section>
+
+    <!-- Section 5: Strategic Opportunity -->
+    <section class="section" id="opportunity">
+      <span class="badge">STRATEGIC OPPORTUNITY</span>
+      <h2 class="heading">The opportunity: make loan processing a competitive advantage</h2>
+      <p class="lede">The strategy needed to improve speed, visibility, adoption, and operational control.</p>
+      <div class="body">
+        <p>The research pointed to one clear direction: modernise the loan origination process while helping staff adopt the new workflow. We framed the opportunity around two connected layers — a unified system for processing loans and a people strategy to support behavioural change.</p>
+      </div>
+
+      <div class="hmw-block">
+        <p class="hmw-label">How might we</p>
+        <p class="hmw-text">How might Interstellar reduce loan processing friction while helping staff and customers confidently adopt a more digital lending experience?</p>
+      </div>
+
+      <div class="mapping">
+        <div class="mapping-head">
+          <div class="mapping-head-cell">Operational friction</div>
+          <div class="mapping-head-cell mapping-head-mid"></div>
+          <div class="mapping-head-cell">Strategic response</div>
+        </div>
+        <div style="padding: 7px 20px; background: #f0f4ff; border-top: 1px solid #e8effe; font-size: 11px; color: #8a7e6a; letter-spacing: 0.04em;">Click any row to see root cause and expected business impact →</div>
+        <div class="mapping-row" data-detail="detail-01">
+          <div class="mapping-problem"><span class="mapping-num">01</span><span class="mapping-text">Manual verification</span></div>
+          <div class="mapping-mid">→</div>
+          <div class="mapping-response">AI-assisted document extraction and verification</div>
+        </div>
+        <div class="mapping-detail" id="detail-01">
+          <div class="mapping-detail-inner"><strong>Root cause:</strong> Loan officers manually reading and re-entering data from uploaded documents — taking 2–3 days per application.</div>
+          <div></div>
+          <div class="mapping-detail-inner"><strong>Expected impact:</strong> Reduce document processing from days to under 2 hours with AI extraction at ~94% accuracy.</div>
+        </div>
+        <div class="mapping-row" data-detail="detail-02">
+          <div class="mapping-problem"><span class="mapping-num">02</span><span class="mapping-text">Fragmented workflow</span></div>
+          <div class="mapping-mid">→</div>
+          <div class="mapping-response">Unified loan dashboard</div>
+        </div>
+        <div class="mapping-detail" id="detail-02">
+          <div class="mapping-detail-inner"><strong>Root cause:</strong> Staff using 4+ disconnected systems — email, spreadsheets, legacy LOS, and acquired bank tools — with no single view of loan status.</div>
+          <div></div>
+          <div class="mapping-detail-inner"><strong>Expected impact:</strong> Single source of truth reduces handoff delays, cross-team miscommunication, and duplicate data entry.</div>
+        </div>
+        <div class="mapping-row" data-detail="detail-03">
+          <div class="mapping-problem"><span class="mapping-num">03</span><span class="mapping-text">No live status visibility</span></div>
+          <div class="mapping-mid">→</div>
+          <div class="mapping-response">Real-time approval tracking</div>
+        </div>
+        <div class="mapping-detail" id="detail-03">
+          <div class="mapping-detail-inner"><strong>Root cause:</strong> Customers had no way to track their application after submission — generating high call centre volume and trust erosion.</div>
+          <div></div>
+          <div class="mapping-detail-inner"><strong>Expected impact:</strong> Self-serve status tracking reduces inbound enquiries and improves perceived transparency.</div>
+        </div>
+        <div class="mapping-row" data-detail="detail-04">
+          <div class="mapping-problem"><span class="mapping-num">04</span><span class="mapping-text">Staff adoption gap</span></div>
+          <div class="mapping-mid">→</div>
+          <div class="mapping-response">Training, onboarding, and change champions</div>
+        </div>
+        <div class="mapping-detail" id="detail-04">
+          <div class="mapping-detail-inner"><strong>Root cause:</strong> Post-acquisition staff from Lunar Savings using different workflows. No shared training or incentive to adopt new systems.</div>
+          <div></div>
+          <div class="mapping-detail-inner"><strong>Expected impact:</strong> Phased training with internal champions reduces resistance and accelerates platform adoption.</div>
+        </div>
+        <div class="mapping-row" data-detail="detail-05">
+          <div class="mapping-problem"><span class="mapping-num">05</span><span class="mapping-text">Missed cross-sell opportunities</span></div>
+          <div class="mapping-mid">→</div>
+          <div class="mapping-response">Contextual product recommendations at approval touchpoints</div>
+        </div>
+        <div class="mapping-detail" id="detail-05">
+          <div class="mapping-detail-inner"><strong>Root cause:</strong> Approval was a terminal event — no system-level prompt to surface relevant products at the point of highest engagement.</div>
+          <div></div>
+          <div class="mapping-detail-inner"><strong>Expected impact:</strong> AI-driven cross-sell recommendations at approval touchpoints increase revenue per loan application.</div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>Closing insight:</strong> The solution could not just automate tasks. It had to connect people, systems, and decision-making into one operating flow.
+      </div>
+    </section>
+
+    <!-- Section 6: OneFlow -->
+    <section class="section" id="oneflow">
+      <span class="badge">THE PROPOSED SYSTEM</span>
+      <h2 class="heading">OneFlow: a unified loan origination system</h2>
+      <p class="lede">A connected operating system for customers, staff, and loan operations.</p>
+      <div class="body">
+        <p>OneFlow was proposed as a unified loan origination system that connects customer intake, document verification, credit assessment, workflow prioritisation, approval tracking, and staff dashboards. The goal was to reduce manual handling while creating clearer visibility across the loan journey.</p>
+      </div>
+
+      <div class="sys-flow">
+        <div class="sys-node">
+          <p class="sys-node-num">Step 01</p>
+          <p class="sys-node-text">Customer submits loan application</p>
+        </div>
+        <div class="sys-arrow">→</div>
+        <div class="sys-node">
+          <p class="sys-node-num">Step 02</p>
+          <p class="sys-node-text">OneFlow extracts and verifies documents</p>
+        </div>
+        <div class="sys-arrow">→</div>
+        <div class="sys-node">
+          <p class="sys-node-num">Step 03</p>
+          <p class="sys-node-text">Risk and urgency are prioritised</p>
+        </div>
+        <div class="sys-arrow">→</div>
+        <div class="sys-node">
+          <p class="sys-node-num">Step 04</p>
+          <p class="sys-node-text">Staff review exceptions</p>
+        </div>
+        <div class="sys-arrow">→</div>
+        <div class="sys-node">
+          <p class="sys-node-num">Step 05</p>
+          <p class="sys-node-text">Customer tracks approval status</p>
+        </div>
+        <div class="sys-arrow">→</div>
+        <div class="sys-node">
+          <p class="sys-node-num">Step 06</p>
+          <p class="sys-node-text">Feedback loop improves operations</p>
+        </div>
+      </div>
+
+      <div class="layers">
+        <div class="layer-card">
+          <p class="layer-title">System layer</p>
+          <div class="layer-items">
+            <div class="layer-item"><span class="layer-dot"></span><span>AI-assisted document extraction</span></div>
+            <div class="layer-item"><span class="layer-dot"></span><span>Centralised loan dashboard</span></div>
+            <div class="layer-item"><span class="layer-dot"></span><span>Real-time status tracking</span></div>
+            <div class="layer-item"><span class="layer-dot"></span><span>Workflow prioritisation</span></div>
+            <div class="layer-item"><span class="layer-dot"></span><span>Exception handling</span></div>
+          </div>
+        </div>
+        <div class="layer-card">
+          <p class="layer-title">Adoption layer</p>
+          <div class="layer-items">
+            <div class="layer-item"><span class="layer-dot"></span><span>Staff training</span></div>
+            <div class="layer-item"><span class="layer-dot"></span><span>Change champions</span></div>
+            <div class="layer-item"><span class="layer-dot"></span><span>Phased onboarding</span></div>
+            <div class="layer-item"><span class="layer-dot"></span><span>Leadership alignment</span></div>
+            <div class="layer-item"><span class="layer-dot"></span><span>Continuous feedback loop</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout">
+        OneFlow was designed to improve the operating flow, not just digitise the existing process.
+      </div>
+    </section>
+
+    <!-- Section 7: Prototype -->
+    <section class="section" id="prototype">
+      <span class="badge">WORKFLOW PROTOTYPES</span>
+      <h2 class="heading">Making the strategy tangible through workflow prototypes</h2>
+      <p class="lede">The prototype showed how OneFlow could change both the customer and staff journey.</p>
+      <div class="body">
+        <p>To make the transformation strategy easier to understand, we created customer-facing and staff-facing prototype touchpoints. The customer flow showed how digital onboarding, document upload, credit assessment, real-time approval tracking, and AI support could reduce uncertainty. The staff-facing dashboard showed how teams could monitor platform status, prioritise applications by risk and urgency, check document completeness, and identify opportunities at the point of approval.</p>
+      </div>
+      <div class="anno">
+        <span class="anno-tag">What we tested</span>
+        <p class="anno-text">We weren't testing whether the UI looked polished. We were testing whether the workflow logic made sense to a stakeholder audience — could someone follow the loan journey end-to-end just by looking at these screens?</p>
+      </div>
+
+      <div class="proto-split">
+
+        <!-- Customer flow -->
+        <div class="proto-group">
+          <p class="proto-type">Group 1</p>
+          <p class="proto-group-title">Customer-facing flow</p>
+          <p class="proto-group-desc">Reduces uncertainty during the loan application journey.</p>
+          <div class="proto-tabs" id="cust-tabs">
+            <button class="proto-tab is-active" data-tab="c-onboarding">Digital onboarding</button>
+            <button class="proto-tab" data-tab="c-upload">Document upload</button>
+            <button class="proto-tab" data-tab="c-credit">Credit assessment</button>
+            <button class="proto-tab" data-tab="c-tracker">Approval tracker</button>
+            <button class="proto-tab" data-tab="c-ai">AI support</button>
+          </div>
+
+          <!-- Panel: Digital onboarding -->
+          <div class="proto-panel is-active" data-panel="c-onboarding">
+            <div class="proto-mockup customer">
+              <div class="pm-steps">
+                <div class="pm-step-d active"></div><div class="pm-step-d"></div><div class="pm-step-d"></div><div class="pm-step-d"></div><div class="pm-step-d"></div>
+              </div>
+              <p class="pm-h1">Let's get started</p>
+              <p class="pm-sub">Personal loan · about 10 minutes</p>
+              <div class="pm-ai-banner">
+                <span class="pm-ai-icon">✦</span>
+                <span class="pm-ai-txt">Pre-filled from your banking profile — 8 fields auto-completed. Review and confirm.</span>
+              </div>
+              <p class="pm-section-lbl">Loan Details</p>
+              <div class="pm-field">
+                <p class="pm-field-lbl">Loan amount</p>
+                <p class="pm-field-val">$100,000</p>
+              </div>
+              <div class="pm-field">
+                <p class="pm-field-lbl">Loan purpose</p>
+                <p class="pm-field-val">Home renovation <span class="pm-field-tag">AI</span></p>
+              </div>
+              <div class="pm-field">
+                <p class="pm-field-lbl">Term</p>
+                <p class="pm-field-val">36 months</p>
+              </div>
+              <div class="pm-field">
+                <p class="pm-field-lbl">Repayment frequency</p>
+                <p class="pm-field-val">Monthly</p>
+              </div>
+              <p class="pm-section-lbl">Your Details</p>
+              <div class="pm-field">
+                <p class="pm-field-lbl">Full name</p>
+                <p class="pm-field-val">Sarah Mitchell</p>
+              </div>
+              <div class="pm-btn-dk">Continue →</div>
+            </div>
+          </div>
+
+          <!-- Panel: Document upload -->
+          <div class="proto-panel" data-panel="c-upload">
+            <div class="proto-mockup customer">
+              <div class="pm-steps">
+                <div class="pm-step-d done"></div><div class="pm-step-d active"></div><div class="pm-step-d"></div><div class="pm-step-d"></div><div class="pm-step-d"></div>
+              </div>
+              <span class="pm-bdg amber">Action required</span>
+              <p class="pm-h1">Upload your documents</p>
+              <div class="pm-doc-row">
+                <div class="pm-doc-ic">📄</div>
+                <div class="pm-doc-info">
+                  <p class="pm-doc-name">Photo ID — Passport</p>
+                  <p class="pm-doc-sub">Identity confirmed</p>
+                </div>
+                <span class="pm-doc-bdg done">Done</span>
+              </div>
+              <div class="pm-doc-row">
+                <div class="pm-doc-ic">💼</div>
+                <div class="pm-doc-info">
+                  <p class="pm-doc-name">Payslips (3 months)</p>
+                  <p class="pm-doc-sub">Income $6,200/mo extracted</p>
+                </div>
+                <span class="pm-doc-bdg done">Done</span>
+              </div>
+              <div class="pm-doc-row">
+                <div class="pm-doc-ic">🏦</div>
+                <div class="pm-doc-info">
+                  <p class="pm-doc-name">Bank statements (90 days)</p>
+                  <p class="pm-doc-sub">AI scanning transactions</p>
+                </div>
+                <span class="pm-doc-bdg scanning">Scanning</span>
+              </div>
+              <div class="pm-doc-row">
+                <div class="pm-doc-ic">📋</div>
+                <div class="pm-doc-info">
+                  <p class="pm-doc-name">Employment letter</p>
+                  <p class="pm-doc-sub">Not yet uploaded</p>
+                </div>
+                <span class="pm-doc-bdg upload">Upload</span>
+              </div>
+              <div class="pm-extract">
+                <div class="pm-extract-hd">
+                  <span class="pm-extract-ttl">✦ AI extraction live</span>
+                  <span class="pm-extract-live">● Live</span>
+                </div>
+                <div class="pm-extract-row"><span class="pm-extract-k">Employer</span><span class="pm-extract-v">Deloitte Australia</span></div>
+                <div class="pm-extract-row"><span class="pm-extract-k">Monthly income</span><span class="pm-extract-v">$6,200</span></div>
+                <div class="pm-extract-row"><span class="pm-extract-k">Employment type</span><span class="pm-extract-v">Permanent full-time</span></div>
+                <div class="pm-extract-row"><span class="pm-extract-k">Pay cycle</span><span class="pm-extract-v">Fortnightly</span></div>
+                <div class="pm-extract-row"><span class="pm-extract-k">ABN</span><span class="pm-extract-v">74 599 608 295</span></div>
+              </div>
+              <span class="pm-bdg green">✓ 0 risk flags detected</span>
+            </div>
+          </div>
+
+          <!-- Panel: Credit assessment -->
+          <div class="proto-panel" data-panel="c-credit">
+            <div class="proto-mockup customer">
+              <div class="pm-steps">
+                <div class="pm-step-d done"></div><div class="pm-step-d done"></div><div class="pm-step-d active"></div><div class="pm-step-d"></div><div class="pm-step-d"></div>
+              </div>
+              <span class="pm-bdg teal">AI assessment</span>
+              <p class="pm-h1">Credit assessment</p>
+              <div class="pm-score-wrap">
+                <div class="pm-score-ring">
+                  <span class="pm-score-num">742</span>
+                  <span class="pm-score-lbl">Equifax Score</span>
+                </div>
+                <span class="pm-bdg green">Excellent</span>
+                <p class="pm-score-pct">Top 15% of applicants</p>
+              </div>
+              <div class="pm-stats-3">
+                <div class="pm-stat"><p class="pm-stat-val">2.5</p><p class="pm-stat-lbl">DTI Ratio</p></div>
+                <div class="pm-stat"><p class="pm-stat-val">0</p><p class="pm-stat-lbl">Missed Payments</p></div>
+                <div class="pm-stat"><p class="pm-stat-val">4 yrs</p><p class="pm-stat-lbl">Employment</p></div>
+              </div>
+              <div class="pm-risk-box">
+                <div class="pm-risk-hd">
+                  <span class="pm-risk-lbl">✦ AI risk summary</span>
+                  <span class="pm-risk-conf">94% confidence</span>
+                </div>
+                <p class="pm-risk-txt">Your profile outperforms 85% of applicants this month. Income stability over 4 years with zero gaps detected. First-time borrowing is your only flag, offset by strong employment tenure and a DTI of just 2.5.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel: Approval tracker -->
+          <div class="proto-panel" data-panel="c-tracker">
+            <div class="proto-mockup customer">
+              <div class="pm-steps">
+                <div class="pm-step-d done"></div><div class="pm-step-d done"></div><div class="pm-step-d active"></div><div class="pm-step-d"></div><div class="pm-step-d"></div>
+              </div>
+              <span class="pm-bdg amber">In progress</span>
+              <p class="pm-h1">Under review</p>
+              <p class="pm-sub">Our team is finalising your application</p>
+              <div class="pm-tl">
+                <p class="pm-tl-ref">REAL-TIME TRACKER · #INS-2024-08843</p>
+                <div class="pm-tl-row">
+                  <div class="pm-tl-spine"><div class="pm-tl-dot done"></div><div class="pm-tl-ln done"></div></div>
+                  <div class="pm-tl-body"><p class="pm-tl-name">Documents verified</p><p class="pm-tl-sub">Today 10:42 AM</p></div>
+                </div>
+                <div class="pm-tl-row">
+                  <div class="pm-tl-spine"><div class="pm-tl-dot done"></div><div class="pm-tl-ln done"></div></div>
+                  <div class="pm-tl-body"><p class="pm-tl-name">Credit check completed</p><p class="pm-tl-sub">Today 10:45 AM</p></div>
+                </div>
+                <div class="pm-tl-row">
+                  <div class="pm-tl-spine"><div class="pm-tl-dot curr"></div><div class="pm-tl-ln pend"></div></div>
+                  <div class="pm-tl-body"><p class="pm-tl-name">Application under review</p><p class="pm-tl-sub curr">In progress · est. 2 hours</p></div>
+                </div>
+                <div class="pm-tl-row">
+                  <div class="pm-tl-spine"><div class="pm-tl-dot pend"></div><div class="pm-tl-ln pend"></div></div>
+                  <div class="pm-tl-body"><p class="pm-tl-name">Compliance sign-off</p><p class="pm-tl-sub">Pending · ~1 hr</p></div>
+                </div>
+                <div class="pm-tl-row">
+                  <div class="pm-tl-spine"><div class="pm-tl-dot pend"></div></div>
+                  <div class="pm-tl-body"><p class="pm-tl-name">Final approval decision</p><p class="pm-tl-sub">Pending</p></div>
+                </div>
+                <p class="pm-tl-faster">↑ Moving 8 mins faster than average — same-day approval likely</p>
+              </div>
+              <div class="pm-decision">
+                <p class="pm-decision-lbl">Estimated Decision</p>
+                <p class="pm-decision-val">Today by 3:00 PM</p>
+                <p class="pm-decision-sub">Based on current queue and your profile</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel: AI support -->
+          <div class="proto-panel" data-panel="c-ai">
+            <div class="proto-mockup customer">
+              <div class="pm-chat-hd">
+                <div>
+                  <p class="pm-chat-ttl">AI Loan Assistant</p>
+                  <div class="pm-chat-online"><span class="pm-online-dot"></span> Online</div>
+                </div>
+                <span class="pm-chat-human">Talk to human</span>
+              </div>
+              <p class="pm-powered">⚡ Powered by Interstellar AI</p>
+              <div class="pm-msgs">
+                <div class="pm-msg ai">
+                  <div class="pm-msg-av">AI</div>
+                  <div class="pm-bubble"><p>Hi Sarah 👋 I'm your Interstellar loan assistant. Your application <strong>#INS-2024-08843</strong> is in workflow review. How can I help?</p></div>
+                </div>
+                <div class="pm-msg user">
+                  <div class="pm-bubble"><p>How long will the review take?</p></div>
+                </div>
+                <div class="pm-msg ai">
+                  <div class="pm-msg-av">AI</div>
+                  <div class="pm-bubble"><p>Based on your profile and today's queue, I estimate <strong>1–2 hours</strong>. You're moving faster than average — documents were clean and credit cleared in 1.2 seconds. I'll push a notification the moment a decision is made.</p></div>
+                </div>
+                <div class="pm-msg user">
+                  <div class="pm-bubble"><p>Can you resend the employment letter link?</p></div>
+                </div>
+                <div class="pm-msg ai">
+                  <div class="pm-msg-av">AI</div>
+                  <div class="pm-bubble"><p>Done! Sent to sarah.mitchell@email.com and a push notification to your device. Tap below to upload directly.</p></div>
+                </div>
+              </div>
+              <div class="pm-chat-cta">
+                <span>↑ Upload employment letter</span>
+                <span>→</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Staff dashboard -->
+        <div class="proto-group">
+          <p class="proto-type">Group 2</p>
+          <p class="proto-group-title">Staff-facing workflow</p>
+          <p class="proto-group-desc">Gives teams visibility, prioritisation, and operational control.</p>
+          <div class="proto-tabs" id="staff-tabs">
+            <button class="proto-tab is-active" data-tab="s-dashboard">Live dashboard</button>
+            <button class="proto-tab" data-tab="s-risk">Risk prioritisation</button>
+            <button class="proto-tab" data-tab="s-sla">SLA countdown</button>
+            <button class="proto-tab" data-tab="s-docs">Doc completeness</button>
+            <button class="proto-tab" data-tab="s-exceptions">Exception review</button>
+          </div>
+
+          <!-- Panel: Live dashboard -->
+          <div class="proto-panel is-active" data-panel="s-dashboard">
+            <div class="proto-mockup staff-dash">
+              <div class="pm-dash-hd">
+                <span class="pm-dash-logo">Interstellar <em>OneFlow</em></span>
+                <span class="pm-dash-live"><span class="pm-live-dot"></span> Live</span>
+              </div>
+              <div class="pm-dash-bd">
+                <div class="pm-dash-nav">
+                  <div class="pm-dash-usr">
+                    <div class="pm-dash-usr-av">LO</div>
+                    <div><p class="pm-dash-usr-name">Lisa Okafor</p><p class="pm-dash-usr-role">Sr. Loan Officer</p></div>
+                  </div>
+                  <div class="pm-nav-item active">Dashboard</div>
+                  <div class="pm-nav-item">Intake Queue <span class="pm-nav-bdg blue">47</span></div>
+                  <div class="pm-nav-item">Doc Review <span class="pm-nav-bdg amber">8</span></div>
+                  <div class="pm-nav-item">Credit Review <span class="pm-nav-bdg blue">5</span></div>
+                  <div class="pm-nav-item">Flagged Cases <span class="pm-nav-bdg red">3</span></div>
+                  <div class="pm-nav-item">Approvals <span class="pm-nav-bdg blue">6</span></div>
+                  <div class="pm-nav-item">Disbursements <span class="pm-nav-bdg blue">4</span></div>
+                  <div class="pm-nav-item">AI Assistant</div>
+                </div>
+                <div class="pm-dash-main">
+                  <div>
+                    <p class="pm-dash-greeting">Good morning, Lisa · Friday 11 April 2025</p>
+                    <p class="pm-dash-title">Dashboard</p>
+                  </div>
+                  <div class="pm-kpis">
+                    <div class="pm-kpi"><p class="pm-kpi-lbl">Data Migration</p><p class="pm-kpi-val green">90%</p><p class="pm-kpi-sub">Complete w/o downtime</p></div>
+                    <div class="pm-kpi"><p class="pm-kpi-lbl">LOS Platform</p><p class="pm-kpi-val teal">Live</p><p class="pm-kpi-sub">Across all teams</p></div>
+                    <div class="pm-kpi"><p class="pm-kpi-lbl">Staff Trained</p><p class="pm-kpi-val">80%</p><p class="pm-kpi-sub">+12% this week</p></div>
+                    <div class="pm-kpi"><p class="pm-kpi-lbl">System Uptime</p><p class="pm-kpi-val green">99.5%</p><p class="pm-kpi-sub">0 incidents</p></div>
+                    <div class="pm-kpi"><p class="pm-kpi-lbl">Loan Approvals</p><p class="pm-kpi-val">&lt;4 wks</p><p class="pm-kpi-sub">Avg 2.3 days</p></div>
+                  </div>
+                  <div>
+                    <div class="pm-queue-hd">
+                      <span class="pm-queue-title">Live Queue</span>
+                      <span class="pm-queue-tag">✦ AI triaged</span>
+                      <span class="pm-queue-view">View all →</span>
+                    </div>
+                    <div class="pm-q-table">
+                      <div class="pm-q-head"><span>Applicant</span><span>Amount</span><span>Action</span><span>SLA</span></div>
+                      <div class="pm-q-row">
+                        <div><p class="pm-q-name">Sarah Mitchell</p><p class="pm-q-id">#INS-2024-08843</p></div>
+                        <div><p class="pm-q-amt">$25,000</p><p class="pm-q-type">Personal</p></div>
+                        <span class="pm-q-btn">Review</span>
+                        <span class="pm-sla-chip">4h 22m</span>
+                      </div>
+                      <div class="pm-q-row">
+                        <div><p class="pm-q-name">James Kowalski</p><p class="pm-q-id">#INS-186842</p></div>
+                        <div><p class="pm-q-amt">$80,000</p><p class="pm-q-type">Business</p></div>
+                        <span class="pm-q-btn">Review</span>
+                        <span class="pm-sla-chip amber">2h 48m</span>
+                      </div>
+                      <div class="pm-q-row urgent">
+                        <div><p class="pm-q-name">Aisha Lim</p><p class="pm-q-id">#INS-186943</p></div>
+                        <div><p class="pm-q-amt">$12,500</p><p class="pm-q-type">Personal</p></div>
+                        <span class="pm-q-btn urgent">Urgent</span>
+                        <span class="pm-sla-chip red">1h 12m</span>
+                      </div>
+                      <div class="pm-q-row">
+                        <div><p class="pm-q-name">Paulo Reyes</p><p class="pm-q-id">#INS-168842</p></div>
+                        <div><p class="pm-q-amt">$45,000</p><p class="pm-q-type">Vehicle</p></div>
+                        <span class="pm-q-btn">View</span>
+                        <span class="pm-sla-chip">Done</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel: Risk prioritisation -->
+          <div class="proto-panel" data-panel="s-risk">
+            <div class="proto-mockup staff-dash">
+              <div class="pm-dash-hd">
+                <span class="pm-dash-logo">Interstellar <em>OneFlow</em></span>
+                <span class="pm-dash-live"><span class="pm-live-dot"></span> Live</span>
+              </div>
+              <div class="pm-dash-body">
+                <p class="pm-dash-title">Risk &amp; Urgency Queue</p>
+                <p class="pm-dash-greeting">Sorted by AI risk score · SLA priority</p>
+                <div class="pm-risk-table">
+                  <div class="pm-risk-row"><div><p class="pm-risk-name">Aisha Lim</p><p class="pm-risk-sub">#INS-186943 · $12,500</p></div><span class="pm-risk-bdg high">HIGH RISK</span></div>
+                  <div class="pm-risk-row"><div><p class="pm-risk-name">Marcus Webb</p><p class="pm-risk-sub">#INS-186901 · $67,000</p></div><span class="pm-risk-bdg high">HIGH RISK</span></div>
+                  <div class="pm-risk-row"><div><p class="pm-risk-name">James Kowalski</p><p class="pm-risk-sub">#INS-186842 · $80,000</p></div><span class="pm-risk-bdg med">MEDIUM</span></div>
+                  <div class="pm-risk-row"><div><p class="pm-risk-name">Yuki Tanaka</p><p class="pm-risk-sub">#INS-186812 · $34,000</p></div><span class="pm-risk-bdg med">MEDIUM</span></div>
+                  <div class="pm-risk-row"><div><p class="pm-risk-name">Sarah Mitchell</p><p class="pm-risk-sub">#INS-08843 · $25,000</p></div><span class="pm-risk-bdg low">LOW RISK</span></div>
+                  <div class="pm-risk-row"><div><p class="pm-risk-name">Paulo Reyes</p><p class="pm-risk-sub">#INS-168842 · $45,000</p></div><span class="pm-risk-bdg low">LOW RISK</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel: SLA countdown -->
+          <div class="proto-panel" data-panel="s-sla">
+            <div class="proto-mockup staff-dash">
+              <div class="pm-dash-hd">
+                <span class="pm-dash-logo">Interstellar <em>OneFlow</em></span>
+                <span class="pm-dash-live"><span class="pm-live-dot"></span> Live</span>
+              </div>
+              <div class="pm-dash-body">
+                <p class="pm-dash-title">SLA Countdown</p>
+                <p class="pm-dash-greeting">Time remaining per application</p>
+                <div class="pm-sla-row"><div class="pm-sla-top"><span class="pm-sla-name">Aisha Lim · #INS-186943</span><span class="pm-sla-time red">1h 12m left</span></div><div class="pm-sla-bar"><div class="pm-sla-fill red" style="width:12%"></div></div></div>
+                <div class="pm-sla-row"><div class="pm-sla-top"><span class="pm-sla-name">James Kowalski · #INS-186842</span><span class="pm-sla-time amber">2h 48m left</span></div><div class="pm-sla-bar"><div class="pm-sla-fill amber" style="width:35%"></div></div></div>
+                <div class="pm-sla-row"><div class="pm-sla-top"><span class="pm-sla-name">Sarah Mitchell · #INS-08843</span><span class="pm-sla-time green">4h 22m left</span></div><div class="pm-sla-bar"><div class="pm-sla-fill green" style="width:62%"></div></div></div>
+                <div class="pm-sla-row"><div class="pm-sla-top"><span class="pm-sla-name">Marcus Webb · #INS-186901</span><span class="pm-sla-time green">6h 05m left</span></div><div class="pm-sla-bar"><div class="pm-sla-fill green" style="width:80%"></div></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel: Document completeness -->
+          <div class="proto-panel" data-panel="s-docs">
+            <div class="proto-mockup staff-dash">
+              <div class="pm-dash-hd">
+                <span class="pm-dash-logo">Interstellar <em>OneFlow</em></span>
+                <span class="pm-dash-live"><span class="pm-live-dot"></span> Live</span>
+              </div>
+              <div class="pm-dash-body">
+                <p class="pm-dash-title">Document Completeness</p>
+                <p class="pm-dash-greeting">Colour = verified / missing / pending</p>
+                <div class="pm-docs-table">
+                  <div class="pm-docs-head"><span>Applicant</span><span>ID</span><span>Income</span><span>Bank</span><span>Employ.</span></div>
+                  <div class="pm-docs-row"><span class="pm-docs-name">Sarah Mitchell</span><div class="pm-docs-cell ok"></div><div class="pm-docs-cell ok"></div><div class="pm-docs-cell pend"></div><div class="pm-docs-cell miss"></div></div>
+                  <div class="pm-docs-row"><span class="pm-docs-name">James Kowalski</span><div class="pm-docs-cell ok"></div><div class="pm-docs-cell ok"></div><div class="pm-docs-cell ok"></div><div class="pm-docs-cell ok"></div></div>
+                  <div class="pm-docs-row"><span class="pm-docs-name">Aisha Lim</span><div class="pm-docs-cell ok"></div><div class="pm-docs-cell miss"></div><div class="pm-docs-cell pend"></div><div class="pm-docs-cell miss"></div></div>
+                  <div class="pm-docs-row"><span class="pm-docs-name">Paulo Reyes</span><div class="pm-docs-cell ok"></div><div class="pm-docs-cell ok"></div><div class="pm-docs-cell ok"></div><div class="pm-docs-cell ok"></div></div>
+                  <div class="pm-docs-row"><span class="pm-docs-name">Marcus Webb</span><div class="pm-docs-cell miss"></div><div class="pm-docs-cell ok"></div><div class="pm-docs-cell miss"></div><div class="pm-docs-cell ok"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel: Exception review -->
+          <div class="proto-panel" data-panel="s-exceptions">
+            <div class="proto-mockup staff-dash">
+              <div class="pm-dash-hd">
+                <span class="pm-dash-logo">Interstellar <em>OneFlow</em></span>
+                <span class="pm-dash-live"><span class="pm-live-dot"></span> Live</span>
+              </div>
+              <div class="pm-dash-body">
+                <p class="pm-dash-title">Exception Review</p>
+                <p class="pm-dash-greeting">Flagged items requiring manual review</p>
+                <div class="pm-exc-row">
+                  <span class="pm-exc-bdg high">CREDIT</span>
+                  <div class="pm-exc-info"><p class="pm-exc-name">Aisha Lim · #INS-186943</p><p class="pm-exc-reason">DTI of 68% significantly exceeds 40% limit. 4 missed payments in past 12 months. Manual review required.</p></div>
+                </div>
+                <div class="pm-exc-row">
+                  <span class="pm-exc-bdg high">INCOME</span>
+                  <div class="pm-exc-info"><p class="pm-exc-name">Marcus Webb · #INS-186901</p><p class="pm-exc-reason">Income verification failed — employer ABN not found in ATO registry. Document re-upload requested.</p></div>
+                </div>
+                <div class="pm-exc-row">
+                  <span class="pm-exc-bdg med">ID</span>
+                  <div class="pm-exc-info"><p class="pm-exc-name">Yuki Tanaka · #INS-186812</p><p class="pm-exc-reason">Passport expires within 6 months. Secondary ID requested for verification.</p></div>
+                </div>
+                <div class="pm-exc-row">
+                  <span class="pm-exc-bdg low">ADDRESS</span>
+                  <div class="pm-exc-info"><p class="pm-exc-name">Sarah Mitchell · #INS-08843</p><p class="pm-exc-reason">Address on ID does not match bank statement. Minor discrepancy — flagged for staff confirmation.</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="proto-disclaimer">
+        <span class="proto-disclaimer-mark">↳</span>
+        <span>This prototype was designed to communicate the proposed workflow and strategy, not to represent a production-ready banking platform. All screens show hypothetical user interactions based on the proposed OneFlow system.</span>
+      </div>
+    </section>
+
+    <!-- Section 8: Financial Feasibility -->
+    <section class="section" id="feasibility">
+      <span class="badge">FINANCIAL FEASIBILITY</span>
+      <h2 class="heading">Testing feasibility through cost, savings, and ROI</h2>
+      <p class="lede">The recommendation included a high-level financial model, not just a feature proposal.</p>
+      <div class="body">
+        <p>We estimated the implementation cost of OneFlow at A$615K, covering system development, integration infrastructure, compliance tooling, and training and change management. With projected annual operational savings of A$350K at full run-rate, the model estimated a break-even point of around two years and a five-year ROI of 139%.</p>
+      </div>
+
+      <!-- Financial model toggle -->
+      <div class="fin-toggle" id="fin-toggle">
+        <button class="fin-toggle-btn active" data-view="summary">Summary</button>
+        <button class="fin-toggle-btn" data-view="investment">Investment</button>
+        <button class="fin-toggle-btn" data-view="savings">Savings</button>
+      </div>
+
+      <!-- Metric strip with hover tooltips -->
+      <div class="fin-metrics" id="fin-metrics">
+        <div class="fin-metric" data-views="summary investment">
+          <p class="fin-val">A$615K</p>
+          <p class="fin-label">Estimated investment</p>
+          <p class="fin-metric-hint">Hover for details ↑</p>
+          <div class="fin-metric-tooltip"><strong>How we estimated it:</strong> Development (A$325K), integration (A$150K), compliance tools (A$85K), and training (A$55K) — modelled from comparable LOS implementations and project scope.</div>
+        </div>
+        <div class="fin-metric" data-views="summary savings">
+          <p class="fin-val">A$350K</p>
+          <p class="fin-label">Annual savings</p>
+          <p class="fin-metric-hint">Hover for details ↑</p>
+          <div class="fin-metric-tooltip"><strong>How we estimated it:</strong> Reduced manual processing labour (~A$180K), lower error rework costs (~A$90K), and reduced call centre volume (~A$80K) at full run-rate from Year 3.</div>
+        </div>
+        <div class="fin-metric" data-views="summary savings">
+          <p class="fin-val">~2 years</p>
+          <p class="fin-label">Break-even</p>
+          <p class="fin-metric-hint">Hover for details ↑</p>
+          <div class="fin-metric-tooltip"><strong>What this means:</strong> Cumulative cash flows turn positive between Year 2 and Year 3 based on phased investment and ramping savings. Modelled as directional — not a guaranteed financial outcome.</div>
+        </div>
+        <div class="fin-metric" data-views="summary savings">
+          <p class="fin-val">A$855K</p>
+          <p class="fin-label">Five-year net benefit</p>
+          <p class="fin-metric-hint">Hover for details ↑</p>
+          <div class="fin-metric-tooltip"><strong>Why it matters:</strong> This is the cumulative net position after five years — savings minus total investment. A$855K net benefit over five years demonstrates the financial viability of the transformation.</div>
+        </div>
+        <div class="fin-metric positive" data-views="summary savings">
+          <p class="fin-val">139%</p>
+          <p class="fin-label">Projected ROI</p>
+          <p class="fin-metric-hint">Hover for details ↑</p>
+          <div class="fin-metric-tooltip"><strong>How it's calculated:</strong> (Net benefit ÷ Total investment) × 100 = (A$855K ÷ A$615K) × 100 = 139%. This is a five-year return, not annualised.</div>
+        </div>
+      </div>
+
+      <!-- Model assumptions (collapsible) -->
+      <div class="fin-assumptions">
+        <div class="fin-assumptions-hd" id="fin-assumptions-hd">
+          <span>Model assumptions</span>
+          <span class="toggle-arrow">▾</span>
+        </div>
+        <div class="fin-assumptions-body" id="fin-assumptions-body">
+          <div class="fin-assumption-row">
+            <span class="fin-assumption-key">Investment horizon</span>
+            <span class="fin-assumption-val">5 years</span>
+            <span class="fin-assumption-note">Phased across Years 1–2</span>
+          </div>
+          <div class="fin-assumption-row">
+            <span class="fin-assumption-key">Annual savings run-rate</span>
+            <span class="fin-assumption-val">A$350K/year</span>
+            <span class="fin-assumption-note">From Year 3 at full implementation</span>
+          </div>
+          <div class="fin-assumption-row">
+            <span class="fin-assumption-key">Year 1 savings (partial)</span>
+            <span class="fin-assumption-val">A$175K</span>
+            <span class="fin-assumption-note">50% run-rate during pilot phase</span>
+          </div>
+          <div class="fin-assumption-row">
+            <span class="fin-assumption-key">Discount rate</span>
+            <span class="fin-assumption-val">Not applied</span>
+            <span class="fin-assumption-note">Figures are nominal, not discounted</span>
+          </div>
+          <div class="fin-assumption-row">
+            <span class="fin-assumption-key">Basis</span>
+            <span class="fin-assumption-val">High-level estimate</span>
+            <span class="fin-assumption-note">Not a formal audited financial model</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart + cost breakdown -->
+      <div class="fin-split">
+        <div class="fin-chart-box">
+          <p class="fin-chart-title">Cumulative net cash flow</p>
+          <svg viewBox="0 0 520 210" style="width:100%;height:auto;overflow:visible">
+            <defs>
+              <linearGradient id="cflGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#2a54c5" stop-opacity="0.13"/>
+                <stop offset="100%" stop-color="#2a54c5" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <!-- Light gridlines -->
+            <line x1="50" y1="26" x2="500" y2="26" stroke="#f0f4ff" stroke-width="1"/>
+            <line x1="50" y1="64" x2="500" y2="64" stroke="#f0f4ff" stroke-width="1"/>
+            <line x1="50" y1="103" x2="500" y2="103" stroke="#f0f4ff" stroke-width="1"/>
+            <!-- Zero / break-even line -->
+            <line x1="50" y1="135" x2="500" y2="135" stroke="#ef4444" stroke-width="1.2" stroke-dasharray="6 4" opacity="0.55"/>
+            <!-- Axes -->
+            <line x1="50" y1="170" x2="500" y2="170" stroke="#c5d4f5" stroke-width="1.5"/>
+            <line x1="50" y1="20" x2="50" y2="170" stroke="#c5d4f5" stroke-width="1.5"/>
+            <!-- Area fill (above zero portion) -->
+            <polygon points="50,164 163,142 275,103 388,64 500,26 500,170 50,170" fill="url(#cflGrad)"/>
+            <!-- Line -->
+            <polyline points="50,164 163,142 275,103 388,64 500,26" fill="none" stroke="#2a54c5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Break-even marker on zero line -->
+            <circle cx="183" cy="135" r="4" fill="#fff" stroke="#ef4444" stroke-width="1.8"/>
+            <!-- Data points — open = negative, filled = positive -->
+            <circle cx="50" cy="164" r="4.5" fill="#fff" stroke="#9ab0e8" stroke-width="2"/>
+            <circle cx="163" cy="142" r="4.5" fill="#fff" stroke="#9ab0e8" stroke-width="2"/>
+            <circle cx="275" cy="103" r="4.5" fill="#2a54c5" stroke="#2a54c5" stroke-width="2"/>
+            <circle cx="388" cy="64" r="4.5" fill="#2a54c5" stroke="#2a54c5" stroke-width="2"/>
+            <circle cx="500" cy="26" r="4.5" fill="#2a54c5" stroke="#2a54c5" stroke-width="2"/>
+            <!-- Y-axis labels -->
+            <text x="44" y="30" text-anchor="end" font-family="'Source Sans 3',sans-serif" font-size="10" fill="#888">A$855K</text>
+            <text x="44" y="68" text-anchor="end" font-family="'Source Sans 3',sans-serif" font-size="10" fill="#888">A$555K</text>
+            <text x="44" y="107" text-anchor="end" font-family="'Source Sans 3',sans-serif" font-size="10" fill="#888">A$250K</text>
+            <text x="44" y="139" text-anchor="end" font-family="'Source Sans 3',sans-serif" font-size="10" fill="#ef4444">A$0</text>
+            <text x="44" y="168" text-anchor="end" font-family="'Source Sans 3',sans-serif" font-size="10" fill="#888">−A$220K</text>
+            <!-- Value labels on data points -->
+            <text x="68" y="179" text-anchor="middle" font-family="'Source Sans 3',sans-serif" font-size="10" fill="#999">−A$220K</text>
+            <text x="163" y="130" text-anchor="middle" font-family="'Source Sans 3',sans-serif" font-size="10" fill="#999">−A$55K</text>
+            <text x="275" y="91" text-anchor="middle" font-family="'Source Sans 3',sans-serif" font-size="10" fill="#2a54c5" font-weight="600">A$250K</text>
+            <text x="388" y="52" text-anchor="middle" font-family="'Source Sans 3',sans-serif" font-size="10" fill="#2a54c5" font-weight="600">A$555K</text>
+            <text x="500" y="17" text-anchor="middle" font-family="'Source Sans 3',sans-serif" font-size="10" fill="#2a54c5" font-weight="600">A$855K</text>
+            <!-- X-axis labels -->
+            <text x="50" y="192" text-anchor="middle" font-family="'Source Sans 3',sans-serif" font-size="12" fill="#888">Year 1</text>
+            <text x="163" y="192" text-anchor="middle" font-family="'Source Sans 3',sans-serif" font-size="12" fill="#888">Year 2</text>
+            <text x="275" y="192" text-anchor="middle" font-family="'Source Sans 3',sans-serif" font-size="12" fill="#888">Year 3</text>
+            <text x="388" y="192" text-anchor="middle" font-family="'Source Sans 3',sans-serif" font-size="12" fill="#888">Year 4</text>
+            <text x="500" y="192" text-anchor="middle" font-family="'Source Sans 3',sans-serif" font-size="12" fill="#888">Year 5</text>
+            <!-- Break-even label -->
+            <text x="188" y="126" font-family="'Source Sans 3',sans-serif" font-size="10" fill="#ef4444">≈ break-even</text>
+          </svg>
+        </div>
+
+        <div class="cost-card">
+          <p class="cost-card-title">Investment breakdown</p>
+          <div class="cost-items">
+            <div class="cost-item">
+              <div class="cost-row">
+                <span class="cost-item-label">Development &amp; automation</span>
+                <span class="cost-item-val">A$325K</span>
+              </div>
+              <div class="cost-track"><div class="cost-fill" style="width:53%"></div></div>
+            </div>
+            <div class="cost-item">
+              <div class="cost-row">
+                <span class="cost-item-label">Integration &amp; infrastructure</span>
+                <span class="cost-item-val">A$150K</span>
+              </div>
+              <div class="cost-track"><div class="cost-fill" style="width:24%"></div></div>
+            </div>
+            <div class="cost-item">
+              <div class="cost-row">
+                <span class="cost-item-label">Compliance &amp; risk tools</span>
+                <span class="cost-item-val">A$85K</span>
+              </div>
+              <div class="cost-track"><div class="cost-fill" style="width:14%"></div></div>
+            </div>
+            <div class="cost-item">
+              <div class="cost-row">
+                <span class="cost-item-label">Training &amp; change management</span>
+                <span class="cost-item-val">A$55K</span>
+              </div>
+              <div class="cost-track"><div class="cost-fill" style="width:9%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="fin-warning">Figures are high-level estimates from the project model and should be read as directional, not audited financial forecasts.</p>
+    </section>
+
+    <!-- Section 9: Implementation Roadmap -->
+    <section class="section" id="roadmap">
+      <span class="badge">IMPLEMENTATION ROADMAP</span>
+      <h2 class="heading">A strategy is only credible if it can be implemented</h2>
+      <p class="lede">We mapped a phased rollout across technology, people, and operational change.</p>
+      <div class="body">
+        <p>The five-year roadmap balanced system rollout with organisational change. The plan moved from system design and training, to pilot testing, full launch, optimisation, and AI scaling. In parallel, the people and culture stream focused on value alignment, leadership unity, team incentives, and building a more integrated post-acquisition culture.</p>
+      </div>
+
+      <div class="roadmap">
+        <!-- Year labels -->
+        <div class="rm-year"><span class="rm-year-dot"></span>Year 1</div>
+        <div class="rm-year"><span class="rm-year-dot"></span>Year 2</div>
+        <div class="rm-year"><span class="rm-year-dot"></span>Year 3</div>
+        <div class="rm-year"><span class="rm-year-dot"></span>Year 4</div>
+        <div class="rm-year"><span class="rm-year-dot"></span>Year 5</div>
+        <!-- Technology stream -->
+        <div class="rm-tech"><span class="rm-stream-tag">Technology</span><p class="rm-text">System design and architecture</p></div>
+        <div class="rm-tech"><span class="rm-stream-tag">Technology</span><p class="rm-text">Core build and pilot testing</p></div>
+        <div class="rm-tech"><span class="rm-stream-tag">Technology</span><p class="rm-text">Full launch</p></div>
+        <div class="rm-tech"><span class="rm-stream-tag">Technology</span><p class="rm-text">Optimisation and workflow refinement</p></div>
+        <div class="rm-tech"><span class="rm-stream-tag">Technology</span><p class="rm-text">AI scaling and continuous improvement</p></div>
+        <!-- People stream -->
+        <div class="rm-people"><span class="rm-stream-tag">People</span><p class="rm-text">Staff training foundation</p></div>
+        <div class="rm-people"><span class="rm-stream-tag">People</span><p class="rm-text">Value alignment</p></div>
+        <div class="rm-people"><span class="rm-stream-tag">People</span><p class="rm-text">Leadership unity</p></div>
+        <div class="rm-people"><span class="rm-stream-tag">People</span><p class="rm-text">Team incentives</p></div>
+        <div class="rm-people"><span class="rm-stream-tag">People</span><p class="rm-text">One-team culture</p></div>
+      </div>
+
+      <div class="callout">
+        The roadmap treated adoption as a core workstream, not an afterthought.
+      </div>
+    </section>
+
+    <!-- Section 10: Risk Considerations -->
+    <section class="section" id="risk">
+      <span class="badge">RISK CONSIDERATIONS</span>
+      <h2 class="heading">Designing for adoption, migration, and risk</h2>
+      <p class="lede">The strategy considered what could fail before rollout.</p>
+      <div class="body">
+        <p>A recommendation is only as strong as its failure modes. Before presenting the strategy, we stress-tested it against three categories of risk: how staff might resist it, what could go wrong during data migration, and where AI-assisted verification could fall short. Each risk shaped the design of the rollout rather than being listed as a caveat at the end.</p>
+      </div>
+
+      <div class="risk-cards">
+
+        <div class="risk-card adoption">
+          <div class="risk-top">
+            <span class="risk-level">Adoption risk</span>
+            <p class="risk-title">Staff resistance</p>
+            <p class="risk-desc">Post-acquisition cultural tension between legacy bank staff and the new parent organisation could slow uptake and undermine the unified platform's effectiveness.</p>
+          </div>
+          <div class="risk-mit">
+            <p class="risk-mit-label">Mitigation</p>
+            <p class="risk-mit-text">Phase in change champions early, tie incentive structures to platform usage milestones, and use Year 2 of the roadmap to focus on value alignment rather than system features.</p>
+          </div>
+        </div>
+
+        <div class="risk-card migration">
+          <div class="risk-top">
+            <span class="risk-level">Migration risk</span>
+            <p class="risk-title">Data sync and migration errors</p>
+            <p class="risk-desc">Moving loan records, customer data, and credit histories across systems creates a window for corruption, duplication, or loss — especially given the acquired bank's fragmented legacy infrastructure.</p>
+          </div>
+          <div class="risk-mit">
+            <p class="risk-mit-label">Mitigation</p>
+            <p class="risk-mit-text">Run parallel systems during the Year 2 pilot period. Require data reconciliation audits before sunsetting any legacy system. Scope rollout branch-by-branch to limit blast radius.</p>
+          </div>
+        </div>
+
+        <div class="risk-card verify">
+          <div class="risk-top">
+            <span class="risk-level">Verification risk</span>
+            <p class="risk-title">AI-assisted verification limits</p>
+            <p class="risk-desc">Automated document checking and credit assessment could miss edge cases or introduce bias — creating compliance exposure and undermining customer trust if decisions feel opaque.</p>
+          </div>
+          <div class="risk-mit">
+            <p class="risk-mit-label">Mitigation</p>
+            <p class="risk-mit-text">Human review gates at high-risk decision points. Regular model audits for bias and drift. Staff dashboard designed to make AI reasoning visible rather than hiding it behind a score.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="callout">
+        Risk planning shaped the roadmap sequence — it wasn't added after the strategy was set.
+      </div>
+    </section>
+
+    <!-- Section 11: Outcome -->
+    <section class="section" id="outcome">
+      <span class="badge">OUTCOME</span>
+      <h2 class="heading">Outcome: a transformation strategy with measurable business logic</h2>
+      <p class="lede">The final recommendation connected operational pain points to cost, rollout, risk, and adoption.</p>
+      <div class="body">
+        <p>The final output was a five-year transformation roadmap for Interstellar Bank's loan processing division. The recommendation addressed manual processing, fragmented workflows, digital adoption challenges, and customer uncertainty through a proposed unified loan origination system and change enablement plan. The business case projected a two-year break-even period and positive five-year return, while the rollout plan accounted for implementation risk and organisational adoption.</p>
+      </div>
+
+      <div class="outcome-cards">
+        <div class="outcome-card">
+          <span class="outcome-card-num">01</span>
+          <p class="outcome-card-title">Strategic diagnosis</p>
+          <p class="outcome-card-desc">Identified bottlenecks across process, technology, and people.</p>
+        </div>
+        <div class="outcome-card">
+          <span class="outcome-card-num">02</span>
+          <p class="outcome-card-title">Competitive benchmark</p>
+          <p class="outcome-card-desc">Compared Interstellar's loan processing performance against leading banks.</p>
+        </div>
+        <div class="outcome-card">
+          <span class="outcome-card-num">03</span>
+          <p class="outcome-card-title">Business case</p>
+          <p class="outcome-card-desc">Modelled estimated cost, savings, break-even, and ROI.</p>
+        </div>
+        <div class="outcome-card">
+          <span class="outcome-card-num">04</span>
+          <p class="outcome-card-title">Implementation plan</p>
+          <p class="outcome-card-desc">Proposed a phased roadmap with adoption and risk controls.</p>
+        </div>
+      </div>
+
+      <div class="metric-strip">
+        <div class="metric-item">
+          <span class="metric-val">A$615K</span>
+          <span class="metric-label">Estimated investment</span>
+        </div>
+        <div class="metric-item">
+          <span class="metric-val">~2 yrs</span>
+          <span class="metric-label">Projected break-even</span>
+        </div>
+        <div class="metric-item">
+          <span class="metric-val">A$855K</span>
+          <span class="metric-label">Projected five-year net benefit</span>
+        </div>
+        <div class="metric-item">
+          <span class="metric-val">139%</span>
+          <span class="metric-label">Projected ROI</span>
+        </div>
+      </div>
+      <p class="outcome-disclaimer">Projected outcomes were based on the project model and were not live implementation results.</p>
+    </section>
+
+    <!-- Section 12: Reflections -->
+    <section class="section" id="reflections">
+      <span class="badge">REFLECTIONS</span>
+      <p class="reflect-h">Strategy is only as credible as the thinking behind it</p>
+
+      <div class="cap-photos">
+        <figure class="cap-item">
+          <img src="assets/Cap 01.jpeg" alt="12am late night in UTS">
+          <figcaption>12am late night in UTS</figcaption>
+        </figure>
+        <figure class="cap-item">
+          <img src="assets/Cap 02.jpeg" alt="Claire (left), Magic (right)">
+          <figcaption>Claire (left), Magic (right)</figcaption>
+        </figure>
+      </div>
+
+      <div class="cols-3">
+        <div class="refl-card">
+          <p class="refl-card-h">What I learned</p>
+          <p class="refl-card-b">Working through the financial model taught me to question every number before committing to it — a habit that now shapes how I approach any design decision.</p>
+        </div>
+        <div class="refl-card">
+          <p class="refl-card-h">What was challenging</p>
+          <p class="refl-card-b">Digging deep into research to justify every number we presented. Unlike typical design work where you're solving for users, here we were building a recommendation for industry stakeholders — which required a completely different way of thinking and communicating.</p>
+        </div>
+        <div class="refl-card">
+          <p class="refl-card-h">What I'd do differently</p>
+          <p class="refl-card-b">Invest more time upfront in stakeholder mapping. We focused heavily on the operational diagnosis, but discovered late that understanding who needs to be convinced shapes every framing and design decision along the way.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+(function () {
+
+  // ── Helpers ──────────────────────────────────────────
+  function onEnter(el, cb, opts) {
+    var done = false;
+    new IntersectionObserver(function (entries, obs) {
+      if (!entries[0].isIntersecting || done) return;
+      done = true;
+      cb();
+      obs.unobserve(el);
+    }, opts || { threshold: 0.12 }).observe(el);
+  }
+
+  // ── 1. Section scroll reveal ─────────────────────────
+  document.querySelectorAll('.section').forEach(function (sec) {
+    onEnter(sec, function () { sec.classList.add('is-visible'); }, { threshold: 0.06 });
+  });
+
+  // ── 2. Staggered card grids ──────────────────────────
+  var GRIDS = [
+    '.biz-stats .biz-stat',
+    '.pillars .pillar',
+    '.fin-metrics .fin-metric',
+    '.risk-cards .risk-card',
+    '.outcome-cards .outcome-card',
+    '.chips .chip',
+    '.layers .layer-card'
+  ];
+  GRIDS.forEach(function (sel) {
+    var items = Array.from(document.querySelectorAll(sel));
+    if (!items.length) return;
+    var parent = items[0].closest('.section') || items[0].parentElement;
+    onEnter(parent, function () {
+      items.forEach(function (item, i) {
+        setTimeout(function () { item.classList.add('is-visible'); }, i * 90);
+      });
+    }, { threshold: 0.08 });
+  });
+
+  // ── 3. Benchmark bar chart grow + counter ────────────
+  var bars = Array.from(document.querySelectorAll('.bar-body'));
+  var barTargets = bars.map(function (b) { return b.style.height; });
+  var barVals   = Array.from(document.querySelectorAll('.bar-val'));
+  var barNums   = [5.5, 5.0, 15.0]; // target values per bar
+  bars.forEach(function (b) { b.style.height = '0px'; b.style.transition = 'none'; });
+  barVals.forEach(function (v) { v.textContent = '1.0 days'; });
+
+  function countUp(el, from, to, duration) {
+    var startTime = null;
+    function step(ts) {
+      if (!startTime) startTime = ts;
+      var p = Math.min((ts - startTime) / duration, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = (from + (to - from) * eased).toFixed(1) + ' days';
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  var benchSec = document.getElementById('benchmarking');
+  if (benchSec) {
+    onEnter(benchSec, function () {
+      bars.forEach(function (b, i) {
+        setTimeout(function () {
+          b.style.transition = 'height 2s cubic-bezier(0.22,1,0.36,1)';
+          b.style.height = barTargets[i];
+          if (barVals[i]) countUp(barVals[i], 1.0, barNums[i], 2000);
+        }, i * 250);
+      });
+    }, { threshold: 0.25 });
+  }
+
+  // ── 4. SVG cash flow line draw-in ────────────────────
+  var cfLine = document.querySelector('#feasibility polyline');
+  if (cfLine) {
+    var len = cfLine.getTotalLength ? cfLine.getTotalLength() : 480;
+    cfLine.style.strokeDasharray = len;
+    cfLine.style.strokeDashoffset = len;
+    onEnter(document.getElementById('feasibility'), function () {
+      cfLine.style.transition = 'stroke-dashoffset 1.3s cubic-bezier(0.22,1,0.36,1) 0.25s';
+      cfLine.style.strokeDashoffset = '0';
+    }, { threshold: 0.2 });
+  }
+
+  // ── 5. Cost fill bars ────────────────────────────────
+  var fills = Array.from(document.querySelectorAll('.cost-fill'));
+  var fillTargets = fills.map(function (f) { return f.style.width; });
+  fills.forEach(function (f) { f.style.width = '0'; f.style.transition = 'none'; });
+
+  var costSec = document.getElementById('feasibility');
+  if (costSec) {
+    onEnter(costSec, function () {
+      fills.forEach(function (f, i) {
+        setTimeout(function () {
+          f.style.transition = 'width 0.8s cubic-bezier(0.22,1,0.36,1)';
+          f.style.width = fillTargets[i];
+        }, 400 + i * 130);
+      });
+    }, { threshold: 0.2 });
+  }
+
+  // ── 6. Mapping rows slide in ─────────────────────────
+  var mapRows = Array.from(document.querySelectorAll('.mapping-row'));
+  mapRows.forEach(function (row) {
+    row.style.opacity = '0';
+    row.style.transform = 'translateX(-14px)';
+    row.style.transition = 'none';
+  });
+  var oppSec = document.getElementById('opportunity');
+  if (oppSec) {
+    onEnter(oppSec, function () {
+      mapRows.forEach(function (row, i) {
+        setTimeout(function () {
+          row.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+          row.style.opacity = '1';
+          row.style.transform = 'translateX(0)';
+        }, i * 90);
+      });
+    }, { threshold: 0.15 });
+  }
+
+  // ── 7. Roadmap column stagger ────────────────────────
+  var rmCells = Array.from(document.querySelectorAll('.rm-tech, .rm-people'));
+  rmCells.forEach(function (c) {
+    c.style.opacity = '0';
+    c.style.transform = 'translateY(10px)';
+    c.style.transition = 'none';
+  });
+  var rmSec = document.getElementById('roadmap');
+  if (rmSec) {
+    onEnter(rmSec, function () {
+      rmCells.forEach(function (c, i) {
+        var col = i % 5;
+        setTimeout(function () {
+          c.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
+          c.style.opacity = '1';
+          c.style.transform = 'translateY(0)';
+        }, col * 100 + 80);
+      });
+    }, { threshold: 0.15 });
+  }
+
+  // ── 8. Prototype tab switching ────────────────────────
+  document.querySelectorAll('.proto-tabs').forEach(function (tabBar) {
+    var group = tabBar.closest('.proto-group');
+    var panels = group.querySelectorAll('.proto-panel');
+    var tabs   = tabBar.querySelectorAll('.proto-tab');
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        tabs.forEach(function (t) { t.classList.remove('is-active'); });
+        panels.forEach(function (p) { p.classList.remove('is-active'); });
+        tab.classList.add('is-active');
+        var target = group.querySelector('[data-panel="' + tab.dataset.tab + '"]');
+        if (target) target.classList.add('is-active');
+      });
+    });
+  });
+
+  // ── 9. TOC active section highlight ──────────────────
+  var allSecs = Array.from(document.querySelectorAll('section[id]'));
+  var tocLinks = Array.from(document.querySelectorAll('.toc-items a'));
+  function updateToc() {
+    var y = window.scrollY + 160;
+    var cur = null;
+    allSecs.forEach(function (s) { if (s.offsetTop <= y) cur = s.id; });
+    tocLinks.forEach(function (a) {
+      a.classList.toggle('toc-active', a.getAttribute('href') === '#' + cur);
+    });
+  }
+  window.addEventListener('scroll', updateToc, { passive: true });
+  updateToc();
+
+  // ── 10. Reading progress bar ──────────────────────────
+  var progressBar = document.getElementById('reading-progress');
+  if (progressBar) {
+    function updateProgress() {
+      var doc = document.documentElement;
+      var scrolled = window.scrollY || window.pageYOffset;
+      var total = doc.scrollHeight - doc.clientHeight;
+      if (total > 0) progressBar.style.width = Math.min(100, (scrolled / total) * 100) + '%';
+    }
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+  }
+
+  // ── 11. Financial model toggle ────────────────────────
+  var finToggle = document.getElementById('fin-toggle');
+  var finMetricsEl = document.getElementById('fin-metrics');
+  if (finToggle && finMetricsEl) {
+    finToggle.querySelectorAll('.fin-toggle-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var view = btn.dataset.view;
+        finToggle.querySelectorAll('.fin-toggle-btn').forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        finMetricsEl.querySelectorAll('.fin-metric').forEach(function (m) {
+          var views = (m.dataset.views || '').split(' ');
+          if (view === 'summary') {
+            m.style.display = '';
+          } else if (view === 'investment') {
+            m.style.display = views.indexOf('investment') > -1 ? '' : 'none';
+          } else if (view === 'savings') {
+            m.style.display = views.indexOf('investment') > -1 ? 'none' : '';
+          }
+        });
+      });
+    });
+  }
+
+  // ── 12. Friction table row expand ────────────────────
+  document.querySelectorAll('.mapping-row[data-detail]').forEach(function (row) {
+    row.addEventListener('click', function () {
+      var id = row.dataset.detail;
+      var detail = document.getElementById(id);
+      if (!detail) return;
+      var isOpen = detail.classList.contains('open');
+      document.querySelectorAll('.mapping-detail').forEach(function (d) { d.classList.remove('open'); });
+      document.querySelectorAll('.mapping-row').forEach(function (r) { r.classList.remove('is-open'); });
+      if (!isOpen) {
+        detail.classList.add('open');
+        row.classList.add('is-open');
+      }
+    });
+  });
+
+  // ── 13. Financial assumptions toggle ─────────────────
+  var assHd = document.getElementById('fin-assumptions-hd');
+  var assBody = document.getElementById('fin-assumptions-body');
+  if (assHd && assBody) {
+    assHd.addEventListener('click', function () {
+      var open = assBody.classList.toggle('open');
+      assHd.classList.toggle('open', open);
+    });
+  }
+
+})();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p class="footer-quote">Good technology doesn't fix a broken process — it just makes it faster.</p>
+    <nav class="footer-links" aria-label="Links">
+      <a href="https://www.linkedin.com/in/veralynliyi/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:veralynliyi@gmail.com">Email</a>
+      <a href="assets/Veralyn-Chong-Resume.pdf" target="_blank" rel="noopener">Resume</a>
+      <a href="comments.html">Comments</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var SB_URL = 'https://invhncyrpibccqrozcsw.supabase.co';
+    var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImludmhuY3lycGliY2Nxcm96Y3N3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NTM1NTksImV4cCI6MjA5ODEyOTU1OX0.3RaiE-LDENKq9nCwg8Mh4d_2xWL4a5EbNQgjo7mTk5E';
+    var PAGE = 'capgemini';
+    var sb = (window.supabase && window.supabase.createClient) ? window.supabase.createClient(SB_URL, SB_KEY) : null;
+
+    var hint = document.createElement('div');
+    hint.className = 'cc-hint';
+    hint.textContent = 'Click anywhere to comment. I\'d love to hear any feedbacks that you might have!';
+    document.body.appendChild(hint);
+
+    function interactive(el) {
+      return el.closest('a, button, input, textarea, select, video, .cc-popup, .sidebar');
+    }
+
+    document.addEventListener('mousemove', function (e) {
+      hint.style.left = e.clientX + 'px';
+      hint.style.top = e.clientY + 'px';
+      hint.classList.toggle('show', !interactive(e.target));
+    });
+    document.addEventListener('mouseleave', function () { hint.classList.remove('show'); });
+
+    function toast(msg) {
+      var t = document.createElement('div');
+      t.className = 'cc-toast';
+      t.innerHTML = msg;
+      document.body.appendChild(t);
+      requestAnimationFrame(function () { t.classList.add('show'); });
+      setTimeout(function () { t.classList.remove('show'); setTimeout(function () { t.remove(); }, 320); }, 3200);
+    }
+
+    var popup = null;
+    function closePopup() { if (popup) { popup.remove(); popup = null; } }
+
+    function getSection(el) {
+      var sec = el.closest ? el.closest('section[id]') : null;
+      if (!sec) {
+        var all = [].slice.call(document.querySelectorAll('section[id]'));
+        var scrollY = window.scrollY || window.pageYOffset;
+        all.forEach(function (s) { if (s.offsetTop <= scrollY + window.innerHeight / 2) sec = s; });
+      }
+      return sec ? sec.id : null;
+    }
+
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('.cc-popup')) return;
+      if (popup) { closePopup(); return; }
+      if (interactive(e.target)) return;
+      if (String(window.getSelection())) return;
+
+      popup = document.createElement('div');
+      popup.className = 'cc-popup';
+      popup.style.left = e.pageX + 'px';
+      popup.style.top = e.pageY + 'px';
+      popup.innerHTML =
+        '<input class="cc-name" type="text" placeholder="Your name (optional)">' +
+        '<input class="cc-name cc-title-input" type="text" placeholder="Title (optional)">' +
+        '<textarea placeholder="Write your feedbacks here..."></textarea>' +
+        '<div class="cc-row"><button type="button" class="cc-cancel">Cancel</button>' +
+        '<button type="button" class="cc-send">Comment</button></div>';
+      document.body.appendChild(popup);
+      var ta = popup.querySelector('textarea');
+      ta.focus();
+      popup.querySelector('.cc-cancel').addEventListener('click', closePopup);
+      popup.querySelector('.cc-send').addEventListener('click', function () {
+        var t = ta.value.trim();
+        if (!t) { closePopup(); return; }
+        var row = {
+          page: PAGE,
+          section: getSection(e.target),
+          title: popup.querySelector('.cc-title-input').value.trim() || null,
+          text: t,
+          name: popup.querySelector('.cc-name').value.trim() || null
+        };
+        closePopup();
+        if (sb) {
+          sb.from('comments').insert(row).then(function (res) {
+            if (res.error) { toast('😬 Couldn\'t send — please try again.'); return; }
+            toast('💬 Comment sent — thanks! <a href="comments.html">View all →</a>');
+          });
+        } else {
+          toast('💬 Comment sent — thanks!');
+        }
+      });
+    });
+
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePopup(); });
+  })();
+</script>
+</body>
+</html>

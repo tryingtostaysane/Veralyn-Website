@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1440">
+  <title>Veralyn Chong — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=PT+Serif&family=Source+Sans+3:wght@400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Single gradient layer — fills the whole viewport (incl. the area right of
+       the 1440px page and any extended height); no beige layer behind it. */
+    html {
+      min-height: 100%;
+      background: #F4F1EA;
+    }
+
+    body {
+      min-height: 100%;
+      font-family: 'Source Sans 3', sans-serif;
+    }
+
+    /* ── Page container ────────────────────────────────── */
+    .page {
+      position: relative;
+      width: 1440px;
+      min-height: 100vh;
+      overflow-x: clip;
+      padding-top: 66px;
+    }
+
+    /* ── Sidebar ───────────────────────────────────────── */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 305px;
+      height: 100vh;
+      background: #ffffff;
+      border-radius: 5px;
+      padding: 70px 26px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .sidebar-outer {
+      display: flex;
+      flex-direction: column;
+      gap: 43px;
+      width: 251px;
+    }
+
+    .sidebar-intro {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      color: #000;
+    }
+
+    .sidebar-name {
+      font-family: 'PT Serif', serif;
+      font-size: 35px;
+      letter-spacing: -1.05px;
+      line-height: normal;
+    }
+
+    .sidebar-bio {
+      font-size: 20px;
+      font-weight: 400;
+      line-height: normal;
+    }
+
+    .menu-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 242px;
+    }
+
+    .menu-divider {
+      border: none;
+      border-top: 1.4px solid #000;
+    }
+
+    .menu-items {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin: 6px -14px 0;
+    }
+
+    .sidebar-contact {
+      font-size: 20px;
+      font-weight: 400;
+      color: #000;
+      line-height: normal;
+      width: 100%;
+    }
+
+    .sidebar-contact p {
+      line-height: normal;
+    }
+
+    .sidebar-contact a {
+      color: #000;
+      text-decoration: underline;
+    }
+
+    .menu-item {
+      position: relative;
+      isolation: isolate;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 7px 14px;
+      border-radius: 12px;
+      font-family: 'Source Sans 3', sans-serif;
+      color: #1a1a1a;
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.25s ease;
+    }
+    .menu-item::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: #f1e7d4;
+      border-radius: 12px;
+      opacity: 0;
+      transform: scale(0.95);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .menu-item:hover::before, .menu-item.is-current::before { opacity: 1; transform: scale(1); }
+    .menu-item:hover, .menu-item.is-current { color: #4a3500; }
+
+    .menu-item-num {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: #c3ad79;
+      min-width: 16px;
+      font-variant-numeric: tabular-nums;
+      transition: color 0.25s ease;
+    }
+    .menu-item:hover .menu-item-num, .menu-item.is-current .menu-item-num { color: #a36c00; }
+
+    .menu-item-label {
+      font-size: 21px;
+      font-weight: 400;
+      letter-spacing: 0;
+      transition: transform 0.25s ease;
+    }
+    .menu-item:hover .menu-item-label { transform: translateX(3px); }
+
+    .menu-item-arrow {
+      margin-left: auto;
+      display: inline-flex;
+      color: #c3ad79;
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: opacity 0.25s ease, transform 0.25s ease, color 0.25s ease;
+    }
+    .menu-item-arrow svg { width: 18px; height: 18px; }
+    .menu-item:hover .menu-item-arrow { opacity: 1; transform: translateX(0); color: #a36c00; }
+    .menu-item.is-current .menu-item-arrow { display: none; }
+
+
+    /* ── Main content area ─────────────────────────────── */
+    .main-content {
+      margin: 0 0 66px 361px;
+      width: 1026px;
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+    }
+
+    /* independent columns so hovering a card in one column
+       never reflows the other column */
+    .card-column {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      width: 489px;
+      flex-shrink: 0;
+    }
+
+    .card-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    /* ── Portfolio cards (shared) ──────────────────────── */
+    .portfolio-card {
+      background: #ffffff;
+      border-radius: 20px;
+      width: 489px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 1px 5px 5.7px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .portfolio-card:hover {
+      box-shadow: 2px 10px 22px rgba(0, 0, 0, 0.15);
+    }
+
+    /* collapsible reveal section */
+    .card-reveal {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.9s ease, opacity 0.75s ease;
+    }
+
+    .portfolio-card:hover .card-reveal {
+      max-height: 200px;
+      opacity: 1;
+    }
+
+    /* ── Bioscent card ─────────────────────────────────── */
+    .bioscent-card {
+      padding: 13px;
+      gap: 20px;
+    }
+
+    .bioscent-image {
+      width: 100%;           /* 461px inside padding */
+      height: 245px;
+      border-radius: 15px;
+      background: #e3e3e3;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    /* blurred rotated background texture */
+    .bg-blur-wrapper {
+      position: absolute;
+      top: -34px;
+      left: -101px;
+      width: 591.92px;
+      height: 302px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .bg-blur-inner {
+      transform: rotate(-90deg);
+      flex-shrink: 0;
+    }
+
+    .bg-blur-img {
+      display: block;
+      width: 302px;
+      height: 591.92px;
+      object-fit: cover;
+      filter: blur(6.5px);
+    }
+
+    /* iPhones */
+    .iphone-large {
+      position: absolute;
+      left: 45px;
+      top: 15px;
+      width: 164px;
+      height: 327px;
+      overflow: hidden;
+    }
+
+    .iphone-large img {
+      position: absolute;
+      width: 344.83%;
+      height: 129.31%;
+      left: -67.82%;
+      top: -14.37%;
+      max-width: none;
+      pointer-events: none;
+    }
+
+    .iphone-small {
+      position: absolute;
+      left: 177px;
+      top: 85px;
+      width: 102px;
+      height: 203px;
+      overflow: hidden;
+    }
+
+    .iphone-small img {
+      position: absolute;
+      width: 345.62%;
+      height: 128.72%;
+      left: -68.2%;
+      top: -13.96%;
+      max-width: none;
+      pointer-events: none;
+    }
+
+    /* mascot — walks along bottom edge of bioscent-image */
+    .mascot {
+      position: absolute;
+      bottom: 0;
+      z-index: 10;
+      transition: transform 0.2s ease;
+      pointer-events: none;
+    }
+
+    .mascot svg {
+      display: block;
+      height: 53px;
+      width: auto;
+      overflow: visible;
+    }
+
+    /* ── Pivot points (SVG user-unit coordinates) ───────── */
+    #mascot-leg-right  { transform-origin: 147px 198px; }
+    #mascot-leg-left   { transform-origin:  81px 176px; }
+    #mascot-arm-right  { transform-origin: 210px 160px; }
+    #mascot-arm-left   { transform-origin:  41px 132px; }
+
+    /* ── 4-keyframe gait cycle ───────────────────────────
+       contact(0%) → mid-stance(25%) → push-off(50%) → mid-swing(75%) → contact(100%) */
+
+    @keyframes gait-leg-right {
+      0%   { transform: rotate( 20deg); }   /* heel strike  — forward  */
+      25%  { transform: rotate(  0deg); }   /* mid-stance   — neutral  */
+      50%  { transform: rotate(-20deg); }   /* toe-off      — backward */
+      75%  { transform: rotate(  0deg); }   /* mid-swing    — neutral  */
+      100% { transform: rotate( 20deg); }
+    }
+    @keyframes gait-leg-left {
+      0%   { transform: rotate(-20deg); }   /* toe-off      — backward (opposite phase) */
+      25%  { transform: rotate(  0deg); }   /* mid-swing    — neutral  */
+      50%  { transform: rotate( 20deg); }   /* heel strike  — forward  */
+      75%  { transform: rotate(  0deg); }   /* mid-stance   — neutral  */
+      100% { transform: rotate(-20deg); }
+    }
+    @keyframes gait-arm-right {
+      0%   { transform: rotate(-12deg); }   /* back    (counter-swing to right leg) */
+      25%  { transform: rotate(  0deg); }
+      50%  { transform: rotate( 12deg); }   /* forward */
+      75%  { transform: rotate(  0deg); }
+      100% { transform: rotate(-12deg); }
+    }
+    @keyframes gait-arm-left {
+      0%   { transform: rotate( 12deg); }   /* forward (counter-swing to left leg)  */
+      25%  { transform: rotate(  0deg); }
+      50%  { transform: rotate(-12deg); }   /* back    */
+      75%  { transform: rotate(  0deg); }
+      100% { transform: rotate( 12deg); }
+    }
+    @keyframes gait-bob {
+      0%   { transform: translateY(2px); }  /* contact    — down */
+      25%  { transform: translateY(0px); }  /* mid-stance — up   */
+      50%  { transform: translateY(2px); }  /* contact    — down */
+      75%  { transform: translateY(0px); }  /* mid-stance — up   */
+      100% { transform: translateY(2px); }
+    }
+
+    /* paused by default */
+    #mascot-whole     { animation: gait-bob       0.7s ease-in-out infinite; animation-play-state: paused; }
+    #mascot-leg-right { animation: gait-leg-right 0.7s ease-in-out infinite; animation-play-state: paused; }
+    #mascot-leg-left  { animation: gait-leg-left  0.7s ease-in-out infinite; animation-play-state: paused; }
+    #mascot-arm-right { animation: gait-arm-right 0.7s ease-in-out infinite; animation-play-state: paused; }
+    #mascot-arm-left  { animation: gait-arm-left  0.7s ease-in-out infinite; animation-play-state: paused; }
+
+    /* all run when .mascot gets .walking */
+    .mascot.walking #mascot-whole,
+    .mascot.walking #mascot-leg-right,
+    .mascot.walking #mascot-leg-left,
+    .mascot.walking #mascot-arm-right,
+    .mascot.walking #mascot-arm-left { animation-play-state: running; }
+
+    /* speech bubble — positioned by JS, sibling to mascot */
+    /* ── Eye blink ──────────────────────────────────────── */
+    /* transform-origin at each eye's centre so it closes from the middle */
+    #eye-right { transform-origin: 190.046px 145.984px; }
+    #eye-left  { transform-origin: 144.946px 134.591px; }
+
+    @keyframes eye-blink {
+      0%   { transform: scaleY(1);    }   /* open */
+      35%  { transform: scaleY(0.05); }   /* fully closed */
+      65%  { transform: scaleY(0.05); }   /* hold closed */
+      100% { transform: scaleY(1);    }   /* open */
+    }
+
+    #eye-right.blinking,
+    #eye-left.blinking {
+      animation: eye-blink 0.14s ease-in-out forwards;
+    }
+
+    .speech-bubble {
+      position: absolute;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 6px 10px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 9px;
+      width: 185px;        /* wide enough for longest line to wrap to exactly 2 lines */
+      box-sizing: border-box;
+      text-align: center;
+      line-height: 1.4;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
+      color: #000;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+      z-index: 11;
+      transform: translateX(-50%);
+    }
+
+    /* tail uses a CSS var so JS can shift it when the bubble is clamped to card edge */
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      left: var(--tail-left, 50%);
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+    }
+
+    .speech-bubble.above::after {
+      top: 100%;
+      border-top-color: #ffffff;
+    }
+
+    .speech-bubble.below::after {
+      bottom: 100%;
+      border-bottom-color: #ffffff;
+    }
+
+    /* ── VisualEyes + Capgemini cards (shared image layout) ─ */
+    .visualeyes-card,
+    .capgemini-card {
+      padding: 13px;
+      gap: 0;
+    }
+
+    .visualeyes-inner,
+    .capgemini-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .visualeyes-image,
+    .capgemini-image {
+      width: 462px;
+      height: 245px;
+      border-radius: 15px;
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .visualeyes-image img,
+    .capgemini-image img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+    }
+
+    /* each frame gently bobs up and down on its own rhythm */
+    .visualeyes-image .ve-frame {
+      animation: ve-float var(--dur, 4s) ease-in-out infinite;
+      animation-delay: var(--delay, 0s);
+      will-change: transform;
+    }
+
+    @keyframes ve-float {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(var(--amp, 8px)); }
+    }
+
+    .ve-tl { --dur: 3.6s; --amp: -8px; --delay: -0.4s; }
+    .ve-tr { --dur: 4.4s; --amp:  7px; --delay: -1.8s; }
+    .ve-mr { --dur: 3.9s; --amp: -6px; --delay: -1.0s; }
+    .ve-bl { --dur: 4.7s; --amp:  8px; --delay: -2.6s; }
+
+    /* Capgemini logos drift freely with a gentle tilt. X-drift, Y-drift and
+       rotation each run on their own non-harmonic duration, so the layers
+       never line up — the combined motion keeps changing direction and is
+       never momentarily still (no pause between cycles). */
+    .capgemini-image .cap-float,
+    .capgemini-image .cap-float-y {
+      position: absolute;
+      inset: 0;
+      will-change: transform;
+    }
+
+    .capgemini-image .cap-float {
+      animation: cap-drift-x var(--durX, 8s) ease-in-out infinite;
+      animation-delay: var(--delX, 0s);
+    }
+
+    .capgemini-image .cap-float-y {
+      animation: cap-drift-y var(--durY, 10s) ease-in-out infinite;
+      animation-delay: var(--delY, 0s);
+    }
+
+    .capgemini-image .cap-float img {
+      animation: cap-tilt var(--durR, 12s) ease-in-out infinite;
+      animation-delay: var(--delR, 0s);
+      will-change: transform;
+    }
+
+    @keyframes cap-drift-x {
+      0%   { transform: translateX(0); }
+      50%  { transform: translateX(var(--ampX, 7px)); }
+      100% { transform: translateX(0); }
+    }
+    @keyframes cap-drift-y {
+      0%   { transform: translateY(0); }
+      50%  { transform: translateY(var(--ampY, 7px)); }
+      100% { transform: translateY(0); }
+    }
+    @keyframes cap-tilt {
+      0%   { transform: rotate(var(--rotA, -2deg)); }
+      50%  { transform: rotate(var(--rotB,  2deg)); }
+      100% { transform: rotate(var(--rotA, -2deg)); }
+    }
+
+    /* coprime-ish durations + negative delays = desynced, free-looking drift */
+    .cap-logo {
+      --durX: 7s;   --durY: 9s;    --durR: 11s;
+      --ampX: 9px;  --ampY: -8px;
+      --rotA: -2.5deg; --rotB: 2.5deg;
+      --delX: -2s;  --delY: -1s;   --delR: -3s;
+    }
+    .cap-utscc {
+      --durX: 8.5s; --durY: 6.5s;  --durR: 9.5s;
+      --ampX: -8px; --ampY: 9px;
+      --rotA: 2deg; --rotB: -3deg;
+      --delX: -1.5s; --delY: -3.5s; --delR: -0.5s;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .visualeyes-image .ve-frame,
+      .capgemini-image .cap-float,
+      .capgemini-image .cap-float-y,
+      .capgemini-image .cap-float img { animation: none; }
+    }
+
+    /* ── Card info (shared between both cards) ─────────── */
+    .card-info {
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+      align-items: flex-start;
+      width: 455px;
+    }
+
+    .card-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      color: #000;
+      width: 447px;
+    }
+
+    .card-title {
+      font-family: 'PT Serif', serif;
+      font-size: 30px;
+      line-height: 1.3;
+      font-weight: 400;
+    }
+
+    .card-subtitle {
+      font-size: 20px;
+      font-weight: 400;
+      line-height: normal;
+    }
+
+    .card-divider {
+      position: relative;
+      height: 0;
+      width: 461px;
+      flex-shrink: 0;
+    }
+
+    .card-divider img {
+      position: absolute;
+      display: block;
+      height: 20px;
+      width: 481px;
+      left: -10px;
+      top: -10px;
+    }
+
+    .card-details {
+      font-size: 20px;
+      font-weight: 400;
+      color: #000;
+      line-height: normal;
+      width: 461px;
+    }
+
+    .card-details p {
+      line-height: normal;
+      white-space: pre-wrap;
+    }
+
+    .card-details ul {
+      padding: 0;
+      margin: 0;
+    }
+
+    .card-details ul li {
+      list-style-type: disc;
+      margin-left: 30px;
+      line-height: normal;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-outer">
+      <div class="sidebar-intro">
+        <p class="sidebar-name">Veralyn Chong</p>
+        <p class="sidebar-bio">I'm a designer and CS student, passionate about building thoughtful digital products that solve real human problems.</p>
+      </div>
+      <nav class="menu-bar">
+        <hr class="menu-divider">
+        <div class="menu-items">
+          <a class="menu-item is-current" href="#">
+            <span class="menu-item-num">01</span>
+            <span class="menu-item-label">Works</span>
+            <span class="menu-item-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg></span>
+          </a>
+          <a class="menu-item" href="about.html">
+            <span class="menu-item-num">02</span>
+            <span class="menu-item-label">About Me</span>
+            <span class="menu-item-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg></span>
+          </a>
+          <a class="menu-item" href="comments.html">
+            <span class="menu-item-num">03</span>
+            <span class="menu-item-label">Comments</span>
+            <span class="menu-item-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg></span>
+          </a>
+        </div>
+      </nav>
+      <div class="sidebar-contact">
+        <p>Find me here:</p>
+        <p>Linked in : <a href="https://www.linkedin.com/in/veralynliyi/" target="_blank">@veralynliyi</a></p>
+        <p>Email : veralynliyi@gmail.com</p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Main content ── -->
+  <main class="main-content">
+    <div class="card-column">
+
+    <!-- Bioscent 博森 -->
+    <a class="card-link" href="work-bioscent.html">
+    <article class="portfolio-card bioscent-card">
+      <div class="bioscent-image">
+        <div class="bg-blur-wrapper">
+          <div class="bg-blur-inner">
+            <img class="bg-blur-img"
+                 src="assets/bioscent-bg.png" alt="">
+          </div>
+        </div>
+        <div class="iphone-large">
+          <img src="assets/bioscent-iphone-lg.png" alt="">
+        </div>
+        <div class="iphone-small">
+          <img src="assets/bioscent-iphone-sm.png" alt="">
+        </div>
+        <div class="mascot" id="bioscent-mascot">
+          <svg width="86" height="75" viewBox="0 0 256 224" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="mascot-whole">
+<g id="mascot-leg-right" filter="url(#filter0_ii_216_333)">
+<path d="M142 219.231L134 199.231L159.5 197.231L162.5 206.231C164.333 205.564 168.8 205.331 172 209.731C175.2 214.131 173.333 217.898 172 219.231C171.5 220.231 167.9 222.431 157.5 223.231C147.1 224.031 142.833 220.898 142 219.231Z" fill="url(#paint0_linear_216_333)"/>
+</g>
+<g id="mascot-leg-left" filter="url(#filter1_i_216_333)">
+<path d="M75.0182 188.231L81.0182 176.231L99.5182 188.231C99.5182 190.398 98.5182 196.031 94.5182 201.231C90.5182 206.431 83.1848 209.398 80.0182 210.231V214.731C79.6848 217.398 77.6182 222.631 72.0182 222.231C66.4182 221.831 62.0182 215.731 60.5182 212.731C59.0182 209.898 56.6182 203.131 59.0182 198.731C61.4182 194.331 70.6848 189.898 75.0182 188.231Z" fill="url(#paint1_linear_216_333)"/>
+</g>
+<path d="M125.5 201.731C126.7 202.531 132.333 202.731 135 202.731C141.4 203.153 146.333 194.907 148 190.731C150.5 186.231 159.5 176.831 175.5 175.231C191.5 173.631 196.833 157.231 197.5 149.231C198.167 143.064 193.2 128.431 168 119.231C142.8 110.031 122.167 115.398 115 119.231C107.5 123.398 93.1 135.231 95.5 149.231C97.9 163.231 114.833 167.731 123 168.231C139 182.231 131.333 196.398 125.5 201.731Z" fill="white"/>
+<g id="mascot-arm-right" filter="url(#filter2_ii_216_333)">
+<path d="M222.009 173.231C212.009 172.431 209.842 164.231 210.009 160.231L225.509 144.231C232.309 149.831 234.342 157.231 234.509 160.231C234.509 164.898 232.009 174.031 222.009 173.231Z" fill="url(#paint2_linear_216_333)"/>
+</g>
+<path d="M97.5 143.231C101.5 85.2311 136.667 45.0644 153.5 32.2311C184.3 62.6311 195.5 115.231 191.5 137.731C190.667 132.564 180.7 121.131 147.5 116.731C114.3 112.331 100.167 132.564 97.5 143.231Z" fill="url(#paint3_linear_216_333)"/>
+<g filter="url(#filter3_i_216_333)">
+<path d="M48.5 11.7311C96.9 -17.0689 138.333 13.8977 153 32.7311C117 63.5311 103 107.398 100.5 125.731C99.3333 130.398 97.2 141.531 98 148.731C99 157.731 106 160.231 121 165.231C133 169.231 136.333 179.898 136.5 184.731C136.5 199.931 129.167 202.398 125.5 201.731C67.9 183.731 38.1667 140.564 30.5 121.231C0.10001 62.8311 29.8333 23.8977 48.5 11.7311Z" fill="url(#paint4_linear_216_333)"/>
+</g>
+<g filter="url(#filter4_i_216_333)">
+<path d="M228 24.7311C198 4.7311 165.5 21.7311 153 32.7311C184.2 61.1311 191.833 114.731 191.5 137.731C196 145.731 194.5 149.731 193.5 154.231C192.5 158.731 191.5 162.231 186.5 167.731C181.5 173.231 175 172.731 165.5 174.231C156 175.731 147.5 185.731 144.5 192.731C142.1 198.331 137.167 201.731 135 202.731C141.8 203.131 148.167 201.898 150.5 201.231C217.3 173.631 246.667 120.064 253 96.7311C257.167 81.0644 258 44.7311 228 24.7311Z" fill="url(#paint5_linear_216_333)"/>
+</g>
+<g transform="rotate(8.52492 190.046 145.984)">
+<g id="eye-right">
+<ellipse cx="190.046" cy="145.984" rx="6.5" ry="10.9101" fill="black"/>
+<ellipse cx="192.5" cy="141.731" rx="2.5" ry="3.5" fill="white"/>
+</g>
+</g>
+<g transform="rotate(10.5978 144.946 134.591)">
+<g id="eye-left">
+<ellipse cx="144.946" cy="134.591" rx="11.6727" ry="13.4422" fill="black"/>
+<circle cx="149.5" cy="129.731" r="4.5" fill="white"/>
+</g>
+</g>
+<ellipse cx="175.17" cy="151.761" rx="5.07192" ry="3.9123" transform="rotate(22.0471 175.17 151.761)" fill="url(#paint6_linear_216_333)"/>
+<path d="M163.5 156.231C163.667 159.398 165.9 164.631 173.5 160.231" stroke="black" stroke-width="3" stroke-linecap="round"/>
+<g id="mascot-arm-left" filter="url(#filter5_i_216_333)">
+<path d="M19.8575 132.038C33.4575 127.638 39 132.283 41.5 135.283C44.3 139.683 48 144.783 51 149.783C43.4 145.383 30.5242 150.871 27.8575 154.038C26.0242 158.871 19.8575 167.938 9.85753 165.538C-0.142468 163.138 -0.642468 154.205 0.357532 150.038C1.19086 145.871 6.25753 136.438 19.8575 132.038Z" fill="url(#paint7_linear_216_333)"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_ii_216_333" x="134" y="195.231" width="43.7669" height="31.1284" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dx="4" dy="3"/>
+<feGaussianBlur stdDeviation="7.5"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="shape" result="effect1_innerShadow_216_333"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dx="1" dy="-2"/>
+<feGaussianBlur stdDeviation="3"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="effect1_innerShadow_216_333" result="effect2_innerShadow_216_333"/>
+</filter>
+<filter id="filter1_i_216_333" x="56" y="174.231" width="43.5182" height="48.0217" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dx="-2" dy="-2"/>
+<feGaussianBlur stdDeviation="5"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="shape" result="effect1_innerShadow_216_333"/>
+</filter>
+<filter id="filter2_ii_216_333" x="210" y="143.231" width="25.5087" height="30.0493" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dx="1" dy="-1"/>
+<feGaussianBlur stdDeviation="2.4"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="shape" result="effect1_innerShadow_216_333"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="1.5"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="effect1_innerShadow_216_333" result="effect2_innerShadow_216_333"/>
+</filter>
+<filter id="filter3_i_216_333" x="17.4433" y="-7" width="141.557" height="208.828" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dx="6" dy="-7"/>
+<feGaussianBlur stdDeviation="12.5"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"/>
+<feBlend mode="normal" in2="shape" result="effect1_innerShadow_216_333"/>
+</filter>
+<filter id="filter4_i_216_333" x="133" y="12.4714" width="122.114" height="190.338" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dx="-2" dy="-3"/>
+<feGaussianBlur stdDeviation="10"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"/>
+<feBlend mode="normal" in2="shape" result="effect1_innerShadow_216_333"/>
+</filter>
+<filter id="filter5_i_216_333" x="0" y="124.231" width="51" height="41.7041" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="-6"/>
+<feGaussianBlur stdDeviation="10"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="shape" result="effect1_innerShadow_216_333"/>
+</filter>
+<linearGradient id="paint0_linear_216_333" x1="167.5" y1="213.231" x2="141.5" y2="205.231" gradientUnits="userSpaceOnUse">
+<stop stop-color="#42A3F3"/>
+<stop offset="1" stop-color="#0A55B3"/>
+</linearGradient>
+<linearGradient id="paint1_linear_216_333" x1="63" y1="205.231" x2="100" y2="199.231" gradientUnits="userSpaceOnUse">
+<stop stop-color="#217BD5"/>
+<stop offset="1" stop-color="#05479F"/>
+</linearGradient>
+<linearGradient id="paint2_linear_216_333" x1="234" y1="159.231" x2="210" y2="161.231" gradientUnits="userSpaceOnUse">
+<stop stop-color="#2C8DE2"/>
+<stop offset="0.852747" stop-color="#074DA8"/>
+</linearGradient>
+<linearGradient id="paint3_linear_216_333" x1="140" y1="88.2311" x2="171" y2="69.7311" gradientUnits="userSpaceOnUse">
+<stop stop-color="#0F7FAC"/>
+<stop offset="1" stop-color="#075AA5"/>
+</linearGradient>
+<linearGradient id="paint4_linear_216_333" x1="85.2217" y1="-0.104065" x2="85.2217" y2="201.828" gradientUnits="userSpaceOnUse">
+<stop stop-color="#37CAD9"/>
+<stop offset="1" stop-color="#0695BB"/>
+</linearGradient>
+<linearGradient id="paint5_linear_216_333" x1="233" y1="24.7311" x2="153.5" y2="203.231" gradientUnits="userSpaceOnUse">
+<stop stop-color="#40AAF1"/>
+<stop offset="1" stop-color="#1168C3"/>
+</linearGradient>
+<linearGradient id="paint6_linear_216_333" x1="175.17" y1="147.849" x2="175.376" y2="151.391" gradientUnits="userSpaceOnUse">
+<stop stop-color="#808080"/>
+<stop offset="1"/>
+</linearGradient>
+<linearGradient id="paint7_linear_216_333" x1="15.5" y1="148.283" x2="20.5" y2="164.283" gradientUnits="userSpaceOnUse">
+<stop stop-color="#2EC3D7"/>
+<stop offset="1" stop-color="#068DB5"/>
+</linearGradient>
+</defs>
+</svg>
+        </div>
+        <div class="speech-bubble above" id="mascot-bubble"></div>
+      </div>
+      <div class="card-info">
+        <div class="card-title-group">
+          <h2 class="card-title">Bioscent 博森</h2>
+          <p class="card-subtitle">Making invisible health signals visible through AI-powered VOC sensing.</p>
+        </div>
+        <div class="card-divider">
+          <img src="assets/card-divider.svg" alt="">
+        </div>
+        <div class="card-details">
+          <p>My Role : Product designer,  Design, Dev</p>
+          <p>My Team : Oliver Pang</p>
+          <div class="card-reveal">
+            <p>&#8203;</p>
+            <p>Awards🏅 :</p>
+            <ul>
+              <li>Red Bull Basement Australia 2026 - National Finals</li>
+              <li>Tencent Future Close Up 2026 - 3rd Place</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+    </a>
+
+    <!-- Capgemini x UTS CC -->
+    <a class="card-link" href="work-capgemini.html">
+    <article class="portfolio-card capgemini-card">
+      <div class="capgemini-inner">
+        <div class="capgemini-image">
+          <img src="assets/capg-plate.png" alt="Capgemini x UTS CC">
+          <div class="cap-float cap-logo">
+            <div class="cap-float-y"><img src="assets/capg-logo.png" alt=""></div>
+          </div>
+          <div class="cap-float cap-utscc">
+            <div class="cap-float-y"><img src="assets/capg-utscc.png" alt=""></div>
+          </div>
+        </div>
+        <div class="card-info">
+          <div class="card-title-group">
+            <h2 class="card-title">Capgemini x UTS CC</h2>
+            <p class="card-subtitle">Improving operational efficiency and driving digital adoption at Interstellar Bank.</p>
+          </div>
+          <div class="card-divider">
+            <img src="assets/card-divider.svg" alt="">
+          </div>
+          <div class="card-details">
+            <p>My Role : UX Strategist</p>
+            <p>My Team : UX Researcher, Strategy Analyst</p>
+            <div class="card-reveal">
+              <p>&#8203;</p>
+              <p>Awards&#127941; :</p>
+              <ul>
+                <li>UTS Consulting Club - Semi Finals</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+    </a>
+    </div>
+
+    <div class="card-column">
+    <!-- VisualEyes -->
+    <a class="card-link" href="work-visualeyes.html">
+    <article class="portfolio-card visualeyes-card">
+      <div class="visualeyes-inner">
+        <div class="visualeyes-image">
+          <img class="ve-plate" src="assets/ve-plate.png" alt="VisualEyes">
+          <img class="ve-frame ve-tl" src="assets/ve-frame-tl.png" alt="">
+          <img class="ve-frame ve-tr" src="assets/ve-frame-tr.png" alt="">
+          <img class="ve-frame ve-mr" src="assets/ve-frame-mr.png" alt="">
+          <img class="ve-frame ve-bl" src="assets/ve-frame-bl.png" alt="">
+        </div>
+        <div class="card-info">
+          <div class="card-title-group">
+            <h2 class="card-title">VisualEyes</h2>
+            <p class="card-subtitle">An immersive environment that helps students see a possible version of their future self.</p>
+          </div>
+          <div class="card-divider">
+            <img src="assets/card-divider.svg" alt="">
+          </div>
+          <div class="card-details">
+            <p>My Role : Product designer, UI, UX, Co-dev</p>
+            <p>My Team : 1 lead dev, 2 designers, 1 video editor</p>
+            <div class="card-reveal">
+              <p>&#8203;</p>
+              <p>Program:</p>
+              <ul>
+                <li>Apple Foundation Program @ UTS</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+    </a>
+    </div>
+
+  </main>
+</div>
+  <script>
+    (function () {
+      const mascot = document.getElementById('bioscent-mascot');
+      const bubble  = document.getElementById('mascot-bubble');
+
+      // ── Shuffled no-repeat message cycle ────────────────
+      const allLines = [
+        "Dogs can smell cancer before symptoms show. Wild, right?",
+        "Bioscent turns invisible signals into something you can actually see.",
+        "VOCs are basically your body's secret language.",
+        "Early detection starts with... a sniff?",
+        "What if your phone could smell what a dog can?",
+        "Health signals were always there. We just built a way to see them.",
+        "Sensing cancer before it's even noticeable — that's the goal.",
+        "Turns out noses have been ahead of medicine this whole time.",
+        "Bioscent: catching what the eye (and nose) might miss.",
+        "Built with Oliver Pang — sniffing out a better way to detect early."
+      ];
+
+      let msgQueue = [], msgIdx = 0;
+
+      function nextLine() {
+        if (msgIdx >= msgQueue.length) {
+          // Fisher-Yates shuffle into a fresh queue
+          msgQueue = [...allLines];
+          for (let i = msgQueue.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [msgQueue[i], msgQueue[j]] = [msgQueue[j], msgQueue[i]];
+          }
+          msgIdx = 0;
+        }
+        return msgQueue[msgIdx++];
+      }
+
+      const W      = 463;   // bioscent-image inner width
+      const mW     = 60;    // mascot display width
+      const margin = 12;    // edge margin
+      const SPEED  = 90;    // px/s
+      const SAFE_X = 290;   // x >= this = clear of phone mockups
+
+      let cx = 180;
+
+      function rand(min, max) { return Math.random() * (max - min) + min; }
+
+      const BUBBLE_TOP = 245 - 53 - 6; // 186px — 6px gap above mascot head
+      const BUBBLE_W   = 185;
+      const HALF_B     = BUBBLE_W / 2;
+
+      function placeBubble() {
+        // Clamp centre-X so 185px bubble never overflows the 463px card
+        const idealCx  = cx + mW / 2;
+        const centreX  = Math.max(HALF_B + 4, Math.min(W - HALF_B - 4, idealCx));
+
+        // Shift the tail pointer to track the mascot even when the bubble is clamped
+        const rawTail  = 50 + ((idealCx - centreX) / HALF_B) * 50;
+        const tailPct  = Math.max(15, Math.min(85, rawTail));
+
+        bubble.classList.remove('below');
+        bubble.classList.add('above');
+        bubble.style.left      = centreX + 'px';
+        bubble.style.setProperty('--tail-left', tailPct + '%');
+        bubble.style.transform = 'translateX(-50%) translateY(-100%)';
+        bubble.style.top       = BUBBLE_TOP + 'px';
+      }
+
+      // Only called during an idle pause in the safe zone (~35% of those pauses)
+      function showBubble() {
+        placeBubble();
+        bubble.textContent = nextLine();
+        bubble.style.opacity = '1';
+        setTimeout(() => { bubble.style.opacity = '0'; }, 3600);
+      }
+
+      function walk() {
+        const nx = rand(margin, W - mW - margin);
+        const dist = Math.abs(nx - cx);
+        const dur  = Math.max(0.6, dist / SPEED).toFixed(2);
+
+        mascot.style.transition = `left ${dur}s linear, transform 0.2s ease`;
+        mascot.style.transform  = nx < cx ? 'scaleX(-1)' : 'scaleX(1)';
+        mascot.style.left = nx + 'px';
+        mascot.classList.add('walking');
+
+        cx = nx;
+      }
+
+      mascot.addEventListener('transitionend', function (e) {
+        if (e.propertyName !== 'left') return;
+
+        mascot.classList.remove('walking');
+
+        const inSafeZone = cx >= SAFE_X;
+
+        if (inSafeZone) {
+          // Arrived at the right area: always show exactly 1 bubble, then pause
+          // for its full lifetime — 400ms lead-in + 3600ms visible + 500ms settle.
+          setTimeout(showBubble, 400);
+          setTimeout(walk, 4500);
+        } else {
+          setTimeout(walk, rand(300, 900));
+        }
+      });
+
+      mascot.style.transition = 'none';
+      mascot.style.left = cx + 'px';
+      setTimeout(walk, 600);
+
+      // Irregular blink — fires once, then reschedules itself at a random 2–6s interval
+      const eyeR = document.getElementById('eye-right');
+      const eyeL = document.getElementById('eye-left');
+
+      function doBlink() {
+        eyeR.classList.add('blinking');
+        eyeL.classList.add('blinking');
+        // Remove class after animation ends, then schedule the next blink
+        eyeR.addEventListener('animationend', function () {
+          eyeR.classList.remove('blinking');
+          eyeL.classList.remove('blinking');
+          setTimeout(doBlink, 2000 + Math.random() * 4000);
+        }, { once: true });
+      }
+
+      setTimeout(doBlink, 1000 + Math.random() * 2000);
+    })();
+  </script>
+</body>
+</html>

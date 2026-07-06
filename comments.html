@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1440">
+  <title>Comments — Veralyn Chong</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: #F4F1EA; scroll-behavior: smooth; }
+    body { font-family: 'Source Sans 3', sans-serif; color: #1f1f1f; min-height: 100vh; }
+
+    /* ── Page layout ── */
+    .page { width: 1440px; min-height: 100vh; display: flex; align-items: flex-start; }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      position: sticky; top: 0; flex-shrink: 0;
+      width: 305px; height: 100vh;
+      background: #fff; border-radius: 5px;
+      padding: 70px 26px;
+      display: flex; flex-direction: column;
+      overflow-y: auto;
+    }
+    .sidebar-outer { display: flex; flex-direction: column; gap: 43px; width: 251px; }
+    .sidebar-intro { display: flex; flex-direction: column; gap: 6px; color: #000; }
+    .sidebar-name { font-family: 'PT Serif', serif; font-size: 35px; letter-spacing: -1.05px; line-height: normal; }
+    .sidebar-bio { font-size: 20px; font-weight: 400; line-height: normal; }
+    .sidebar-contact { font-size: 20px; font-weight: 400; color: #000; line-height: normal; }
+    .sidebar-contact p { line-height: normal; }
+    .sidebar-contact a { color: #000; text-decoration: underline; }
+
+    /* ── Nav menu (matches homepage) ── */
+    .menu-bar { display: flex; flex-direction: column; gap: 8px; width: 242px; }
+    .menu-divider { border: none; border-top: 1.4px solid #000; }
+    .menu-items { display: flex; flex-direction: column; gap: 4px; margin: 6px -14px 0; }
+    .menu-item {
+      position: relative; isolation: isolate;
+      display: flex; align-items: center; gap: 14px;
+      padding: 7px 14px; border-radius: 12px;
+      font-family: 'Source Sans 3', sans-serif;
+      color: #1a1a1a; text-decoration: none; cursor: pointer; transition: color 0.25s ease;
+    }
+    .menu-item::before {
+      content: ''; position: absolute; inset: 0; z-index: -1;
+      background: #f1e7d4; border-radius: 12px;
+      opacity: 0; transform: scale(0.95);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .menu-item:hover::before, .menu-item.is-current::before { opacity: 1; transform: scale(1); }
+    .menu-item:hover, .menu-item.is-current { color: #4a3500; }
+    .menu-item-num { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #c3ad79; min-width: 16px; font-variant-numeric: tabular-nums; transition: color 0.25s ease; }
+    .menu-item:hover .menu-item-num, .menu-item.is-current .menu-item-num { color: #a36c00; }
+    .menu-item-label { font-size: 21px; font-weight: 400; letter-spacing: 0; transition: transform 0.25s ease; }
+    .menu-item:hover .menu-item-label { transform: translateX(3px); }
+    .menu-item-arrow { margin-left: auto; display: inline-flex; color: #c3ad79; opacity: 0; transform: translateX(-6px); transition: opacity 0.25s ease, transform 0.25s ease, color 0.25s ease; }
+    .menu-item-arrow svg { width: 18px; height: 18px; }
+    .menu-item:hover .menu-item-arrow { opacity: 1; transform: translateX(0); color: #a36c00; }
+    .menu-item.is-current .menu-item-arrow { display: none; }
+
+    /* ── Main content ── */
+    .main { flex: 1; min-width: 0; padding: 66px 60px 100px 44px; }
+
+    .c-heading { font-family: 'PT Serif', serif; font-size: 30px; font-weight: 400; line-height: 1.3; color: #000; margin-bottom: 12px; }
+    .c-sub { font-size: 15px; line-height: 1.5; color: #6b6b63; max-width: 540px; margin-bottom: 40px; }
+
+    .c-count { font-size: 13px; color: #9a8a66; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 24px; }
+
+    /* ── 4-column grid ── */
+    .c-feed { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; align-items: start; }
+
+    /* Floating animation */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* Project-coloured cards */
+    .c-card {
+      border-radius: 20px; padding: 20px;
+      display: flex; flex-direction: column;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+      animation: float 3.5s ease-in-out infinite;
+    }
+    .c-card:nth-child(4n+2) { animation-delay: 0.6s; }
+    .c-card:nth-child(4n+3) { animation-delay: 1.2s; }
+    .c-card:nth-child(4n+4) { animation-delay: 1.8s; }
+
+    .c-card.proj-capgemini  { background: #2a54c5; color: #dce8ff; }
+    .c-card.proj-bioscent   { background: #0d8a99; color: #e4f8fa; }
+    .c-card.proj-visualeyes { background: #e4a300; color: #fff8e0; }
+    .c-card.proj-other      { background: #fff;    color: #1f1f1f; }
+
+    /* Force all child text to inherit the card colour */
+    .c-proj, .c-card-title, .c-text { color: inherit; }
+    .c-name, .c-time { color: inherit; opacity: 0.65; }
+
+    .c-proj { font-family: 'Source Sans 3', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 40px; }
+    .c-card-title { font-family: 'PT Serif', serif; font-size: 22px; line-height: 1.3; margin-bottom: 8px; }
+    .c-text { font-family: 'Source Sans 3', sans-serif; font-size: 15px; line-height: 1.55; flex: 1; }
+    .c-footer { margin-top: 18px; display: flex; align-items: center; justify-content: space-between; }
+    .c-name { font-size: 12px; font-weight: 600; }
+    .c-time { font-size: 12px; }
+
+    .c-empty { font-size: 15px; color: #6b6b63; padding: 30px 0; grid-column: 1 / -1; }
+    .c-empty .em { font-family: 'PT Serif', serif; font-size: 22px; color: #1f1f1f; display: block; margin-bottom: 6px; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <aside class="sidebar">
+      <div class="sidebar-outer">
+        <div class="sidebar-intro">
+          <p class="sidebar-name">Veralyn Chong</p>
+          <p class="sidebar-bio">I'm a designer and CS student, passionate about building thoughtful digital products that solve real human problems.</p>
+        </div>
+        <nav class="menu-bar" aria-label="Main">
+          <hr class="menu-divider">
+          <div class="menu-items">
+            <a class="menu-item" href="index.html">
+              <span class="menu-item-num">01</span>
+              <span class="menu-item-label">Works</span>
+              <span class="menu-item-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg></span>
+            </a>
+            <a class="menu-item" href="about.html">
+              <span class="menu-item-num">02</span>
+              <span class="menu-item-label">About Me</span>
+              <span class="menu-item-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg></span>
+            </a>
+            <a class="menu-item is-current" href="comments.html">
+              <span class="menu-item-num">03</span>
+              <span class="menu-item-label">Comments</span>
+            </a>
+          </div>
+        </nav>
+        <div class="sidebar-contact">
+          <p>Find me here:</p>
+          <p>LinkedIn : <a href="https://www.linkedin.com/in/veralynliyi/" target="_blank">@veralynliyi</a></p>
+          <p>Email : veralynliyi@gmail.com</p>
+        </div>
+      </div>
+    </aside>
+    <main class="main">
+      <h1 class="c-heading">Comments</h1>
+      <p class="c-sub">Thoughts and feedbacks left across my projects. Want to add one? Open a project and click anywhere to comment.</p>
+
+      <p class="c-count" id="count"></p>
+      <div class="c-feed" id="feed">
+        <p class="c-empty" id="loading">Loading comments…</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    (function () {
+      var SB_URL = 'https://invhncyrpibccqrozcsw.supabase.co';
+      var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImludmhuY3lycGliY2Nxcm96Y3N3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NTM1NTksImV4cCI6MjA5ODEyOTU1OX0.3RaiE-LDENKq9nCwg8Mh4d_2xWL4a5EbNQgjo7mTk5E';
+      var sb = window.supabase.createClient(SB_URL, SB_KEY);
+
+      var PROJ = { bioscent: 'BioScent', visualeyes: 'VisualEyes', capgemini: 'Capgemini × UTS CC', about: 'About Me' };
+      var SECTION = {
+        bigidea: 'Big Idea', challenge: 'Challenge', interviews: 'User Interviews',
+        personas: 'Personas', findings: 'Key Findings', opportunities: 'Design Opportunities',
+        brainstorm: 'Brainstorming', solution: 'Solution', lowfi: 'Low-Fidelity',
+        hifi: 'High-Fidelity', testing: 'User Testing', reflection: 'Reflection', afp: 'AFP',
+        problem: 'Problem Space', inspiration: 'Inspiration', assumptions: 'Assumptions',
+        research: 'Research', hmw: 'How Might We', ecosystem: 'Ecosystem Map',
+        journey: 'Journey Map', features: 'Features', limitations: 'Limitations',
+        reflections: 'Reflections'
+      };
+      function projName(p) { return PROJ[p] || (p ? p.charAt(0).toUpperCase() + p.slice(1) : 'Project'); }
+
+      var feed = document.getElementById('feed');
+      var loading = document.getElementById('loading');
+      var countEl = document.getElementById('count');
+      var seen = {};
+      var total = 0;
+
+      function timeAgo(iso) {
+        var d = new Date(iso), s = Math.floor((Date.now() - d) / 1000);
+        if (s < 60) return 'just now';
+        if (s < 3600) return Math.floor(s / 60) + 'm ago';
+        if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+        if (s < 604800) return Math.floor(s / 86400) + 'd ago';
+        return d.toLocaleDateString();
+      }
+
+      var PROJ_CLASS = { bioscent: 'proj-bioscent', visualeyes: 'proj-visualeyes', capgemini: 'proj-capgemini' };
+
+      function card(c) {
+        var el = document.createElement('div');
+        el.className = 'c-card ' + (PROJ_CLASS[c.page] || 'proj-other');
+
+        var proj = document.createElement('p');
+        proj.className = 'c-proj';
+        proj.textContent = projName(c.page);
+
+        var titleEl = document.createElement('p');
+        titleEl.className = 'c-card-title';
+        titleEl.textContent = c.title || '';
+
+        var text = document.createElement('div');
+        text.className = 'c-text';
+        text.textContent = c.text;
+
+        var footer = document.createElement('div');
+        footer.className = 'c-footer';
+        var name = document.createElement('span');
+        name.className = 'c-name';
+        name.textContent = c.name || 'Anonymous';
+        var time = document.createElement('span');
+        time.className = 'c-time';
+        time.textContent = c.created_at ? timeAgo(c.created_at) : '';
+        footer.appendChild(name); footer.appendChild(time);
+
+        el.appendChild(proj); el.appendChild(titleEl); el.appendChild(text); el.appendChild(footer);
+        return el;
+      }
+
+      function updateCount() { countEl.textContent = total + (total === 1 ? ' comment' : ' comments'); }
+
+      function add(c, prepend) {
+        if (c.id && seen[c.id]) return;
+        if (c.id) seen[c.id] = true;
+        var el = card(c);
+        if (prepend && feed.firstChild) feed.insertBefore(el, feed.firstChild);
+        else feed.appendChild(el);
+        total++; updateCount();
+      }
+
+      sb.from('comments').select('*').order('created_at', { ascending: false }).then(function (res) {
+        loading.remove();
+        if (res.error) { feed.innerHTML = '<p class="c-empty">Couldn\'t load comments right now.</p>'; return; }
+        if (!res.data || !res.data.length) {
+          feed.innerHTML = '<p class="c-empty"><span class="em">No comments yet.</span>Be the first — open a project and click anywhere to leave one.</p>';
+          return;
+        }
+        res.data.forEach(function (c) { add(c, false); });
+      });
+
+      sb.channel('comments-feed')
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'comments' }, function (p) {
+          var empty = feed.querySelector('.c-empty');
+          if (empty) empty.remove();
+          add(p.new, true);
+        })
+        .subscribe();
+    })();
+  </script>
+</body>
+</html>
