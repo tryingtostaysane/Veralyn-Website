@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=1440">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Veralyn Chong — Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -627,6 +627,44 @@
       list-style-type: disc;
       margin-left: 30px;
       line-height: normal;
+    }
+
+    /* ── Responsive ─────────────────────────────────────── */
+    @media (max-width: 768px) {
+      html, body { overflow-x: hidden; }
+
+      /* Full-width page, sidebar on top */
+      .page { width: 100%; padding-top: 0; display: flex; flex-direction: column; }
+
+      .sidebar {
+        position: static; width: 100%; height: auto;
+        padding: 28px 20px 20px; border-radius: 0;
+        border-bottom: 1px solid #e8e3d9;
+      }
+      .sidebar-outer { width: 100%; gap: 20px; }
+      .sidebar-name { font-size: 26px; letter-spacing: -0.5px; }
+      .sidebar-bio { font-size: 15px; }
+      .sidebar-contact { font-size: 15px; }
+      .menu-bar { width: 100%; }
+      .menu-items { flex-direction: row; flex-wrap: wrap; gap: 4px; margin: 8px 0 0; }
+      .menu-item { padding: 6px 12px; }
+      .menu-item-label { font-size: 15px; }
+      .menu-item-num { display: none; }
+      .menu-item-arrow { display: none; }
+
+      /* Main content: full width, single column */
+      .main-content {
+        margin-left: 0; width: 100%;
+        padding: 24px 16px 48px;
+        flex-direction: column; gap: 20px;
+      }
+      .card-column { width: 100%; gap: 20px; }
+      .portfolio-card { width: 100%; }
+
+      /* Card images: proportional scale */
+      .bioscent-image { height: 200px; }
+      .ve-plate { width: 100%; height: auto; }
+      .capg-plate { width: 100%; height: auto; }
     }
   </style>
 </head>

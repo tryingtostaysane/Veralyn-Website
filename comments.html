@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=1440">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Comments — Veralyn Chong</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -106,6 +106,39 @@
 
     .c-empty { font-size: 15px; color: #6b6b63; padding: 30px 0; grid-column: 1 / -1; }
     .c-empty .em { font-family: 'PT Serif', serif; font-size: 22px; color: #1f1f1f; display: block; margin-bottom: 6px; }
+
+    /* ── Responsive ─────────────────────────────────────── */
+    @media (max-width: 1400px) {
+      .page { gap: 32px; }
+      .sidebar { width: 260px; flex-shrink: 0; }
+      .main { flex: 1; padding-left: 32px; }
+    }
+
+    @media (max-width: 768px) {
+      html, body { overflow-x: hidden; }
+
+      .page { width: 100%; flex-direction: column; gap: 0; }
+
+      .sidebar {
+        position: static; width: 100%; height: auto;
+        padding: 28px 20px 20px; border-radius: 0;
+        border-bottom: 1px solid #e8e3d9;
+      }
+      .sidebar-outer { width: 100%; gap: 20px; }
+      .sidebar-name { font-size: 26px; }
+      .sidebar-bio { font-size: 16px; }
+      .sidebar-contact { font-size: 15px; }
+      .menu-bar { width: 100%; }
+      .menu-items { flex-direction: row; flex-wrap: wrap; gap: 4px; margin: 8px 0 0; }
+      .menu-item { padding: 6px 12px; }
+      .menu-item-label { font-size: 15px; }
+      .menu-item-num { display: none; }
+      .menu-item-arrow { display: none; }
+
+      .main { width: 100%; padding: 24px 20px 60px; }
+
+      .c-feed { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>

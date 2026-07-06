@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=1440">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Capgemini × UTS CC — Veralyn Chong</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -863,6 +863,62 @@
       font-size: 13px; line-height: 1.55; color: #8a7e6a; max-width: 920px;
     }
     .proto-disclaimer-mark { flex-shrink: 0; font-size: 13px; color: #c3ad79; }
+
+    /* ── Responsive ─────────────────────────────────────── */
+    @media (max-width: 1400px) {
+      .page { gap: 32px; }
+      .sidebar { width: 260px; flex-shrink: 0; }
+      .main { width: auto; flex: 1; }
+    }
+
+    @media (max-width: 768px) {
+      html, body { overflow-x: hidden; }
+
+      .page { width: 100%; flex-direction: column; gap: 0; }
+
+      .sidebar {
+        position: sticky; top: 0; width: 100%; height: auto;
+        min-height: 52px; flex-direction: row; align-items: center;
+        padding: 12px 20px; gap: 0; border-radius: 0; z-index: 100;
+        border-bottom: 1px solid #c5d3f0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06); overflow: visible;
+      }
+      .toc { display: none; }
+
+      .main { width: 100%; padding: 24px 20px 60px; gap: 48px; }
+      .section { gap: 16px; }
+
+      .heading { font-size: 22px; }
+      .sub-heading { font-size: 19px; }
+      .stat { font-size: 20px; }
+      .hero-title { font-size: 24px; }
+
+      .hero-banner { width: 100%; height: 180px; }
+      .hero-banner-img { width: 100%; height: 100%; left: 0; top: 0; }
+      .hero-banner-title { left: 24px; top: 24px; font-size: 18px; width: calc(100% - 48px); }
+      .hero-banner-divider { left: 24px; top: 88px; }
+      .hero-banner-body { left: 24px; top: 100px; font-size: 13px; width: calc(100% - 48px); }
+      .hero-meta-card { padding: 20px; }
+      .hero-meta { flex-direction: column; gap: 8px; }
+      .hero-meta > div { width: 100%; }
+
+      .cols-3 { flex-direction: column; }
+      .assume { flex-direction: column; }
+
+      /* Capgemini-specific */
+      .mapping-table { width: 100%; overflow-x: auto; display: block; }
+      .sys-flow { flex-direction: column; }
+      .sys-arrow { display: none; }
+      .proto-tabs { max-width: 100%; }
+      .proto-tab-bar { flex-wrap: wrap; }
+      .pm-chat { width: 100%; }
+      .pm-dash { width: 100%; }
+      .chips { flex-wrap: wrap; }
+
+      .site-footer { padding: 24px 0; }
+      .footer-inner { margin-left: 0; width: 100%; padding: 0 20px; }
+      .footer-quote { font-size: 20px; }
+    }
   </style>
 </head>
 <body>
