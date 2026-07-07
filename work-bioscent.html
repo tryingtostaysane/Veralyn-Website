@@ -876,11 +876,12 @@
       .voc-panel { flex-direction: column; }
       .voc-paper { width: 100%; max-width: 100%; }
 
-      /* Existing Technologies table — horizontal scroll so it doesn't overflow */
+      /* Existing Technologies — title + table scroll as one merged unit */
       .cmp-table { font-size: 14px; }
       .cmp-table th, .cmp-table td { padding: 10px 12px; }
       #r-tech { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-      #r-tech .cmp-table { min-width: 520px; }
+      #r-tech .voc-box-head { min-width: 520px; border-radius: 12px 12px 0 0; }
+      #r-tech .cmp-table { min-width: 520px; border-radius: 0 0 12px 12px; }
 
       /* How Might We — big padding collapses text width on mobile */
       .hmw { padding: 20px 24px; font-size: 18px; }
