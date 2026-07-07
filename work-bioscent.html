@@ -888,8 +888,9 @@
 
       /* Solution flow — single column on mobile */
       .sol-flow { grid-template-columns: 1fr; }
-      /* Image fills card height, proportionally scaled, with inset padding */
-      .sol-ill { width: 90px; height: auto; align-self: stretch; object-fit: contain; padding: 8px; }
+      /* Vertical card layout on mobile: image stacked above text */
+      .sol-card { flex-direction: column; align-items: stretch; padding: 16px; gap: 12px; }
+      .sol-ill { width: 100%; height: 180px; align-self: auto; object-fit: contain; padding: 12px; background: #f8f6f2; border-radius: 8px; }
 
       /* Ecosystem — 69% larger, horizontally scrollable */
       .eco-fig { overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; max-width: 100%; }
