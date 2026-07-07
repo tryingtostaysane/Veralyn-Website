@@ -885,7 +885,7 @@
       .feature-row { flex-direction: column; gap: 24px; }
       .feature-mockup { position: static; width: 220px; align-self: center; }
 
-      /* Inspiration: 30% bigger images, horizontal scroll */
+      /* Inspiration: scrollable, 20% larger, correctly cropped */
       .inspiration-row {
         max-width: 100%;
         overflow-x: auto;
@@ -893,7 +893,28 @@
         flex-wrap: nowrap;
         padding-bottom: 6px;
       }
-      .insp-half { flex: 0 0 220px; }
+      /* Switch to background-image so each panel clips at the exact
+         boundary (x=711 of 1324px = 53.7% dog / 46.3% article) */
+      .insp-half {
+        flex: 0 0 264px;
+        height: 240px;
+        border-radius: 10px;
+        background-image: url('assets/wb-inspiration.png');
+        background-repeat: no-repeat;
+        overflow: hidden;
+      }
+      .insp-half img { display: none; }
+      /* Left: scale so 53.7% of image fills the 264px panel (186% bg-size) */
+      .insp-left {
+        background-size: 186% auto;
+        background-position: 0 40%;
+      }
+      /* Right: scale so remaining 46.3% fills the 264px panel (216% bg-size)
+         then align to right edge to show only the article portion */
+      .insp-right {
+        background-size: 216% auto;
+        background-position: 100% center;
+      }
 
       /* User journey — vertical timeline on mobile */
       .jwrap { overflow-x: visible; padding-bottom: 0; }
