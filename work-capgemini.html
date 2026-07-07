@@ -14,7 +14,7 @@
     body { min-height: 100%; font-family: 'Source Sans 3', sans-serif; color: #000; }
 
     /* ── Layout ─────────────────────────────────────────── */
-    .page { position: relative; width: 1440px; min-height: 100vh; overflow-x: clip; display: flex; align-items: flex-start; gap: 44px; }
+    .page { position: relative; width: 100%; max-width: 1440px; margin: 0 auto; min-height: 100vh; overflow-x: clip; display: flex; align-items: flex-start; gap: 44px; }
 
     /* ── Sidebar ───────────────────────────────────────── */
     .sidebar { position: sticky; top: 0; flex-shrink: 0; width: 305px; height: 100vh; background: #ffffff; border-radius: 5px; padding: 58px 26px; display: flex; flex-direction: column; gap: 40px; overflow-y: auto; }
@@ -34,7 +34,7 @@
     .hero { display: flex; flex-direction: column; gap: 20px; }
 
     .hero-banner {
-      width: 1058px; height: 245px; border-radius: 15px;
+      width: 100%; height: clamp(180px, 22vw, 245px); border-radius: 15px;
       overflow: hidden; position: relative; flex-shrink: 0;
       display: flex; gap: 0;
     }
@@ -44,7 +44,7 @@
 
     .hero-meta-card { background: #2a54c5; border-radius: 15px; padding: 30px 40px; color: #fff; }
     .hero-meta { display: flex; gap: 40px; font-size: 15px; line-height: 1.5; }
-    .hero-meta > div { width: 519px; }
+    .hero-meta > div { flex: 1; min-width: 0; }
     .hero-meta p { line-height: normal; }
 
     /* ── Section primitives ────────────────────────────── */
@@ -56,7 +56,7 @@
       font-size: 13px; font-weight: 600; letter-spacing: 0.07em; line-height: normal; white-space: nowrap;
     }
 
-    .heading { font-family: 'PT Serif', serif; font-size: 30px; font-weight: 400; line-height: 1.3; max-width: 861px; }
+    .heading { font-family: 'PT Serif', serif; font-size: clamp(22px, 1vw + 18px, 30px); font-weight: 400; line-height: 1.3; max-width: 861px; }
     .sub-heading { font-family: 'PT Serif', serif; font-size: 24px; line-height: 1.3; }
     .lede { font-family: 'PT Serif', serif; font-size: 20px; letter-spacing: -0.6px; line-height: normal; }
     .intro { font-size: 15px; line-height: 1.5; max-width: 920px; }
@@ -100,7 +100,7 @@
     .biz-stat { flex: 1; padding: 0 28px; border-right: 1px solid #d4c8b0; }
     .biz-stat:first-child { padding-left: 0; }
     .biz-stat:last-child  { border-right: none; }
-    .biz-stat-num { font-family: 'PT Serif', serif; font-size: 30px; color: #0e1f5e; line-height: 1.1; }
+    .biz-stat-num { font-family: 'PT Serif', serif; font-size: clamp(20px, 1.2vw + 15.5px, 30px); color: #0e1f5e; line-height: 1.1; }
     .biz-stat-desc { font-size: 13px; color: #888; line-height: 1.4; margin-top: 5px; }
 
     .callout {
@@ -499,7 +499,7 @@
     .fin-metric:first-child { padding-left: 0; }
     .fin-metric:last-child  { border-right: none; }
     .fin-metric.positive { background: none; }
-    .fin-val { font-family: 'PT Serif', serif; font-size: 30px; color: #0e1f5e; line-height: 1.1; }
+    .fin-val { font-family: 'PT Serif', serif; font-size: clamp(20px, 1.2vw + 15.5px, 30px); color: #0e1f5e; line-height: 1.1; }
     .fin-metric.positive .fin-val { color: #14532d; }
     .fin-label { font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #8a7e6a; margin-top: 2px; }
     /* Metric hint + hover tooltip */
@@ -741,14 +741,14 @@
 
     /* ── Footer ────────────────────────────────────────── */
     .site-footer { background: #2a54c5; width: 100%; padding: 34px 0; color: #fff; }
-    .footer-inner { margin-left: 349px; width: 1058px; display: flex; flex-direction: column; gap: 20px; }
+    .footer-inner { margin-left: 349px; width: calc(100% - 349px - 24px); max-width: 1058px; display: flex; flex-direction: column; gap: 20px; }
     .footer-quote { font-family: 'PT Serif', serif; font-size: 28px; line-height: 1.4; max-width: 760px; }
     .footer-links { display: flex; flex-direction: row; flex-wrap: wrap; gap: 24px; }
     .footer-links a { color: #fff; font-family: 'PT Serif', serif; font-size: 16px; font-weight: 400; text-decoration: none; transition: opacity 0.2s ease; }
     .footer-links a:hover { opacity: 0.65; }
 
     /* ── Reflection section ───────────────────────────── */
-    .reflect-h { font-family: 'PT Serif', serif; font-size: 30px; font-weight: 400; line-height: 1.3; max-width: 861px; }
+    .reflect-h { font-family: 'PT Serif', serif; font-size: clamp(22px, 1vw + 18px, 30px); font-weight: 400; line-height: 1.3; max-width: 861px; }
     .cols-3 { display: flex; gap: 24px; align-items: stretch; }
     .cols-3 > * { flex: 1; }
     .refl-card {
@@ -871,6 +871,17 @@
       .main { width: auto; flex: 1; }
     }
 
+    @media (max-width: 1024px) {
+      .page { gap: 20px; }
+      .sidebar { width: 200px; padding: 40px 16px; }
+      .toc { width: 100%; }
+      .toc-items a { min-height: 44px; display: flex; align-items: center; }
+      .main { min-width: 0; }
+      .footer-inner { margin-left: 220px; width: calc(100% - 220px - 24px); }
+      .assume { flex-wrap: wrap; }
+      .assume-card { flex: 0 0 calc(50% - 12px); }
+    }
+
     @media (max-width: 768px) {
       html, body { overflow-x: hidden; }
 
@@ -904,6 +915,8 @@
 
       .cols-3 { flex-direction: column; }
       .assume { flex-direction: column; }
+      .hmw-block { padding: 20px 24px; }
+      .hmw-text { font-size: 18px; }
 
       /* Capgemini-specific */
       .mapping-table { width: 100%; overflow-x: auto; display: block; }

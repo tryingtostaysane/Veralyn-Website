@@ -29,7 +29,9 @@
     /* ── Page container ────────────────────────────────── */
     .page {
       position: relative;
-      width: 1440px;
+      width: 100%;
+      max-width: 1440px;
+      margin: 0 auto;
       min-height: 100vh;
       overflow-x: clip;
       padding-top: 66px;
@@ -66,7 +68,7 @@
 
     .sidebar-name {
       font-family: 'PT Serif', serif;
-      font-size: 35px;
+      font-size: clamp(26px, 1vw + 22px, 35px);
       letter-spacing: -1.05px;
       line-height: normal;
     }
@@ -578,7 +580,7 @@
 
     .card-title {
       font-family: 'PT Serif', serif;
-      font-size: 30px;
+      font-size: clamp(22px, 1vw + 18px, 30px);
       line-height: 1.3;
       font-weight: 400;
     }
@@ -630,6 +632,34 @@
     }
 
     /* ── Responsive ─────────────────────────────────────── */
+
+    /* Tablet: sidebar shrinks but stays fixed; content fills remaining space */
+    @media (max-width: 1024px) {
+      .sidebar { width: 220px; padding: 48px 18px; }
+      .sidebar-outer { width: 100%; }
+      .sidebar-name { font-size: 28px; }
+      .sidebar-bio, .sidebar-contact { font-size: 16px; }
+      .menu-bar { width: 100%; }
+      .menu-item-label { font-size: 17px; }
+      .main-content {
+        margin-left: 252px; /* 220px sidebar + 32px gap */
+        width: calc(100% - 252px - 16px);
+        gap: 20px;
+      }
+      .card-column { width: calc(50% - 10px); flex-shrink: 1; }
+      .portfolio-card { width: 100%; flex-shrink: 1; }
+      .visualeyes-inner,
+      .capgemini-inner { width: 100%; flex-shrink: 1; }
+      .visualeyes-image,
+      .capgemini-image { width: 100%; }
+      .card-info,
+      .card-title-group,
+      .card-details,
+      .card-divider { width: 100%; }
+      /* Divider image was absolutely sized at 481px — make it span full width */
+      .card-divider img { width: calc(100% + 20px); }
+    }
+
     @media (max-width: 768px) {
       html, body { overflow-x: hidden; }
 
@@ -647,7 +677,7 @@
       .sidebar-contact { font-size: 15px; }
       .menu-bar { width: 100%; }
       .menu-items { flex-direction: row; flex-wrap: wrap; gap: 4px; margin: 8px 0 0; }
-      .menu-item { padding: 6px 12px; }
+      .menu-item { padding: 10px 14px; min-height: 44px; }
       .menu-item-label { font-size: 15px; }
       .menu-item-num { display: none; }
       .menu-item-arrow { display: none; }
@@ -665,6 +695,11 @@
       .bioscent-image { height: 200px; }
       .ve-plate { width: 100%; height: auto; }
       .capg-plate { width: 100%; height: auto; }
+
+      /* Card text: scale down for mobile reading widths */
+      .card-title { font-size: 22px; }
+      .card-subtitle { font-size: 16px; }
+      .card-details { font-size: 16px; }
     }
   </style>
 </head>

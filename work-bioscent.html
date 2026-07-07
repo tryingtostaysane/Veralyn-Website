@@ -25,7 +25,9 @@
     /* ── Layout ─────────────────────────────────────────── */
     .page {
       position: relative;
-      width: 1440px;
+      width: 100%;
+      max-width: 1440px;
+      margin: 0 auto;
       min-height: 100vh;
       overflow-x: clip;
       display: flex;
@@ -121,8 +123,8 @@
     .hero { display: flex; flex-direction: column; gap: 20px; }
 
     .hero-banner {
-      width: 1058px;
-      height: 245px;
+      width: 100%;
+      height: clamp(180px, 22vw, 245px);
       border-radius: 15px;
       display: block;
       object-fit: cover;
@@ -130,7 +132,7 @@
 
     .hero-title {
       font-family: 'PT Serif', serif;
-      font-size: 30px;
+      font-size: clamp(22px, 1vw + 18px, 30px);
       font-weight: 400;
       line-height: 1.3;
     }
@@ -149,7 +151,7 @@
       line-height: 1.5;
     }
 
-    .hero-meta > div { width: 519px; }
+    .hero-meta > div { flex: 1; min-width: 0; }
     .hero-meta p { line-height: normal; }
     .hero-meta ul { list-style: none; }
     .hero-meta ul li { position: relative; padding-left: 14px; }
@@ -173,7 +175,7 @@
 
     .stat {
       font-family: 'PT Serif', serif;
-      font-size: 30px;
+      font-size: clamp(20px, 1.2vw + 15.5px, 30px);
       letter-spacing: 0;
       line-height: 1.3;
       max-width: 820px;
@@ -189,7 +191,7 @@
 
     .heading {
       font-family: 'PT Serif', serif;
-      font-size: 30px;
+      font-size: clamp(22px, 1vw + 18px, 30px);
       font-weight: 400;
       line-height: 1.3;
       max-width: 861px;
@@ -207,11 +209,28 @@
     .body { font-size: 15px; line-height: 1.5; max-width: 920px; }
     .body p + p { margin-top: 14px; }
 
-    .inspiration-img {
-      width: 662px;
-      height: 452px;
+    .inspiration-row {
+      display: flex;
+      gap: 12px;
+      max-width: 662px;
+    }
+    .insp-half {
+      flex: 1;
+      min-width: 0;
       border-radius: 10px;
+      overflow: hidden;
+    }
+    .insp-half img {
       display: block;
+      width: 200%;
+      height: auto;
+      max-width: none;
+    }
+    .insp-right img {
+      transform: translateX(-50%);
+    }
+    @media (max-width: 600px) {
+      .inspiration-row { max-width: 100%; }
     }
 
     /* ── Shared content primitives ─────────────────────── */
@@ -264,7 +283,8 @@
     }
     .footer-inner {
       margin-left: 349px;
-      width: 1058px;
+      width: calc(100% - 349px - 24px);
+      max-width: 1058px;
       display: flex;
       flex-direction: column;
       gap: 20px;
@@ -616,7 +636,7 @@
 
     .proto-flow { font-size: 16px; color: #555; max-width: 887px; line-height: 1.5; }
 
-    .reflect-h { font-family: 'PT Serif', serif; font-size: 30px; font-weight: 400; line-height: 1.3; max-width: 861px; }
+    .reflect-h { font-family: 'PT Serif', serif; font-size: clamp(22px, 1vw + 18px, 30px); font-weight: 400; line-height: 1.3; max-width: 861px; }
 
     /* ── User Journey — emotion graph + phase cards ────── */
     .jwrap { display: flex; flex-direction: column; gap: 9.6px; }
@@ -699,7 +719,7 @@
       background: var(--emo, #4a9d5b);
     }
 
-    .jp-foot { margin-top: auto; display: flex; flex-direction: column; gap: 9px; padding-top: 4px; }
+    .jp-foot { margin-top: auto; display: none; flex-direction: column; gap: 9px; padding-top: 4px; }
     .jp-emo-name {
       display: inline-block;
       font-size: 12px; font-weight: 600;
@@ -793,6 +813,18 @@
       .main { width: auto; flex: 1; }
     }
 
+    @media (max-width: 1024px) {
+      .page { gap: 20px; }
+      .sidebar { width: 200px; padding: 40px 16px; }
+      .toc { width: 100%; }
+      .toc-items a { min-height: 44px; display: flex; align-items: center; }
+      .main { min-width: 0; }
+      .footer-inner { margin-left: 220px; width: calc(100% - 220px - 24px); }
+      /* 4-card rows: 2 per row at tablet instead of all 4 in a line */
+      .assume { flex-wrap: wrap; }
+      .assume-card { flex: 0 0 calc(50% - 12px); }
+    }
+
     @media (max-width: 768px) {
       html, body { overflow-x: hidden; }
 
@@ -839,15 +871,58 @@
       .voc-panel { flex-direction: column; }
       .voc-paper { width: 100%; max-width: 100%; }
 
-      /* Solution steps */
-      .sol-steps { flex-direction: column; }
-      .sol-arrow { display: none; }
+      /* How Might We — big padding collapses text width on mobile */
+      .hmw { padding: 20px 24px; font-size: 18px; }
+
+      /* Solution flow — single column on mobile */
+      .sol-flow { grid-template-columns: 1fr; }
+      .sol-ill { width: 100px; height: 55px; }
 
       /* Ecosystem */
       .eco-fig { max-width: 100%; }
 
-      /* Feature items */
-      .feature-list { grid-template-columns: 1fr 1fr !important; }
+      /* Feature section — phone mockup stacks below the list */
+      .feature-row { flex-direction: column; gap: 24px; }
+      .feature-mockup { position: static; width: 220px; align-self: center; }
+
+      .inspiration-row { max-width: 100%; }
+
+      /* User journey — vertical timeline on mobile */
+      .jwrap { overflow-x: visible; padding-bottom: 0; }
+      .jgraph, .jopps, .jlane-label { display: none; }
+      .jmap {
+        display: flex; flex-direction: column; gap: 8px;
+        position: relative; padding-left: 32px;
+      }
+      /* Vertical connector line */
+      .jmap::before {
+        content: ''; position: absolute;
+        left: 10px; top: 18px; bottom: 18px;
+        width: 2px;
+        background: linear-gradient(to bottom,
+          #4a9d5b 0%, #e0992b 20%, #4a9d5b 35%,
+          #3a9f86 50%, #d9534f 65%, #e0992b 80%, #2f8f4e 100%
+        );
+      }
+      .jphase {
+        border-top: none;
+        border-left: 3px solid var(--emo, #4a9d5b);
+        border-radius: 0 12px 12px 0;
+        position: relative;
+      }
+      /* Dot on the timeline line */
+      .jphase::before {
+        content: ''; position: absolute;
+        left: -27px; top: 16px;
+        width: 12px; height: 12px; border-radius: 50%;
+        background: var(--emo, #4a9d5b); border: 2px solid #f4f1ea;
+      }
+      .jp-foot { display: flex; }
+
+      /* Reflections collage — 2-col grid on mobile */
+      .collage { grid-template-columns: 1fr 1fr; max-width: 100%; }
+      .collage .c-wide { grid-column: 1 / -1; height: 200px; }
+      .collage .c-port { height: 220px; }
 
       .site-footer { padding: 24px 0; }
       .footer-inner { margin-left: 0; width: 100%; padding: 0 20px; }
@@ -920,7 +995,14 @@
     <section class="section" id="inspiration">
       <span class="badge">INSPIRATION</span>
       <h2 class="heading">Inspired by a dog's incredible sense of smell.</h2>
-      <img class="inspiration-img" src="assets/wb-inspiration.png" alt="Medical detection dog research">
+      <div class="inspiration-row">
+        <div class="insp-half insp-left">
+          <img src="assets/wb-inspiration.png" alt="Medical detection dog">
+        </div>
+        <div class="insp-half insp-right">
+          <img src="assets/wb-inspiration.png" alt="Can dogs smell cancer — article">
+        </div>
+      </div>
       <div class="body">
         <p>Research into canine scent detection revealed that dogs are capable of identifying cancers through VOCs emitted by the human body. If dogs can sense invisible biological changes, could we transfer that ability into technology? This became the starting point for exploring VOCs and air-based health detection systems.</p>
       </div>
@@ -1108,6 +1190,11 @@
               <li>Hears about BioScent on social</li>
               <li>Visits the website</li>
             </ul>
+            <div class="jp-foot">
+              <span class="jp-emo-name">Curious</span>
+              <span class="jp-emo-cap">Interested but skeptical</span>
+              <div class="jp-opp"><b>Opportunity</b>Clear value proposition</div>
+            </div>
           </article>
           <article class="jphase" style="--emo:#e0992b">
             <div class="jp-head"><span class="jp-icon">📖</span><span class="jp-name">Education</span></div>
@@ -1116,6 +1203,11 @@
               <li>Checks the science behind it</li>
               <li>Compares with wearables</li>
             </ul>
+            <div class="jp-foot">
+              <span class="jp-emo-name">Uncertain</span>
+              <span class="jp-emo-cap">Is it real and safe?</span>
+              <div class="jp-opp"><b>Opportunity</b>Transparent evidence</div>
+            </div>
           </article>
           <article class="jphase" style="--emo:#4a9d5b">
             <div class="jp-head"><span class="jp-icon">🧑</span><span class="jp-name">Onboarding</span></div>
@@ -1124,6 +1216,11 @@
               <li>Downloads app, creates account</li>
               <li>First breath profile setup</li>
             </ul>
+            <div class="jp-foot">
+              <span class="jp-emo-name">Reassured</span>
+              <span class="jp-emo-cap">Feels more confident</span>
+              <div class="jp-opp"><b>Opportunity</b>Step-by-step setup guidance</div>
+            </div>
           </article>
           <article class="jphase" style="--emo:#3a9f86">
             <div class="jp-head"><span class="jp-icon">📡</span><span class="jp-name">Monitoring</span></div>
@@ -1131,6 +1228,10 @@
               <li>Passive VOC sensing</li>
               <li>Baseline building</li>
             </ul>
+            <div class="jp-foot">
+              <span class="jp-emo-name">Calm</span>
+              <span class="jp-emo-cap">Peace of mind</span>
+            </div>
           </article>
           <article class="jphase" style="--emo:#d9534f">
             <div class="jp-head"><span class="jp-icon">💡</span><span class="jp-name">Insight</span></div>
@@ -1138,6 +1239,11 @@
               <li>Receives a personalised health insight</li>
               <li>Sees an unusual change</li>
             </ul>
+            <div class="jp-foot">
+              <span class="jp-emo-name">Concerned</span>
+              <span class="jp-emo-cap">Sees an unusual change</span>
+              <div class="jp-opp"><b>Opportunity</b>Explain results in plain language</div>
+            </div>
           </article>
           <article class="jphase" style="--emo:#e0992b">
             <div class="jp-head"><span class="jp-icon">🤲</span><span class="jp-name">Action</span></div>
@@ -1146,6 +1252,11 @@
               <li>Shares with caregiver</li>
               <li>Medical follow-up</li>
             </ul>
+            <div class="jp-foot">
+              <span class="jp-emo-name">Guided</span>
+              <span class="jp-emo-cap">Knows what to do next</span>
+              <div class="jp-opp"><b>Opportunity</b>Reassure &amp; reduce anxiety</div>
+            </div>
           </article>
           <article class="jphase" style="--emo:#2f8f4e">
             <div class="jp-head"><span class="jp-icon">🎯</span><span class="jp-name">Goal</span></div>
@@ -1153,6 +1264,10 @@
               <li>Informed action</li>
               <li>Continuous monitoring</li>
             </ul>
+            <div class="jp-foot">
+              <span class="jp-emo-name">In Control</span>
+              <span class="jp-emo-cap">Empowered &amp; supported</span>
+            </div>
           </article>
         </div>
 

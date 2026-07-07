@@ -13,7 +13,7 @@
     body { font-family: 'Source Sans 3', sans-serif; color: #1f1f1f; min-height: 100vh; }
 
     /* ── Page layout ── */
-    .page { width: 1440px; min-height: 100vh; display: flex; align-items: flex-start; }
+    .page { width: 100%; max-width: 1440px; margin: 0 auto; min-height: 100vh; display: flex; align-items: flex-start; }
 
     /* ── Sidebar ── */
     .sidebar {
@@ -114,6 +114,18 @@
       .main { flex: 1; padding-left: 32px; }
     }
 
+    @media (max-width: 1024px) {
+      .page { gap: 20px; }
+      .sidebar { width: 200px; padding: 48px 18px; }
+      .sidebar-outer { width: 100%; gap: 28px; }
+      .sidebar-name { font-size: 26px; }
+      .sidebar-bio, .sidebar-contact { font-size: 15px; }
+      .menu-bar { width: 100%; }
+      .menu-item-label { font-size: 17px; }
+      .menu-item-num { display: none; }
+      .c-feed { grid-template-columns: repeat(2, 1fr); }
+    }
+
     @media (max-width: 768px) {
       html, body { overflow-x: hidden; }
 
@@ -130,7 +142,7 @@
       .sidebar-contact { font-size: 15px; }
       .menu-bar { width: 100%; }
       .menu-items { flex-direction: row; flex-wrap: wrap; gap: 4px; margin: 8px 0 0; }
-      .menu-item { padding: 6px 12px; }
+      .menu-item { padding: 10px 14px; min-height: 44px; }
       .menu-item-label { font-size: 15px; }
       .menu-item-num { display: none; }
       .menu-item-arrow { display: none; }
