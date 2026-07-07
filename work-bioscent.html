@@ -223,11 +223,14 @@
     .insp-half img {
       display: block;
       width: 200%;
-      height: auto;
+      height: 100%;
+      object-fit: cover;
+      object-position: 0% center;
       max-width: none;
     }
     .insp-right img {
-      transform: translateX(-50%);
+      width: 207%;
+      transform: translateX(-51.5%);
     }
     @media (max-width: 600px) {
       .inspiration-row { max-width: 100%; }
@@ -252,27 +255,38 @@
 
     /* ── Red Bull Basement collage ─────────────────────── */
     .collage { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: calc((100% - 48px) / 3 * 2 + 24px); }
-    .collage img {
-      width: 100%;
-      display: block;
+    .collage img { width: 100%; height: 100%; display: block; object-fit: cover; }
+    .collage-item {
+      position: relative;
+      overflow: hidden;
       border-radius: 14px;
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .collage img:hover { transform: translateY(-3px); box-shadow: 0 10px 26px rgba(0, 0, 0, 0.14); }
-    .collage .c-wide { grid-column: 1 / 4; height: 308px; object-fit: cover; object-position: center 32%; }
-    .collage .c-port { height: 336px; object-fit: cover; object-position: center; }
-    /* zoomed photo (clip + scale the image inside) */
-    .collage .c-zoom { overflow: hidden; border-radius: 14px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08); }
+    .collage-item:hover { transform: translateY(-3px); box-shadow: 0 10px 26px rgba(0, 0, 0, 0.14); }
+    .collage-cap {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 30px 16px 14px;
+      background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+    }
+    .collage-item:hover .collage-cap { opacity: 1; }
+    .collage .c-wide { grid-column: 1 / 4; height: 308px; }
+    .collage .c-wide img { object-position: center 32%; }
+    .collage .c-port { height: 336px; }
+    .collage .c-port img { object-position: center; }
+    /* zoomed photo: always pre-scaled inward */
     .collage .c-zoom img {
-      width: 100%; height: 100%;
-      object-fit: cover;
       transform: scale(1.5);
       transform-origin: center 80%;
-      border-radius: 0;
-      box-shadow: none;
     }
-    .collage .c-zoom img:hover { transform: scale(1.5); }
 
     /* ── Footer ────────────────────────────────────────── */
     .site-footer {
@@ -507,6 +521,14 @@
       font-weight: 600;
       font-size: 18px;
       color: #fff;
+    }
+    .cmp-table-caption {
+      text-align: center;
+      font-family: 'PT Serif', serif;
+      font-size: 20px;
+      font-weight: 700;
+      padding: 14px 20px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
     }
     .cmp-table td { padding: 14px 18px; border-top: 1px solid #f0e6cf; vertical-align: top; }
     .cmp-table td:first-child { font-weight: 600; width: 26%; }
@@ -1114,9 +1136,9 @@
             </div>
           </div>
           <div class="rpanel" id="r-tech">
-            <div class="voc-box-head">Existing Technologies</div>
             <table class="cmp-table">
               <thead>
+                <tr><th colspan="3" class="cmp-table-caption">Existing Technologies</th></tr>
                 <tr><th>Technology</th><th>Purpose</th><th>Limitation</th></tr>
               </thead>
               <tbody>
@@ -1559,11 +1581,21 @@
         </div>
       </div>
       <div class="collage">
-        <img class="c-wide" src="assets/Redbullbasement%2002.jpeg" alt="BioScent team celebrating at the Red Bull Basement Australia National Final">
-        <img class="c-port" src="assets/Redbullbasement%2003.jpeg" alt="Veralyn pitching BioScent on stage at Red Bull Basement">
-        <img class="c-port" src="assets/Redbullbasement%2001.png" alt="Veralyn and Oliver at the BioScent booth">
-        <div class="c-port c-zoom">
+        <div class="collage-item c-wide">
+          <img src="assets/Redbullbasement%2002.jpeg" alt="BioScent team celebrating at the Red Bull Basement Australia National Final">
+          <span class="collage-cap">RedBull Basement National Finals 2026</span>
+        </div>
+        <div class="collage-item c-port">
+          <img src="assets/Redbullbasement%2003.jpeg" alt="Veralyn pitching BioScent on stage at Red Bull Basement">
+          <span class="collage-cap">My first ever pitch on a stage!</span>
+        </div>
+        <div class="collage-item c-port">
+          <img src="assets/Redbullbasement%2001.png" alt="Veralyn and Oliver at the BioScent booth">
+          <span class="collage-cap">Me, Oliver, Muffin</span>
+        </div>
+        <div class="collage-item c-port c-zoom">
           <img src="assets/tencent.jpeg" alt="Veralyn with the Tencent Future Close-Up 2026 award">
+          <span class="collage-cap">Olly pitched BioScent in China, ShenZhen</span>
         </div>
       </div>
     </section>
