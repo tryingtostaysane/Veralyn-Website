@@ -631,6 +631,57 @@
       line-height: normal;
     }
 
+    /* ── Mobile nav ─────────────────────────────────────── */
+    .mob-header {
+      display: none;
+      position: fixed; top: 0; left: 0; right: 0; height: 56px;
+      background: #fff; border-bottom: 1px solid #e8e3d9;
+      align-items: center; justify-content: space-between;
+      padding: 0 20px; z-index: 100;
+    }
+    .mob-header-name { font-family: 'PT Serif', serif; font-size: 20px; letter-spacing: -0.5px; color: #000; text-decoration: none; }
+    .mob-hamburger { background: none; border: none; cursor: pointer; padding: 8px; color: #1a1a1a; border-radius: 8px; line-height: 0; }
+
+    .nav-backdrop {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.42);
+      z-index: 150; opacity: 0; pointer-events: none; transition: opacity 0.28s ease;
+    }
+    .nav-drawer {
+      position: fixed; top: 0; right: 0; bottom: 0;
+      width: min(300px, 85vw); background: #fff; z-index: 200;
+      padding: 0 24px 40px; display: flex; flex-direction: column; gap: 22px;
+      overflow-y: auto; transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: -4px 0 28px rgba(0,0,0,0.14);
+    }
+    .nav-drawer-head { display: flex; justify-content: flex-end; padding-top: 14px; flex-shrink: 0; }
+    .nav-drawer-close { background: none; border: none; cursor: pointer; padding: 8px; color: #1a1a1a; border-radius: 8px; line-height: 0; }
+    .nav-drawer-intro { display: flex; flex-direction: column; gap: 6px; }
+    .nav-drawer-title { font-family: 'PT Serif', serif; font-size: 24px; letter-spacing: -0.8px; color: #000; }
+    .nav-drawer-bio { font-size: 14px; color: #555; line-height: 1.5; }
+    .nav-drawer-divider { border: none; border-top: 1.4px solid #000; }
+    .nav-drawer-links { display: flex; flex-direction: column; gap: 2px; margin: 0 -14px; }
+    .nav-drawer-link {
+      display: flex; align-items: center; gap: 12px;
+      padding: 9px 14px; border-radius: 12px;
+      font-size: 19px; color: #1a1a1a; text-decoration: none;
+      position: relative; isolation: isolate; transition: color 0.2s;
+    }
+    .nav-drawer-link::before {
+      content: ''; position: absolute; inset: 0; z-index: -1;
+      background: #f1e7d4; border-radius: 12px;
+      opacity: 0; transform: scale(0.95); transition: opacity 0.25s, transform 0.25s;
+    }
+    .nav-drawer-link:hover::before, .nav-drawer-link.is-current::before { opacity: 1; transform: scale(1); }
+    .nav-drawer-link:hover, .nav-drawer-link.is-current { color: #4a3500; }
+    .nav-drawer-num { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #c3ad79; min-width: 16px; }
+    .nav-drawer-contact { font-size: 14px; color: #555; line-height: 1.9; margin-top: auto; padding-top: 8px; border-top: 1px solid #e8e3d9; }
+    .nav-drawer-contact a { color: #555; text-decoration: underline; }
+
+    body.nav-open .nav-backdrop { opacity: 1; pointer-events: auto; }
+    body.nav-open .nav-drawer { transform: translateX(0); }
+    body.nav-open { overflow: hidden; }
+
     /* ── Responsive ─────────────────────────────────────── */
 
     /* Tablet: sidebar shrinks but stays fixed; content fills remaining space */
@@ -663,24 +714,9 @@
     @media (max-width: 768px) {
       html, body { overflow-x: hidden; }
 
-      /* Full-width page, sidebar on top */
-      .page { width: 100%; padding-top: 0; display: flex; flex-direction: column; }
-
-      .sidebar {
-        position: static; width: 100%; height: auto;
-        padding: 28px 20px 20px; border-radius: 0;
-        border-bottom: 1px solid #e8e3d9;
-      }
-      .sidebar-outer { width: 100%; gap: 20px; }
-      .sidebar-name { font-size: 26px; letter-spacing: -0.5px; }
-      .sidebar-bio { font-size: 15px; }
-      .sidebar-contact { font-size: 15px; }
-      .menu-bar { width: 100%; }
-      .menu-items { flex-direction: row; flex-wrap: wrap; gap: 4px; margin: 8px 0 0; }
-      .menu-item { padding: 10px 14px; min-height: 44px; }
-      .menu-item-label { font-size: 15px; }
-      .menu-item-num { display: none; }
-      .menu-item-arrow { display: none; }
+      .mob-header { display: flex; }
+      .sidebar { display: none; }
+      .page { width: 100%; padding-top: 56px; display: flex; flex-direction: column; }
 
       /* Main content: full width, single column */
       .main-content {
@@ -691,8 +727,8 @@
       .card-column { width: 100%; gap: 20px; }
       .portfolio-card { width: 100%; }
 
-      /* Card images: proportional scale */
-      .bioscent-image { height: 200px; }
+      /* Card images: stay within card bounds */
+      .bioscent-image { height: 200px; overflow: hidden; }
       .ve-plate { width: 100%; height: auto; }
       .capg-plate { width: 100%; height: auto; }
 
@@ -704,6 +740,12 @@
   </style>
 </head>
 <body>
+<header class="mob-header">
+  <span class="mob-header-name">Veralyn Chong</span>
+  <button class="mob-hamburger" id="nav-open-btn" aria-label="Open navigation">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+</header>
 <div class="page">
 
   <!-- ── Sidebar ── -->
@@ -1044,17 +1086,19 @@
         return msgQueue[msgIdx++];
       }
 
-      const W      = 463;   // bioscent-image inner width
+      const bioscentImage = mascot.parentElement;
+      let W = bioscentImage.clientWidth || 463;
+      window.addEventListener('resize', function () { W = bioscentImage.clientWidth || 463; });
+
       const mW     = 60;    // mascot display width
       const margin = 12;    // edge margin
       const SPEED  = 90;    // px/s
-      const SAFE_X = 290;   // x >= this = clear of phone mockups
 
-      let cx = 180;
+      let cx = Math.min(180, W - mW - margin);
 
       function rand(min, max) { return Math.random() * (max - min) + min; }
 
-      const BUBBLE_TOP = 245 - 53 - 6; // 186px — 6px gap above mascot head
+      const BUBBLE_TOP = () => (bioscentImage.clientHeight || 245) - 53 - 6;
       const BUBBLE_W   = 185;
       const HALF_B     = BUBBLE_W / 2;
 
@@ -1072,7 +1116,7 @@
         bubble.style.left      = centreX + 'px';
         bubble.style.setProperty('--tail-left', tailPct + '%');
         bubble.style.transform = 'translateX(-50%) translateY(-100%)';
-        bubble.style.top       = BUBBLE_TOP + 'px';
+        bubble.style.top       = BUBBLE_TOP() + 'px';
       }
 
       // Only called during an idle pause in the safe zone (~35% of those pauses)
@@ -1084,7 +1128,7 @@
       }
 
       function walk() {
-        const nx = rand(margin, W - mW - margin);
+        const nx = rand(margin, Math.max(margin + mW + 1, W - mW - margin));
         const dist = Math.abs(nx - cx);
         const dur  = Math.max(0.6, dist / SPEED).toFixed(2);
 
@@ -1101,7 +1145,7 @@
 
         mascot.classList.remove('walking');
 
-        const inSafeZone = cx >= SAFE_X;
+        const inSafeZone = cx >= Math.min(290, W - 80);
 
         if (inSafeZone) {
           // Arrived at the right area: always show exactly 1 bubble, then pause
@@ -1135,5 +1179,40 @@
       setTimeout(doBlink, 1000 + Math.random() * 2000);
     })();
   </script>
+<div class="nav-backdrop" id="nav-backdrop"></div>
+<nav class="nav-drawer" id="nav-drawer" aria-label="Main navigation">
+  <div class="nav-drawer-head">
+    <button class="nav-drawer-close" id="nav-close-btn" aria-label="Close navigation">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="nav-drawer-intro">
+    <p class="nav-drawer-title">Veralyn Chong</p>
+    <p class="nav-drawer-bio">Designer and CS student, building thoughtful digital products.</p>
+  </div>
+  <hr class="nav-drawer-divider">
+  <div class="nav-drawer-links">
+    <a class="nav-drawer-link is-current" href="index.html"><span class="nav-drawer-num">01</span>Works</a>
+    <a class="nav-drawer-link" href="about.html"><span class="nav-drawer-num">02</span>About Me</a>
+    <a class="nav-drawer-link" href="comments.html"><span class="nav-drawer-num">03</span>Comments</a>
+  </div>
+  <div class="nav-drawer-contact">
+    <p>LinkedIn: <a href="https://www.linkedin.com/in/veralynliyi/" target="_blank">@veralynliyi</a></p>
+    <p>Email: veralynliyi@gmail.com</p>
+  </div>
+</nav>
+<script>
+  (function () {
+    var backdrop = document.getElementById('nav-backdrop');
+    var openBtn  = document.getElementById('nav-open-btn');
+    var closeBtn = document.getElementById('nav-close-btn');
+    function openNav()  { document.body.classList.add('nav-open'); }
+    function closeNav() { document.body.classList.remove('nav-open'); }
+    if (openBtn)  openBtn.addEventListener('click', openNav);
+    if (closeBtn) closeBtn.addEventListener('click', closeNav);
+    if (backdrop) backdrop.addEventListener('click', closeNav);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeNav(); });
+  })();
+</script>
 </body>
 </html>
