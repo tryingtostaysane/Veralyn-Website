@@ -2384,7 +2384,6 @@
       popup.style.top = e.pageY + 'px';
       popup.innerHTML =
         '<input class="cc-name" type="text" placeholder="Your name (optional)">' +
-        '<input class="cc-name cc-title-input" type="text" placeholder="Title (optional)">' +
         '<textarea placeholder="Write your feedbacks here..."></textarea>' +
         '<div class="cc-row"><button type="button" class="cc-cancel">Cancel</button>' +
         '<button type="button" class="cc-send">Comment</button></div>';
@@ -2395,13 +2394,7 @@
       popup.querySelector('.cc-send').addEventListener('click', function () {
         var t = ta.value.trim();
         if (!t) { closePopup(); return; }
-        var row = {
-          page: PAGE,
-          section: getSection(e.target),
-          title: popup.querySelector('.cc-title-input').value.trim() || null,
-          text: t,
-          name: popup.querySelector('.cc-name').value.trim() || null
-        };
+        var row = { page: PAGE, text: t, name: popup.querySelector('.cc-name').value.trim() || null };
         closePopup();
         if (sb) {
           sb.from('comments').insert(row).then(function (res) {
