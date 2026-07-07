@@ -796,9 +796,9 @@
       font-size: 16px;
       line-height: 1.4;
     }
-    .sol-loop { color: #0e3b44; }
-    .sol-loop b { font-family: 'PT Serif', serif; color: #0e3b44; }
-    .sol-loop-icon { font-size: 22px; color: #0e3b44; flex-shrink: 0; }
+    .sol-loop { color: #fff; }
+    .sol-loop b { font-family: 'PT Serif', serif; color: #fff; }
+    .sol-loop-icon { font-size: 22px; color: #fff; flex-shrink: 0; }
 
     @media (prefers-reduced-motion: reduce) {
       .sol-step { opacity: 1; transform: none; transition: none; }
@@ -888,7 +888,8 @@
 
       /* Solution flow — single column on mobile */
       .sol-flow { grid-template-columns: 1fr; }
-      .sol-ill { width: 100px; height: 55px; }
+      /* Image fills card height, proportionally scaled, with inset padding */
+      .sol-ill { width: 90px; height: auto; align-self: stretch; object-fit: contain; padding: 8px; }
 
       /* Ecosystem — 69% larger, horizontally scrollable */
       .eco-fig { overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; max-width: 100%; }
