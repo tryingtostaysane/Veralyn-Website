@@ -865,11 +865,19 @@
       .persona { flex-direction: column; gap: 16px; }
       .persona .p-img { width: 100%; min-height: 0; }
 
-      /* Research tabs */
+      /* Research — no tabs on mobile, all 3 panels stacked */
       .rtabs { max-width: 100%; }
-      .rtab-bar { flex-wrap: wrap; }
+      .rtab-bar { display: none; }
+      .rpanel { display: block; }
+      .rtab-panels { display: flex; flex-direction: column; gap: 24px; }
       .voc-panel { flex-direction: column; }
       .voc-paper { width: 100%; max-width: 100%; }
+
+      /* Existing Technologies table — horizontal scroll so it doesn't overflow */
+      .cmp-table { font-size: 14px; }
+      .cmp-table th, .cmp-table td { padding: 10px 12px; }
+      #r-tech { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      #r-tech .cmp-table { min-width: 520px; }
 
       /* How Might We — big padding collapses text width on mobile */
       .hmw { padding: 20px 24px; font-size: 18px; }
