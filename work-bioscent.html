@@ -885,7 +885,15 @@
       .feature-row { flex-direction: column; gap: 24px; }
       .feature-mockup { position: static; width: 220px; align-self: center; }
 
-      .inspiration-row { max-width: 100%; }
+      /* Inspiration: 30% bigger images, horizontal scroll */
+      .inspiration-row {
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        flex-wrap: nowrap;
+        padding-bottom: 6px;
+      }
+      .insp-half { flex: 0 0 220px; }
 
       /* User journey — vertical timeline on mobile */
       .jwrap { overflow-x: visible; padding-bottom: 0; }
