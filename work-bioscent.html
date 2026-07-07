@@ -890,8 +890,9 @@
       .sol-flow { grid-template-columns: 1fr; }
       .sol-ill { width: 100px; height: 55px; }
 
-      /* Ecosystem — 30% larger, centered */
-      .eco-fig { width: 130%; max-width: none; margin-left: -15%; }
+      /* Ecosystem — 69% larger, horizontally scrollable */
+      .eco-fig { overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; max-width: 100%; }
+      .eco-img { width: 169%; max-width: none; }
 
       /* Feature section — phone mockup stacks below the list */
       .feature-row { flex-direction: column; gap: 24px; }
