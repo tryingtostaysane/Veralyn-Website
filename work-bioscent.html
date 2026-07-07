@@ -885,36 +885,21 @@
       .feature-row { flex-direction: column; gap: 24px; }
       .feature-mockup { position: static; width: 220px; align-self: center; }
 
-      /* Inspiration: scrollable, 20% larger, correctly cropped */
+      /* Inspiration: scrollable, proportional, no vertical crop */
       .inspiration-row {
         max-width: 100%;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         flex-wrap: nowrap;
         padding-bottom: 6px;
+        align-items: flex-start;
       }
-      /* Switch to background-image so each panel clips at the exact
-         boundary (x=711 of 1324px = 53.7% dog / 46.3% article) */
-      .insp-half {
-        flex: 0 0 264px;
-        height: 240px;
-        border-radius: 10px;
-        background-image: url('assets/wb-inspiration.png');
-        background-repeat: no-repeat;
-        overflow: hidden;
-      }
-      .insp-half img { display: none; }
-      /* Left: scale so 53.7% of image fills the 264px panel (186% bg-size) */
-      .insp-left {
-        background-size: 186% auto;
-        background-position: 0 40%;
-      }
-      /* Right: scale so remaining 46.3% fills the 264px panel (216% bg-size)
-         then align to right edge to show only the article portion */
-      .insp-right {
-        background-size: 216% auto;
-        background-position: 100% center;
-      }
+      .insp-half { flex: 0 0 264px; height: auto; background-image: none; }
+      /* Left panel: scale so the 53.7% dog portion fills 264px wide */
+      .insp-half img { display: block; width: 186%; height: auto; }
+      /* Right panel: scale so the 46.3% article portion fills 264px wide,
+         then shift left to reveal only the article half */
+      .insp-right img { width: 216%; transform: translateX(-53.7%); }
 
       /* User journey — vertical timeline on mobile */
       .jwrap { overflow-x: visible; padding-bottom: 0; }
