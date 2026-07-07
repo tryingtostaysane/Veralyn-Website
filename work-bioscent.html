@@ -865,11 +865,14 @@
       .persona { flex-direction: column; gap: 16px; }
       .persona .p-img { width: 100%; min-height: 0; }
 
-      /* Research — no tabs on mobile, all 3 panels stacked */
+      /* Research — no tabs on mobile, all 3 panels stacked in new order */
       .rtabs { max-width: 100%; }
       .rtab-bar { display: none; }
       .rpanel { display: block; }
       .rtab-panels { display: flex; flex-direction: column; gap: 24px; }
+      #r-voc { order: 1; }
+      #r-sci { order: 2; }
+      #r-tech { order: 3; }
       .voc-panel { flex-direction: column; }
       .voc-paper { width: 100%; max-width: 100%; }
 
@@ -1096,6 +1099,7 @@
             </div>
           </div>
           <div class="rpanel" id="r-tech">
+            <div class="voc-box-head">Existing Technologies</div>
             <table class="cmp-table">
               <thead>
                 <tr><th>Technology</th><th>Purpose</th><th>Limitation</th></tr>
