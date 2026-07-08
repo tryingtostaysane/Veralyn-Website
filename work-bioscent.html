@@ -498,6 +498,7 @@
       border-radius: 14px;
       padding: 22px;
       display: flex; flex-direction: column; gap: 12px;
+      user-select: none;
     }
     .assume-tag {
       font-size: 11px; letter-spacing: 0.6px; text-transform: uppercase;
@@ -936,14 +937,13 @@
       .persona { flex-direction: column; gap: 16px; }
       .persona .p-img { width: 100%; min-height: 0; }
 
-      /* Research — no tabs on mobile, all 3 panels stacked in new order */
+      /* Research — pill tabs on mobile (one panel visible at a time) */
       .rtabs { max-width: 100%; }
-      .rtab-bar { display: none; }
-      .rpanel { display: block; }
-      .rtab-panels { display: flex; flex-direction: column; gap: 24px; }
-      #r-voc { order: 1; }
-      #r-sci { order: 2; }
-      #r-tech { order: 3; }
+      .rtab-bar { display: flex; flex-wrap: wrap; gap: 8px; border-bottom: none; padding-bottom: 0; margin-bottom: 4px; }
+      .rtab { border: 1.5px solid #e0d8c8; border-radius: 20px; background: #faf8f3; font-size: 13px; font-weight: 500; padding: 8px 14px; }
+      .rtab:hover { color: #0d8a99; background: rgba(13, 138, 153, 0.06); border-color: #b2dde2; }
+      .rtab.is-active { background: #0d8a99; border-color: #0d8a99; color: #fff; font-weight: 600; }
+      .rtab.is-active::after { display: none; }
       .voc-panel { flex-direction: column; }
       .voc-paper { width: 100%; max-width: 100%; }
 
