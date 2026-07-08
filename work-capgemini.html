@@ -961,7 +961,6 @@
       .hmw-text { font-size: 18px; }
 
       /* Capgemini-specific */
-      .mapping-table { width: 100%; overflow-x: auto; display: block; }
       .sys-flow { flex-direction: column; }
       .sys-arrow { display: none; }
       .proto-tabs { max-width: 100%; }
@@ -969,6 +968,50 @@
       .pm-chat { width: 100%; }
       .pm-dash { width: 100%; }
       .chips { flex-wrap: wrap; }
+
+      /* PROJECT OVERVIEW — transformation flow */
+      .flow { flex-direction: column; align-items: stretch; gap: 12px; }
+      .flow-arrow { transform: rotate(90deg); width: 100%; justify-content: center; }
+      .flow-center { padding: 18px 20px; min-width: 0; }
+
+      /* BUSINESS CONTEXT — stat strip */
+      .biz-stats { flex-direction: column; padding: 0; }
+      .biz-stat { padding: 16px 0; border-right: none; border-top: 1px solid #d4c8b0; }
+      .biz-stat:first-child { border-top: none; padding-top: 0; }
+
+      /* COMPETITOR BENCHMARKING — bar chart */
+      .chart-wrap { flex-direction: column; gap: 20px; }
+      .chart-box { flex: none; width: 100%; }
+      .chart-plot { padding: 0 28px; gap: 20px; }
+      .chart-aside { padding-top: 0; }
+
+      /* STRATEGIC OPPORTUNITY — problem→response table */
+      .mapping { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .mapping-head, .mapping-row, .mapping-detail { min-width: 480px; }
+
+      /* ONEFLOW — layer cards */
+      .layers { grid-template-columns: 1fr; }
+
+      /* WORKFLOW PROTOTYPES — side-by-side split */
+      .proto-split { grid-template-columns: 1fr; gap: 40px; }
+
+      /* FINANCIAL FEASIBILITY — metric strip */
+      .fin-metrics { flex-direction: column; padding: 0; }
+      .fin-metric { padding: 16px 0; border-right: none; border-top: 1px solid #d4c8b0; }
+      .fin-metric:first-child { padding-top: 0; border-top: none; }
+
+      /* IMPLEMENTATION ROADMAP — horizontal scroll */
+      #roadmap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .roadmap { min-width: 540px; }
+
+      /* RISK CONSIDERATIONS — 3-col → 1-col */
+      .risk-cards { grid-template-columns: 1fr; max-width: 100%; }
+
+      /* OUTCOME — cards and metric strip */
+      .outcome-cards { max-width: 100%; }
+      .metric-strip { grid-template-columns: repeat(2, 1fr); }
+      .metric-val { font-size: 26px; }
+      .metric-item { padding: 18px 14px; }
 
       .site-footer { padding: 24px 0; }
       .footer-inner { margin-left: 0; width: 100%; padding: 0 20px; }
