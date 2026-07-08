@@ -667,6 +667,18 @@
 
     .reflect-h { font-family: 'PT Serif', serif; font-size: clamp(22px, 1vw + 18px, 30px); font-weight: 400; line-height: 1.3; max-width: 861px; }
 
+    .reflect-cols { display: flex; gap: 0; align-items: flex-start; }
+    .reflect-item {
+      flex: 1;
+      padding: 0 36px;
+      border-right: 1px solid #e8e3d9;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .reflect-item:first-child { padding-left: 0; }
+    .reflect-item:last-child { border-right: none; padding-right: 0; }
+    .ri-h { font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: #0d8a99; margin: 0; }
+    .ri-b { font-size: 17px; line-height: 1.55; color: #2e2e2e; margin: 0; }
+
     /* ── User Journey — emotion graph + phase cards ────── */
     .jwrap { display: flex; flex-direction: column; gap: 9.6px; }
 
@@ -932,6 +944,12 @@
       .ve-row { flex-wrap: wrap; gap: 12px; }
 
       .cols-3 { flex-direction: column; }
+
+      .reflect-cols { flex-direction: column; gap: 0; }
+      .reflect-item { padding: 20px 0; border-right: none; border-top: 1px solid #e8e3d9; }
+      .reflect-item:first-child { padding-top: 0; border-top: none; }
+      .reflect-item:last-child { padding-bottom: 0; }
+
       /* Limitations: hide SVG triangle, stack all three cards */
       .assume { flex-direction: column; }
       .persona { flex-direction: column; gap: 16px; }
@@ -1615,18 +1633,18 @@
     <section class="section" id="reflections">
       <span class="badge">REFLECTIONS</span>
       <p class="reflect-h">Designing for health means designing for trust</p>
-      <div class="cols-3">
-        <div class="card">
-          <p class="card-h">What I learned</p>
-          <p class="card-b">Health insights need to be designed with emotional safety, not just accuracy.</p>
+      <div class="reflect-cols">
+        <div class="reflect-item">
+          <p class="ri-h">What I learned</p>
+          <p class="ri-b">Health insights need to be designed with emotional safety, not just accuracy.</p>
         </div>
-        <div class="card">
-          <p class="card-h">What was challenging</p>
-          <p class="card-b">Translating complex VOC science into plain language without oversimplifying or making medical claims</p>
+        <div class="reflect-item">
+          <p class="ri-h">What was challenging</p>
+          <p class="ri-b">Translating complex VOC science into plain language without oversimplifying or making medical claims</p>
         </div>
-        <div class="card">
-          <p class="card-h">My next steps</p>
-          <p class="card-b">Test the prototype with users and healthcare professionals to validate trust, privacy and alert sensitivity</p>
+        <div class="reflect-item">
+          <p class="ri-h">My next steps</p>
+          <p class="ri-b">Test the prototype with users and healthcare professionals to validate trust, privacy and alert sensitivity</p>
         </div>
       </div>
       <div class="collage">
