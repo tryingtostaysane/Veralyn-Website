@@ -1000,9 +1000,8 @@
       .fin-metric { padding: 16px 0; border-right: none; border-top: 1px solid #d4c8b0; }
       .fin-metric:first-child { padding-top: 0; border-top: none; }
 
-      /* IMPLEMENTATION ROADMAP — horizontal scroll */
-      #roadmap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-      .roadmap { min-width: 540px; }
+      /* IMPLEMENTATION ROADMAP — only the table scrolls, not the section */
+      .roadmap { overflow-x: auto; -webkit-overflow-scrolling: touch; grid-template-columns: repeat(5, 108px); }
 
       /* RISK CONSIDERATIONS — 3-col → 1-col */
       .risk-cards { grid-template-columns: 1fr; max-width: 100%; }
