@@ -40,6 +40,22 @@
     }
     .hero-banner img { flex: 1; min-width: 0; height: 100%; object-fit: cover; object-position: center; }
 
+    /* ── Hero cap-card image (plate + floating logos) ────── */
+    .hero-cap img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; flex: unset; min-width: unset; }
+    .hero-cap .cap-float,
+    .hero-cap .cap-float-y { position: absolute; inset: 0; will-change: transform; }
+    .hero-cap .cap-float   { animation: cap-drift-x var(--durX, 8s) ease-in-out infinite; animation-delay: var(--delX, 0s); }
+    .hero-cap .cap-float-y { animation: cap-drift-y var(--durY,10s) ease-in-out infinite; animation-delay: var(--delY, 0s); }
+    .hero-cap .cap-float img { animation: cap-tilt var(--durR,12s) ease-in-out infinite; animation-delay: var(--delR, 0s); }
+    @keyframes cap-drift-x { 0%,100% { transform: translateX(0); } 50% { transform: translateX(var(--ampX, 7px)); } }
+    @keyframes cap-drift-y { 0%,100% { transform: translateY(0); } 50% { transform: translateY(var(--ampY, 7px)); } }
+    @keyframes cap-tilt    { 0%,100% { transform: rotate(var(--rotA,-2deg)); } 50% { transform: rotate(var(--rotB, 2deg)); } }
+    .cap-logo  { --durX:7s;   --durY:9s;   --durR:11s;  --ampX:9px;  --ampY:-8px; --rotA:-2.5deg; --rotB:2.5deg;  --delX:-2s;   --delY:-1s;   --delR:-3s;   }
+    .cap-utscc { --durX:8.5s; --durY:6.5s; --durR:9.5s; --ampX:-8px; --ampY:9px;  --rotA:2deg;    --rotB:-3deg;   --delX:-1.5s; --delY:-3.5s; --delR:-0.5s; }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-cap .cap-float, .hero-cap .cap-float-y, .hero-cap .cap-float img { animation: none; }
+    }
+
     .hero-title { font-family: 'PT Serif', serif; font-size: 30px; font-weight: 400; line-height: 1.3; }
 
     .hero-meta-card { background: #2a54c5; border-radius: 15px; padding: 30px 40px; color: #fff; }
@@ -1056,9 +1072,14 @@
 
     <!-- Hero -->
     <div class="hero">
-      <div class="hero-banner">
-        <img src="assets/Cap 01.jpeg" alt="12am late night in UTS" style="object-position: center 30%;">
-        <img src="assets/Cap 02.jpeg" alt="Claire, Magic and Veralyn after the pitch">
+      <div class="hero-banner hero-cap">
+        <img src="assets/capg-plate.png" alt="Capgemini x UTS CC">
+        <div class="cap-float cap-logo">
+          <div class="cap-float-y"><img src="assets/capg-logo.png" alt=""></div>
+        </div>
+        <div class="cap-float cap-utscc">
+          <div class="cap-float-y"><img src="assets/capg-utscc.png" alt=""></div>
+        </div>
       </div>
       <h1 class="hero-title">Capgemini × UTS Consulting Club</h1>
       <div class="hero-meta-card">
