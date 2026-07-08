@@ -736,6 +736,20 @@
       .card-title { font-size: 22px; }
       .card-subtitle { font-size: 16px; }
       .card-details { font-size: 16px; }
+
+      /* Two-tap reveal: disable hover, drive via JS class instead */
+      .portfolio-card:hover .card-reveal { max-height: 0; opacity: 0; }
+      .card-link.card-expanded .card-reveal { max-height: 200px; opacity: 1; }
+      .card-link.card-expanded .portfolio-card { box-shadow: 2px 10px 22px rgba(0,0,0,0.15); }
+      .card-link.card-expanded .portfolio-card::after {
+        content: 'Tap again to open →';
+        display: block;
+        text-align: center;
+        font-size: 13px;
+        color: #8a7553;
+        font-weight: 600;
+        padding: 6px 16px 16px;
+      }
     }
   </style>
 </head>
@@ -1179,6 +1193,35 @@
       setTimeout(doBlink, 1000 + Math.random() * 2000);
     })();
   </script>
+<script>
+  (function () {
+    var expanded = null;
+
+    document.querySelectorAll('.card-link').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        if (window.innerWidth > 768) return;          // desktop: normal behaviour
+        if (link.classList.contains('card-expanded')) return; // second tap: follow href
+
+        e.preventDefault();
+
+        if (expanded && expanded !== link) {
+          expanded.classList.remove('card-expanded'); // collapse any other open card
+        }
+
+        link.classList.add('card-expanded');
+        expanded = link;
+      });
+    });
+
+    // Tap anywhere outside a card collapses it
+    document.addEventListener('click', function (e) {
+      if (expanded && !e.target.closest('.card-link')) {
+        expanded.classList.remove('card-expanded');
+        expanded = null;
+      }
+    });
+  })();
+</script>
 <div class="nav-backdrop" id="nav-backdrop"></div>
 <nav class="nav-drawer" id="nav-drawer" aria-label="Main navigation">
   <div class="nav-drawer-head">
