@@ -896,12 +896,11 @@
 
       .section-img { width: 100% !important; height: auto !important; }
 
-      /* Photo rows — 2-up on mobile, proportional (no cropping) */
+      /* Photo rows — proportional, no cropping */
       .photo-row { flex-wrap: wrap; gap: 10px; }
-      .photo-row > figure { flex: 0 0 calc(50% - 5px); height: auto; }
+      .photo-row > figure:only-child { flex: 0 0 100%; height: auto; }
+      .photo-row > figure:not(:only-child) { flex: 0 0 calc(50% - 5px); height: auto; }
       .photo-row > figure img { width: 100%; height: auto; object-fit: unset; }
-      /* Communities 3-photo row: 3rd image spans full width to fill the empty cell */
-      #community .photo-row:nth-child(3) > figure:last-child { flex: 0 0 100%; }
 
       /* Awards — stack vertically */
       .award-row { flex-direction: column; }
@@ -1008,13 +1007,17 @@
     <section class="section" id="community">
       <span class="badge">COMMUNITIES / EVENTS</span>
       <h2 class="heading">Outside of uni, I enjoy making genuine relationships with people in different communities</h2>
-      <div class="photo-row" style="--h:277px">
+      <div class="photo-row">
         <figure><img src="assets/about-comm-1.png" alt="Women in STEM Society"><figcaption>Women in STEM Society</figcaption></figure>
-        <figure><img src="assets/about-comm-2.png" alt="Consulting Club"><figcaption>Consulting Club</figcaption></figure>
-        <figure><img src="assets/about-comm-3.png" alt="Singapore Global Network"><figcaption>Singapore Global Network</figcaption></figure>
       </div>
-      <div class="photo-row" style="--h:300px">
+      <div class="photo-row">
+        <figure><img src="assets/about-comm-2.png" alt="Consulting Club"><figcaption>Consulting Club</figcaption></figure>
+      </div>
+      <div class="photo-row">
+        <figure><img src="assets/about-comm-3.png" alt="Singapore Global Network"><figcaption>Singapore Global Network</figcaption></figure>
         <figure><img src="assets/about-comm-4.png" alt="My first hackathon in Sydney"><figcaption>My first hackathon in Sydney</figcaption></figure>
+      </div>
+      <div class="photo-row">
         <figure><img src="assets/about-comm-5.png" alt="Red Bull Basement 2026"><figcaption>Red Bull Basement 2026</figcaption></figure>
       </div>
     </section>
