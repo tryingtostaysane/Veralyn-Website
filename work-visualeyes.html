@@ -402,6 +402,9 @@
     .ve-tl p + p { margin-top: 4px; }
     .ve-vidrow { display: flex; gap: 16px; align-items: stretch; }
     .ve-vidrow video { flex: 1 1 0; min-width: 0; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 12px; border: 1px solid #ece8df; display: block; background: #000; }
+    .ve-vidpair { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+    .ve-vidpair video { flex: none; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 12px; border: 1px solid #ece8df; display: block; background: #000; }
+    .ve-cap { font-size: 15px; line-height: 1.5; color: #555; margin: 0; }
     .exp-header {
       background: #4a3500;
       border-radius: 12px;
@@ -1442,20 +1445,18 @@
         <p>Experiment 2 · Testing which world is better <span class="exp-sub">(AI generated vs Preset 3D world)</span></p>
       </div>
 
-      <div class="ve-labelrow">
-        <p class="ve-method"><span>AI generated world</span></p>
-        <p class="ve-method"><span>Preset 3D world</span></p>
-      </div>
-      <figure class="ve-vidfig">
-        <div class="ve-vidrow" data-sync>
+      <div class="ve-vidrow" data-sync>
+        <div class="ve-vidpair">
+          <p class="ve-method"><span>AI generated world</span></p>
           <video src="assets/AI Generated world.mp4" muted loop autoplay playsinline></video>
+          <p class="ve-cap">Felt personalised but less consistent.</p>
+        </div>
+        <div class="ve-vidpair">
+          <p class="ve-method"><span>Preset 3D world</span></p>
           <video src="assets/Final world.mp4" muted loop autoplay playsinline></video>
+          <p class="ve-cap">Clearer and more controlled, but felt less personal.</p>
         </div>
-        <div class="ve-caprow">
-          <p>Felt personalised but less consistent.</p>
-          <p>Clearer and more controlled, but felt less personal.</p>
-        </div>
-      </figure>
+      </div>
       <div class="exp-header">
         <p>Experiment 3 · Input Type Testing <span class="exp-sub">(MCQ vs rating vs open ended)</span></p>
       </div>
