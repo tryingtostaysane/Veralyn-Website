@@ -617,15 +617,19 @@
       border-radius: 12px;
       padding: 16px 22px;
       cursor: pointer;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, background 0.2s ease;
+      opacity: 0.5;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
     }
-    .feature-item:hover { transform: translateY(-2px); box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.06); }
+    .feature-item:hover { transform: translateY(-2px); box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.06); opacity: 0.82; }
     .feature-item:focus-visible { outline: 2px solid #0d8a99; outline-offset: 2px; }
     .feature-item.is-active {
       border-left-color: #0d8a99;
-      background: #fff;
+      background: #eaf6f8;
+      box-shadow: 0 4px 20px rgba(13, 138, 153, 0.13);
+      opacity: 1;
     }
     .feature-item .fi-h { font-size: 19px; font-weight: 600; margin-bottom: 4px; }
+    .feature-item.is-active .fi-h { color: #0d8a99; }
     .feature-item .fi-b { font-size: 16px; line-height: 1.45; color: #333; }
     .feature-mockup {
       flex-shrink: 0;
