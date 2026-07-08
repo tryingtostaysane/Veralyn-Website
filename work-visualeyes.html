@@ -854,6 +854,12 @@
     .proto-flow { font-size: 16px; color: #555; max-width: 887px; line-height: 1.5; }
 
     .reflect-h { font-family: 'PT Serif', serif; font-size: clamp(22px, 1vw + 18px, 30px); font-weight: 400; line-height: 1.3; max-width: 861px; }
+    .reflect-cols { display: flex; gap: 0; align-items: flex-start; }
+    .reflect-item { flex: 1; padding: 0 36px; border-right: 1px solid #e8e3d9; display: flex; flex-direction: column; gap: 10px; }
+    .reflect-item:first-child { padding-left: 0; }
+    .reflect-item:last-child { border-right: none; padding-right: 0; }
+    .ri-h { font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: #e4a300; margin: 0; }
+    .ri-b { font-size: 17px; line-height: 1.55; color: #2e2e2e; margin: 0; }
 
     /* ── User Journey — emotion graph + phase cards ────── */
     .jwrap { display: flex; flex-direction: column; gap: 9.6px; }
@@ -1152,6 +1158,10 @@
       .ve-version { width: 100%; }
       .ve-labelrow { flex-direction: column; gap: 8px; }
       .ve-caprow { flex-direction: column; gap: 8px; }
+      .reflect-cols { flex-direction: column; gap: 0; }
+      .reflect-item { padding: 20px 0; border-right: none; border-top: 1px solid #e8e3d9; }
+      .reflect-item:first-child { padding-top: 0; border-top: none; }
+      .reflect-item:last-child { padding-bottom: 0; }
 
       /* 3D world experimentation — stack videos full-width */
       .ve-vidrow { flex-direction: column; gap: 12px; }
@@ -1567,10 +1577,19 @@
     <!-- Reflection -->
     <section class="section" id="reflection">
       <span class="badge">REFLECTION</span>
-      <div class="cols-3">
-        <div class="card"><p class="card-h">Designing for 3D</p><p class="card-b">Designing for 3D required us to consider not only the interface and UX, but also movement, interaction, spatial clarity and user comfort.</p></div>
-        <div class="card"><p class="card-h">Safety &amp; security</p><p class="card-b">Safety and security became one of the key design considerations throughout the project.</p></div>
-        <div class="card"><p class="card-h">World-building is product design</p><p class="card-b">Designing an immersive 3D experience taught me that the environment, pacing, and interaction model are all product decisions — not just aesthetic ones.</p></div>
+      <div class="reflect-cols">
+        <div class="reflect-item">
+          <p class="ri-h">Designing for 3D</p>
+          <p class="ri-b">Designing for 3D required us to consider not only the interface and UX, but also movement, interaction, spatial clarity and user comfort.</p>
+        </div>
+        <div class="reflect-item">
+          <p class="ri-h">Safety &amp; security</p>
+          <p class="ri-b">Safety and security became one of the key design considerations throughout the project.</p>
+        </div>
+        <div class="reflect-item">
+          <p class="ri-h">World-building is product design</p>
+          <p class="ri-b">Designing an immersive 3D experience taught me that the environment, pacing, and interaction model are all product decisions — not just aesthetic ones.</p>
+        </div>
       </div>
       <div class="afp-collage">
         <figure class="afp-item"><img src="assets/AFP%201.jpeg" alt="Apple Foundation Program — June 2026 cohort"><figcaption>Apple Foundation Program — June 2026 cohort</figcaption></figure>
