@@ -42,6 +42,7 @@
 
     /* ── Hero cap-card image (plate + floating logos) ────── */
     .hero-cap img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; flex: unset; min-width: unset; }
+    .hero-cap .cap-float-y img { object-fit: contain; }
     .hero-cap .cap-float,
     .hero-cap .cap-float-y { position: absolute; inset: 0; will-change: transform; }
     .hero-cap .cap-float   { animation: cap-drift-x var(--durX, 8s) ease-in-out infinite; animation-delay: var(--delX, 0s); }
@@ -775,13 +776,13 @@
     .refl-card-b { font-size: 17px; line-height: 1.45; color: #333; }
 
     /* 2-photo grid for Cap 01 & Cap 02 */
-    .cap-photos { display: flex; flex-direction: column; gap: 10px; max-width: 920px; }
+    .cap-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 920px; }
     .cap-item {
       position: relative; border-radius: 14px; overflow: hidden;
       box-shadow: 0 4px 14px rgba(0,0,0,0.08);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .cap-item img { width: 100%; height: auto; display: block; }
+    .cap-item img { width: 100%; height: 340px; object-fit: cover; display: block; }
     .cap-item figcaption {
       position: absolute; left: 0; right: 0; bottom: 0;
       padding: 28px 16px 14px;
@@ -1021,6 +1022,10 @@
 
       /* RISK CONSIDERATIONS — 3-col → 1-col */
       .risk-cards { grid-template-columns: 1fr; max-width: 100%; }
+
+      /* REFLECTIONS — photos stack vertically, full image on mobile */
+      .cap-photos { grid-template-columns: 1fr; }
+      .cap-item img { height: auto; object-fit: unset; }
 
       /* OUTCOME — cards and metric strip */
       .outcome-cards { max-width: 100%; }
