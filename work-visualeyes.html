@@ -476,6 +476,11 @@
     .gen-node { width: 48px; height: 48px; border-radius: 50%; background: #e4a300; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .gen-num { font-family: 'PT Serif', serif; font-size: 15px; font-weight: 700; color: #4a3500; line-height: 1; }
     .gen-step p { font-size: 14px; line-height: 1.5; color: #fee5b2; margin: 0; max-width: 140px; }
+    /* Vertical timeline variant */
+    .gen-steps-v { display: flex; flex-direction: column; gap: 0; position: relative; }
+    .gen-steps-v::before { content: ''; position: absolute; top: 24px; bottom: 24px; left: 24px; width: 2px; background: #e4a300; z-index: 0; }
+    .gen-steps-v .gen-step { flex: none; flex-direction: row; align-items: flex-start; text-align: left; gap: 20px; padding: 10px 0; }
+    .gen-steps-v .gen-step p { max-width: none; padding-top: 13px; }
     .ql-container { display: flex; gap: 24px; align-items: flex-start; }
     .ql-prompt { flex: 0 0 54%; background: #1e1e2e; border-radius: 14px; padding: 24px 28px; }
     .ql-prompt-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #666; margin: 0 0 16px; }
@@ -1142,6 +1147,7 @@
       .gen-steps { flex-wrap: wrap; gap: 16px; }
       .gen-steps::before { display: none; }
       .gen-step { flex: 0 0 calc(50% - 8px); }
+      .gen-steps-v .gen-step { flex: none; width: 100%; }
 
       /* Versions / labelrows */
       .ve-versions { flex-direction: column; }
@@ -1509,7 +1515,7 @@
       <div class="gen-approach">
         <p class="gen-approach-label">How it all comes together</p>
         <p class="gen-approach-sub">A hero-story prompt framework</p>
-        <div class="gen-steps">
+        <div class="gen-steps-v">
           <div class="gen-step"><div class="gen-node"><span class="gen-num">01</span></div><p>Prompt template with placeholders</p></div>
           <div class="gen-step"><div class="gen-node"><span class="gen-num">02</span></div><p>MCQ for quick, factual inputs (e.g. age, location)</p></div>
           <div class="gen-step"><div class="gen-node"><span class="gen-num">03</span></div><p>Open-ended questions for personal narrative inputs <span style="color:#e4a300;font-size:12px;">(primary input: voice input)</span></p></div>
