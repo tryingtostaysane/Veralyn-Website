@@ -208,6 +208,10 @@
     .section-img.journey { max-width: 849px; }
     .section-img.ecosystem { max-width: 845px; }
 
+    /* Community layout toggle */
+    .comm-mobile { display: none; }
+    .comm-desktop { display: flex; flex-direction: column; gap: 14px; }
+
     /* About page components */
     .photo-row { display: flex; gap: 14px; align-items: flex-start; flex-wrap: wrap; }
     .photo-row > img { height: var(--h, 280px); width: auto; max-width: 100%; border-radius: 12px; display: block; flex: 0 0 auto; }
@@ -902,6 +906,14 @@
       .photo-row > figure:only-child { flex: 0 0 100%; height: auto; }
       .photo-row > figure:not(:only-child) { flex: 0 0 calc(50% - 5px); height: auto; }
       .photo-row > figure img { width: 100%; height: auto; object-fit: unset; }
+      /* About Me: Lincoln Rock full-width, Hi + Dancing side by side */
+      .am-photos > figure:first-child { flex: 0 0 100%; height: auto; }
+      .am-photos > figure:first-child img { width: 100%; height: auto; object-fit: unset; }
+      .am-photos > figure:not(:first-child) { flex: 0 0 calc(50% - 5px); height: auto; }
+      .am-photos > figure:not(:first-child) img { width: 100%; height: auto; object-fit: unset; }
+      /* Community: show mobile layout, hide desktop layout */
+      .comm-desktop { display: none; }
+      .comm-mobile { display: flex; flex-direction: column; gap: 10px; }
 
       /* Awards — stack vertically */
       .award-row { flex-direction: column; }
@@ -970,10 +982,8 @@
         <p>With a designer’s heart, I’ve always been drawn to making things beautiful. Now, I’m learning how to make those ideas functional, meaningful, and useful for people. Outside of uni, I enjoy building genuine relationships with people in the tech and creative industries, and creating something impactful.</p>
       </div>
 
-      <div class="photo-row">
+      <div class="photo-row am-photos" style="--h:280px">
         <figure><img src="assets/about-2.png" alt="Lincoln Rock at Wentworth Falls"><figcaption>Lincoln Rock @ Wentworth Falls</figcaption></figure>
-      </div>
-      <div class="photo-row">
         <figure><img src="assets/about-1.png" alt="Veralyn"><figcaption>Hi!</figcaption></figure>
         <figure><img src="assets/about-3.png" alt="Veralyn dancing"><figcaption>Yes, that’s me — I dance too!</figcaption></figure>
       </div>
@@ -1010,18 +1020,33 @@
     <section class="section" id="community">
       <span class="badge">COMMUNITIES / EVENTS</span>
       <h2 class="heading">Outside of uni, I enjoy making genuine relationships with people in different communities</h2>
-      <div class="photo-row">
-        <figure><img src="assets/about-comm-1.png" alt="Women in STEM Society"><figcaption>Women in STEM Society</figcaption></figure>
+      <!-- Desktop layout: original 3+2 rows -->
+      <div class="comm-desktop">
+        <div class="photo-row" style="--h:277px">
+          <figure><img src="assets/about-comm-1.png" alt="Women in STEM Society"><figcaption>Women in STEM Society</figcaption></figure>
+          <figure><img src="assets/about-comm-2.png" alt="Consulting Club"><figcaption>Consulting Club</figcaption></figure>
+          <figure><img src="assets/about-comm-3.png" alt="Singapore Global Network"><figcaption>Singapore Global Network</figcaption></figure>
+        </div>
+        <div class="photo-row" style="--h:300px">
+          <figure><img src="assets/about-comm-4.png" alt="My first hackathon in Sydney"><figcaption>My first hackathon in Sydney</figcaption></figure>
+          <figure><img src="assets/about-comm-5.png" alt="Red Bull Basement 2026"><figcaption>Red Bull Basement 2026</figcaption></figure>
+        </div>
       </div>
-      <div class="photo-row">
-        <figure><img src="assets/about-comm-2.png" alt="Consulting Club"><figcaption>Consulting Club</figcaption></figure>
-      </div>
-      <div class="photo-row">
-        <figure><img src="assets/about-comm-3.png" alt="Singapore Global Network"><figcaption>Singapore Global Network</figcaption></figure>
-        <figure><img src="assets/about-comm-4.png" alt="My first hackathon in Sydney"><figcaption>My first hackathon in Sydney</figcaption></figure>
-      </div>
-      <div class="photo-row">
-        <figure><img src="assets/about-comm-5.png" alt="Red Bull Basement 2026"><figcaption>Red Bull Basement 2026</figcaption></figure>
+      <!-- Mobile layout: 4 rows as specified -->
+      <div class="comm-mobile">
+        <div class="photo-row">
+          <figure><img src="assets/about-comm-1.png" alt="Women in STEM Society"><figcaption>Women in STEM Society</figcaption></figure>
+        </div>
+        <div class="photo-row">
+          <figure><img src="assets/about-comm-2.png" alt="Consulting Club"><figcaption>Consulting Club</figcaption></figure>
+        </div>
+        <div class="photo-row">
+          <figure><img src="assets/about-comm-3.png" alt="Singapore Global Network"><figcaption>Singapore Global Network</figcaption></figure>
+          <figure><img src="assets/about-comm-4.png" alt="My first hackathon in Sydney"><figcaption>My first hackathon in Sydney</figcaption></figure>
+        </div>
+        <div class="photo-row">
+          <figure><img src="assets/about-comm-5.png" alt="Red Bull Basement 2026"><figcaption>Red Bull Basement 2026</figcaption></figure>
+        </div>
       </div>
     </section>
 
