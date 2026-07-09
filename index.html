@@ -34,14 +34,16 @@
       margin: 0 auto;
       min-height: 100vh;
       overflow-x: clip;
-      padding-top: 66px;
+      display: flex;
+      align-items: flex-start;
+      gap: 44px;
     }
 
     /* ── Sidebar ───────────────────────────────────────── */
     .sidebar {
-      position: fixed;
+      position: sticky;
       top: 0;
-      left: 0;
+      flex-shrink: 0;
       width: 305px;
       height: 100vh;
       background: #ffffff;
@@ -49,7 +51,7 @@
       padding: 70px 26px;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+      overflow-y: auto;
     }
 
     .sidebar-outer {
@@ -177,8 +179,9 @@
 
     /* ── Main content area ─────────────────────────────── */
     .main-content {
-      margin: 0 0 66px 361px;
-      width: 1026px;
+      flex: 1;
+      min-width: 0;
+      margin: 66px 0 66px;
       display: flex;
       gap: 32px;
       align-items: flex-start;
@@ -685,7 +688,11 @@
 
     /* ── Responsive ─────────────────────────────────────── */
 
-    /* Tablet: sidebar shrinks but stays fixed; content fills remaining space */
+    @media (max-width: 1400px) {
+      .sidebar { width: 260px; flex-shrink: 0; }
+    }
+
+    /* Tablet: sidebar shrinks; content fills remaining space via flex */
     @media (max-width: 1024px) {
       .sidebar { width: 220px; padding: 48px 18px; }
       .sidebar-outer { width: 100%; }
@@ -694,8 +701,6 @@
       .menu-bar { width: 100%; }
       .menu-item-label { font-size: 17px; }
       .main-content {
-        margin-left: 252px; /* 220px sidebar + 32px gap */
-        width: calc(100% - 252px - 16px);
         gap: 20px;
       }
       .card-column { width: calc(50% - 10px); flex-shrink: 1; }
