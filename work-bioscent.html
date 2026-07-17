@@ -320,51 +320,6 @@
     }
     .footer-links a:hover { opacity: 0.65; }
 
-    /* ── Live comment cursor ───────────────────────────── */
-    .cc-hint {
-      position: fixed; z-index: 10000; pointer-events: none;
-      background: #07333b; color: #fff;
-      font-family: 'Source Sans 3', sans-serif; font-size: 11px; font-weight: 600;
-      padding: 8px 12px; border-radius: 14px;
-      white-space: normal; max-width: 220px; line-height: 1.35; text-align: left;
-      transform: translate(16px, 16px);
-      opacity: 0; transition: opacity 0.15s ease;
-    }
-    .cc-hint.show { opacity: 0.3; }
-
-    .cc-popup {
-      position: absolute; z-index: 9999; width: 248px;
-      background: #fff; border: 1px solid #e4e0d6; border-radius: 12px;
-      box-shadow: 0 12px 34px rgba(0, 0, 0, 0.2); padding: 12px;
-      display: flex; flex-direction: column; gap: 8px;
-    }
-    .cc-popup .cc-name {
-      border: 1px solid #e4e0d6; border-radius: 8px; padding: 7px 9px;
-      font-family: 'Source Sans 3', sans-serif; font-size: 13px;
-    }
-    .cc-popup textarea {
-      border: 1px solid #e4e0d6; border-radius: 8px; padding: 8px 9px;
-      font-family: 'Source Sans 3', sans-serif; font-size: 14px; line-height: 1.4;
-      resize: none; min-height: 62px; width: 100%;
-    }
-    .cc-popup .cc-row { display: flex; justify-content: flex-end; gap: 8px; }
-    .cc-popup button {
-      border: none; border-radius: 8px; padding: 7px 15px;
-      font-family: 'Source Sans 3', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer;
-    }
-    .cc-popup .cc-send { background: #0d8a99; color: #07333b; }
-    .cc-popup .cc-cancel { background: transparent; color: #999; }
-
-    .cc-toast {
-      position: fixed; left: 50%; bottom: 28px; transform: translate(-50%, 14px);
-      background: #07333b; color: #fff;
-      font-family: 'Source Sans 3', sans-serif; font-size: 14px; font-weight: 600;
-      padding: 12px 18px; border-radius: 999px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
-      z-index: 10001; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-    .cc-toast.show { opacity: 1; transform: translate(-50%, 0); }
-    .cc-toast a { color: #0d8a99; text-decoration: none; margin-left: 8px; }
 
     /* ── Ecosystem image ──────────────────────────────── */
     .eco-fig {
@@ -1671,7 +1626,6 @@
   </main>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <!-- Footer — full-width; keep socials identical across pages, change only the quote per project -->
 <footer class="site-footer">
@@ -1681,7 +1635,6 @@
       <a href="https://www.linkedin.com/in/veralynliyi/" target="_blank" rel="noopener">LinkedIn</a>
       <a href="mailto:veralynliyi@gmail.com">Email</a>
       <a href="https://drive.google.com/file/d/1HPdTna-L91wm2TAlZpxWcOZv_rrlntQ0/view?usp=drive_link" target="_blank" rel="noopener">Resume</a>
-      <a href="comments.html">Comments</a>
     </nav>
   </div>
 </footer>
@@ -1759,88 +1712,6 @@
     });
   })();
 
-  // Live comment cursor — click anywhere to comment; saved to Supabase, live for everyone
-  (function () {
-    var SB_URL = 'https://invhncyrpibccqrozcsw.supabase.co';
-    var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImludmhuY3lycGliY2Nxcm96Y3N3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NTM1NTksImV4cCI6MjA5ODEyOTU1OX0.3RaiE-LDENKq9nCwg8Mh4d_2xWL4a5EbNQgjo7mTk5E';
-    var PAGE = 'bioscent';
-    var sb = (window.supabase && window.supabase.createClient) ? window.supabase.createClient(SB_URL, SB_KEY) : null;
-
-    var hint = document.createElement('div');
-    hint.className = 'cc-hint';
-    hint.textContent = 'Click anywhere to comment. I\'d love to hear any feedbacks that you might have!';
-    document.body.appendChild(hint);
-
-    function interactive(el) {
-      return el.closest('a, button, input, textarea, select, video, .cc-popup, .sidebar, .feature-item, .rtab, .eco-node');
-    }
-
-    document.addEventListener('mousemove', function (e) {
-      hint.style.left = e.clientX + 'px';
-      hint.style.top = e.clientY + 'px';
-      hint.classList.toggle('show', !interactive(e.target));
-    });
-    document.addEventListener('mouseleave', function () { hint.classList.remove('show'); });
-
-    function toast(msg) {
-      var t = document.createElement('div');
-      t.className = 'cc-toast';
-      t.innerHTML = msg;
-      document.body.appendChild(t);
-      requestAnimationFrame(function () { t.classList.add('show'); });
-      setTimeout(function () { t.classList.remove('show'); setTimeout(function () { t.remove(); }, 320); }, 3200);
-    }
-
-    var popup = null;
-    function closePopup() { if (popup) { popup.remove(); popup = null; } }
-
-    function getSection(el) {
-      var sec = el.closest ? el.closest('section[id]') : null;
-      if (!sec) {
-        var all = [].slice.call(document.querySelectorAll('section[id]'));
-        var scrollY = window.scrollY || window.pageYOffset;
-        all.forEach(function(s) { if (s.offsetTop <= scrollY + window.innerHeight / 2) sec = s; });
-      }
-      return sec ? sec.id : null;
-    }
-
-    document.addEventListener('click', function (e) {
-      if (e.target.closest('.cc-popup')) return;       // handled by popup buttons
-      if (popup) { closePopup(); return; }              // click outside open popup → close
-      if (interactive(e.target)) return;                // don't hijack links/buttons
-      if (String(window.getSelection())) return;        // ignore when selecting text
-
-      popup = document.createElement('div');
-      popup.className = 'cc-popup';
-      popup.style.left = e.pageX + 'px';
-      popup.style.top = e.pageY + 'px';
-      popup.innerHTML =
-        '<input class="cc-name" type="text" placeholder="Your name (optional)">' +
-        '<textarea placeholder="Write your feedbacks here..."></textarea>' +
-        '<div class="cc-row"><button type="button" class="cc-cancel">Cancel</button>' +
-        '<button type="button" class="cc-send">Comment</button></div>';
-      document.body.appendChild(popup);
-      var ta = popup.querySelector('textarea');
-      ta.focus();
-      popup.querySelector('.cc-cancel').addEventListener('click', closePopup);
-      popup.querySelector('.cc-send').addEventListener('click', function () {
-        var t = ta.value.trim();
-        if (!t) { closePopup(); return; }
-        var row = { page: PAGE, text: t, name: popup.querySelector('.cc-name').value.trim() || null };
-        closePopup();
-        if (sb) {
-          sb.from('comments').insert(row).then(function (res) {
-            if (res.error) { console.error('comment save failed', res.error); toast('😬 Couldn\'t send — please try again.'); return; }
-            toast('💬 Comment sent — thanks! <a href="comments.html">View all →</a>');
-          });
-        } else {
-          toast('💬 Comment sent — thanks!');
-        }
-      });
-    });
-
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePopup(); });
-  })();
 </script>
 <div class="nav-backdrop" id="nav-backdrop"></div>
 <nav class="nav-drawer" id="nav-drawer" aria-label="Main navigation">
@@ -1857,7 +1728,6 @@
   <div class="nav-drawer-links">
     <a class="nav-drawer-link" href="index.html"><span class="nav-drawer-num">01</span>Works</a>
     <a class="nav-drawer-link" href="about.html"><span class="nav-drawer-num">02</span>About Me</a>
-    <a class="nav-drawer-link" href="comments.html"><span class="nav-drawer-num">03</span>Comments</a>
   </div>
   <div class="nav-drawer-contact">
     <p>Find me here:</p>
